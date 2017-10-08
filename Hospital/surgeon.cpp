@@ -29,7 +29,7 @@ float Surgeon::getSurgeryChances(const Surgery* surgery) const {
 
 	float sergeonStatistics = 1;
 	if (numOfSurgeries > 0)
-		sergeonStatistics = numOfSuccesfullSurgeries / numOfSurgeries;
+		sergeonStatistics = (float)numOfSuccesfullSurgeries / (float)numOfSurgeries;
 
 	return surgeryHardness * sergeonStatistics * 100;
 }

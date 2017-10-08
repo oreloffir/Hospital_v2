@@ -5,7 +5,6 @@
 #include "person.h"
 #include <iostream>
 
-
 class Patient : public Person
 {
 public:

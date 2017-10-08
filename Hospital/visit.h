@@ -4,8 +4,11 @@
 #include "department.h"
 #include "patient.h"
 #include "careGivingEmployee.h"
+#include "EmployeeListener.h"
 
-class Visit
+class Department;
+
+class Visit : public EmployeeListener
 {
 public:
 	static int visitIdGenerator; // starting from 1
@@ -42,6 +45,9 @@ public:
     void changeDepartment(const Department &other);
 
 	virtual void toOs(std::ostream& os) const = 0;
+
+	virtual void onEmployeeRemoved(int employeeId) override;
+	virtual void onEmployeeReplaced(const Employee* newPointer) override;
 
 	friend std::ostream& operator<<(std::ostream& os, const Visit& visit);
 

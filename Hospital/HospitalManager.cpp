@@ -14,10 +14,11 @@ HospitalManager::HospitalManager()
 	currentNumOfNurses		= 0;
 	currentNumOfResearchers	= 0;
 	currentNumOfSurgeons	= 0;
-	departments		= new Department*[MAX_NUMBER_OF_DEPARTMENTS];
-	patients		= new Patient*[MAX_NUMBER_OF_PATIENTS];
-	visits			= new Visit*[MAX_NUMBER_OF_VISITS];
-	employees		= new Employee*[MAX_NUMBER_OF_EMPLOYEES];
+	departments			= new Department*[MAX_NUMBER_OF_DEPARTMENTS];
+	patients			= new Patient*[MAX_NUMBER_OF_PATIENTS];
+	visits				= new Visit*[MAX_NUMBER_OF_VISITS];
+	employees			= new Employee*[MAX_NUMBER_OF_EMPLOYEES];
+	employeeListeners	= new EmployeeListener*[MAX_NUMBER_OF_EMPLOYEE_LISTENERS];
 }
 
 HospitalManager::~HospitalManager()
@@ -36,6 +37,14 @@ HospitalManager::~HospitalManager()
 	delete[] departments;
 	delete[] patients;
 	delete[] visits;
+	delete[] employeeListeners;
+}
+
+HospitalManager * HospitalManager::getInstance()
+{
+	if (instance == nullptr)
+		instance = new HospitalManager();
+	return instance;
 }
 
 /* get entities - private functions*/
@@ -96,11 +105,12 @@ Patient* HospitalManager::getPatientById(int patientId) const
 	return nullptr;
 }
 
-
 /*Department functions*/
 const Department& HospitalManager::createDepartment(char* departmentName)
 {
-	departments[currectNumOfDepartments] = new Department(departmentName);
+	Department* department = new Department(departmentName);
+	departments[currectNumOfDepartments] = department;
+	addEmployeeListener(department);
 	++currectNumOfDepartments;
 	return *departments[currectNumOfDepartments - 1];
 }
@@ -181,7 +191,6 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 {
 	return getEmployeeById(employeeId);
 }
-
 /*Doctor functions*/
 const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const char* fieldOfExpertise, int numOfDiplomas)
 {
@@ -208,12 +217,10 @@ void HospitalManager::addDiplomaToDoctor(int id)
 		return;
 	doctor->addDiploma();
 }
-
 int HospitalManager::getCurrentNumOfDoctors() const
 {
 	return currentNumOfDoctors;
 }
-
 /*Nurse functions*/
 const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties)
 {
@@ -294,21 +301,9 @@ const Surgeon& HospitalManager::createSurgeon(const Doctor* doctor, bool hasSecu
 	Surgeon* mySurgeon = new Surgeon(*doctor, hasSecurityClearance, numOfSuccesfulSurgeries, numOfSurgeries);
 
 	// update departments and visits about the change
-	for (int i = 0; i < currectNumOfDepartments; i++)
+	for (int i = 0; i < currentNumOfEmployeeListeners; i++)
 	{
-		if (departments[i]->getEmployeeById(removeDoctor->getId()) != nullptr)
-		{
-			*departments[i] -= *removeDoctor;
-			*departments[i] += *mySurgeon;
-		}
-	}
-	for (int i = 0; i < currentNumOfVisits; i++)
-	{
-		if (visits[i]->getCareGivingEmployeeById(removeDoctor->getId()) != nullptr)
-		{
-			*visits[i] -= *removeDoctor;
-			*visits[i] += *mySurgeon;
-		}
+		employeeListeners[i]->onEmployeeReplaced(mySurgeon);
 	}
 	// update employees array
 	employees[doctorIndx] = mySurgeon;
@@ -339,7 +334,6 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const char* areaOfResearch, int maxNumOfTestSubjects)
 {
 	int doctorIndx;
-	int researcherIndx;
 
 	Researcher* researcher = new Researcher(*doctor, areaOfResearch);
 
@@ -431,6 +425,7 @@ const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo,
 {
 	Surgery* surgery = new Surgery(visitInfo, *type, numOfSurgeons);
 	visits[currentNumOfVisits] = surgery;
+	addEmployeeListener(surgery);
 	++currentNumOfVisits;
 
 	getPatientById(visitInfo.patient->getId())->addVisit(surgery);
@@ -444,6 +439,7 @@ const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visi
 {
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
 	visits[currentNumOfVisits] = inspection;
+	addEmployeeListener(inspection);
 	++currentNumOfVisits;
 
 	getPatientById(visitInfo.patient->getId())->addVisit(inspection);
@@ -451,3 +447,35 @@ const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visi
 
 	return *(Inspection*)visits[currentNumOfVisits - 1];
 }
+
+
+void HospitalManager::addEmployeeListener(EmployeeListener * employeeListener)
+{
+	if (currentNumOfEmployeeListeners == MAX_NUMBER_OF_EMPLOYEE_LISTENERS) return;
+	else {
+		employeeListeners[currentNumOfEmployeeListeners] = employeeListener;
+		++currentNumOfEmployeeListeners;
+	}
+}
+void HospitalManager::removeEmployeeListener(EmployeeListener * employeeListener)
+{
+	int pos = -1;
+	for (int i = 0; i < currentNumOfEmployeeListeners; i++)
+		if (employeeListeners[i] == employeeListener)
+		{
+			pos = i;
+			break;
+		}
+	if (pos < 0) return;
+	if (pos == currentNumOfEmployeeListeners - 1)
+	{
+		employeeListeners[pos] = nullptr;
+		--currentNumOfEmployeeListeners;
+		return;
+	}
+	for (int i = pos; i < currentNumOfEmployeeListeners && i < MAX_NUMBER_OF_EMPLOYEE_LISTENERS - 1; i++)
+		employeeListeners[i] = employeeListeners[i + 1];
+	--currentNumOfEmployeeListeners;
+}
+
+HospitalManager* HospitalManager::instance = nullptr;
