@@ -167,6 +167,20 @@ void Visit::changeDepartment(const Department &other)
 	department = &other;
 }
 
+void Visit::onEmployeeRemoved(int employeeId)
+{
+	removeSeeingStaff(employeeId);
+}
+void Visit::onEmployeeReplaced(const Employee* newPointer)
+{
+	const CareGivingEmployee* cge = dynamic_cast<const CareGivingEmployee*>(newPointer);
+	if (cge != nullptr)
+	{
+		*this -= *cge;
+		*this += *cge;
+	}
+}
+
 const char* Visit::cares[] = { "FIRST_AID", "TESTS", "SURGERY_PREP", "SURGERY" };
 
 void Visit::free()

@@ -25,6 +25,9 @@
     <Filter Include="App">
       <UniqueIdentifier>{250ae755-b8e5-4953-85bd-ac979eddcd2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{725b0bc5-7e73-4647-b08b-55b588da16d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HospitalManager.cpp">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="visit.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="EmployeeListener.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

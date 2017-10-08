@@ -173,7 +173,6 @@ public:
 	static const char* PRESS_TO_GO_BACK;
 	static const char* INVALID_INPUT;
 private:
-	HospitalManager* hospitalManager;
 	char* inputBuffer;
 };
 

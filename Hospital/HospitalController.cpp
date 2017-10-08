@@ -2,12 +2,11 @@
 
 HospitalController::HospitalController()
 {
-	this->hospitalManager = new HospitalManager();
-	this->inputBuffer = new char[MAX_STRING_SIZE];
+	this->inputBuffer		= new char[MAX_STRING_SIZE];
 }
 HospitalController::~HospitalController()
 {
-	delete hospitalManager;
+	delete[] inputBuffer;
 }
 
 void HospitalController::run() const
@@ -119,11 +118,11 @@ void HospitalController::printEntities() const
 void HospitalController::createVisitSelection(const Patient& patient) const
 {
 	// Dependances
-	if (hospitalManager->getCurrectNumOfDepartments() == 0) {
+	if (HospitalManager::getInstance()->getCurrectNumOfDepartments() == 0) {
 		cout << "To create a visit, please create a department first." << endl;
 		return;
 	}
-	if (hospitalManager->getCurrectNumOfPatients() == 0) {
+	if (HospitalManager::getInstance()->getCurrectNumOfPatients() == 0) {
 		cout << "To create a visit, please create a patient first." << endl;
 		return;
 	}
@@ -341,7 +340,7 @@ const Department* HospitalController::createDepartment(bool showSelectMenu) cons
 	cout << "Please enter department name: ";
 
 	char* departmentName = getStringFromUser();
-	const Department& deprtment = hospitalManager->createDepartment(departmentName);
+	const Department& deprtment = HospitalManager::getInstance()->createDepartment(departmentName);
 
 	cout << "New department was created" << endl;
 
@@ -366,7 +365,7 @@ const Patient* HospitalController::createPatient(bool showSelectMenu) const
 	cout << "Please enter patient gender 0 - male , 1 - female (default 0): ";
 	Person::eGender patientGender = (Person::eGender)getIntegerFromUser(Person::MALE, Person::FEMALE);
 
-	const Patient& patient = hospitalManager->createPatient(patientId, parientName, patientDateOfBirth, patientGender);
+	const Patient& patient = HospitalManager::getInstance()->createPatient(patientId, parientName, patientDateOfBirth, patientGender);
 
 	delete[] parientName;
 	delete[] patientDateOfBirth;
@@ -390,7 +389,7 @@ const Doctor* HospitalController::createDoctor(bool showSelectMenu) const
 	cout << "Please enter doctor num of diplomas: ";
 	int numOfDiplomas = getIntegerFromUser(0);
 
-	const Doctor& doctor = hospitalManager->createDoctor(employeeInfo, fieldOfExpertise, numOfDiplomas);
+	const Doctor& doctor = HospitalManager::getInstance()->createDoctor(employeeInfo, fieldOfExpertise, numOfDiplomas);
 
 	cout << "New doctor was created" << endl;
 	deleteEmployeeInfo(&employeeInfo);
@@ -411,7 +410,7 @@ const Nurse* HospitalController::createNurse(bool showSelectMenu) const
 	cout << "Please enter nurse num of max num of duties: ";
 	int maxNumOfDuties = getIntegerFromUser(0);
 
-	const Nurse& nurse = hospitalManager->createNurse(employeeInfo, maxNumOfDuties);
+	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo, maxNumOfDuties);
 
 	cout << "New nurse was created" << endl;
 	deleteEmployeeInfo(&employeeInfo);
@@ -431,7 +430,7 @@ const Researcher* HospitalController::createResearcher(bool showSelectMenu) cons
 	cout << "Please enter researcher area of research: ";
 	char* areaOfResearch = getStringFromUser();
 
-	const Researcher& researcher = hospitalManager->createResearcher(employeeInfo, areaOfResearch);
+	const Researcher& researcher = HospitalManager::getInstance()->createResearcher(employeeInfo, areaOfResearch);
 
 	cout << "New researcher was created" << endl;
 	deleteEmployeeInfo(&employeeInfo);
@@ -453,11 +452,11 @@ const Surgeon* HospitalController::createSurgeon(int theDoctorId, bool showSelec
 	else
 		cout << "--------------- Make the doctor a surgeon --------------" << endl;
 
-	const Doctor* doctor = hospitalManager->getConstDoctorById(doctorId);
+	const Doctor* doctor = HospitalManager::getInstance()->getConstDoctorById(doctorId);
 	cout << "Please enter surgeon has security clearance 0-False 1-True: ";
 	bool securityClearance = getIntegerFromUser(0, 1);
 	
-	const Surgeon& surgeon = hospitalManager->createSurgeon(doctor, securityClearance);
+	const Surgeon& surgeon = HospitalManager::getInstance()->createSurgeon(doctor, securityClearance);
 
 	if(showSelectMenu)
 		selectSurgeon(surgeon.getEmployeeId());
@@ -476,14 +475,14 @@ const ResearchingDoctor* HospitalController::createResearchingDoctor(int theDoct
 	else
 		cout << "--------------- Make the doctor a researching doctor --------------" << endl;
 	
-	const Doctor* doctor = hospitalManager->getConstDoctorById(doctorId);
+	const Doctor* doctor = HospitalManager::getInstance()->getConstDoctorById(doctorId);
 
 	cout << "Please enter researcher area of research: ";
 	char* areaOfResearch = getStringFromUser();
 	cout << "Please enter the max number of test subjects: ";
 	int maxNumOfTestSubjects = getIntegerFromUser(0);
 	
-	const ResearchingDoctor& researchingDoctor = hospitalManager->createResearchingDoctor(doctor, areaOfResearch, maxNumOfTestSubjects);
+	const ResearchingDoctor& researchingDoctor = HospitalManager::getInstance()->createResearchingDoctor(doctor, areaOfResearch, maxNumOfTestSubjects);
 	
 	delete[] areaOfResearch;
 
@@ -507,7 +506,7 @@ const Surgery* HospitalController::createSurgery(const Patient& patient, bool sh
 	int numOfSurgeons = getIntegerFromUser(1);
 	
 	type = new SurgeryType(name, durationMin, precentageOfSuccess, numOfSurgeons);
-	const Surgery& surgery = hospitalManager->createSurgery(visitInfo, type, numOfSurgeons);
+	const Surgery& surgery = HospitalManager::getInstance()->createSurgery(visitInfo, type, numOfSurgeons);
 
 	delete type;
 	delete[] name;
@@ -524,7 +523,7 @@ const Inspection* HospitalController::createInspection(const Patient& patient, b
 	cout << "Please enter type of Inspection: ";
 	char* typeOfInspection = getStringFromUser();
 
-	const Inspection& inspection = hospitalManager->createInspection(visitInfo, typeOfInspection);
+	const Inspection& inspection = HospitalManager::getInstance()->createInspection(visitInfo, typeOfInspection);
 
 	deleteVisitInfo(visitInfo);
 	delete[] typeOfInspection;
@@ -595,7 +594,7 @@ void HospitalController::deleteVisitInfo(Visit::VisitInfo visitInfo) const
 /* Selectors */
 void HospitalController::selectDepartment(const char* departmentName) const
 {
-	if (hospitalManager->getCurrectNumOfDepartments() == 0)
+	if (HospitalManager::getInstance()->getCurrectNumOfDepartments() == 0)
 	{
 		cout << "No departments found." << endl;
 		return;
@@ -620,28 +619,28 @@ void HospitalController::selectDepartment(const char* departmentName) const
 			patient = getPatientFromUser();
 			if (patient == nullptr)
 				continue;
-			hospitalManager->addPatientToDepartment(patient, department);
+			HospitalManager::getInstance()->addPatientToDepartment(patient, department);
 			break;
 
 		case DEPARTMENT_REMOVE_PATIENT:
 			patient = getPatientFromUser();
 			if (patient == nullptr)
 				continue;
-			hospitalManager->removePatientFromDepartment(patient, department);
+			HospitalManager::getInstance()->removePatientFromDepartment(patient, department);
 			break;
 
 		case DEPARTMENT_ADD_EMPLOYEE:
 			employee = getEmployeeByType();
 			if (employee == nullptr)
 				continue;
-			hospitalManager->addEmployeeToDepartment(employee, department);
+			HospitalManager::getInstance()->addEmployeeToDepartment(employee, department);
 			break;
 
 		case DEPARTMENT_REMOVE_EMPLOYEE:
 			employee = getEmployeeByType();
 			if (employee == nullptr)
 				continue;
-			hospitalManager->removeEmployeeFromDepartment(employee, department);
+			HospitalManager::getInstance()->removeEmployeeFromDepartment(employee, department);
 			break;
 
 		case DEPARTMENT_PRINT_ALL_PATIENTS:
@@ -697,7 +696,7 @@ void HospitalController::selectPatient(int patientId) const
 		case PATIENT_ADD_ALERGIE:
 			cout << "Please insert an alergie name: ";
 			alergie = getStringFromUser();
-			hospitalManager->addAllergieToPatient(patient->getId(), alergie);
+			HospitalManager::getInstance()->addAllergieToPatient(patient->getId(), alergie);
 			delete alergie;
 			break;
 		case PATIENT_CREATE_VISIT:
@@ -723,7 +722,7 @@ void HospitalController::selectDoctor(int doctorId) const
 		switch (doctorMenu())
 		{
 		case DOCTOR_ADD_DIPLOMA:
-			hospitalManager->addDiplomaToDoctor(doctor->getEmployeeId());
+			HospitalManager::getInstance()->addDiplomaToDoctor(doctor->getEmployeeId());
 			break;
 		case DOCTOR_TO_SURGEON:
 			createSurgeon(doctor->getEmployeeId());
@@ -759,11 +758,11 @@ void HospitalController::selectNurse(int nurseId) const
 			break;
 		case NURSE_ADD_DUTY:
 			cout << "Enter a new duty name: ";
-			hospitalManager->addDuty(nurse->getEmployeeId(), getStringFromUser());
+			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		case NURSE_REMOVE_DUTY:
 			cout << "Enter a duty name to remove: ";
-			hospitalManager->removeDuty(nurse->getEmployeeId(), getStringFromUser());
+			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		default:
 			return;
@@ -809,7 +808,7 @@ void HospitalController::selectResearcher(int researcherId) const
 		case RESEARCHER_ADD_PUBLICATION:
 			cout << "Please insert a publication name: ";
 			publicationName = getStringFromUser();
-			hospitalManager->addPublicationToResearcher(researcher->getEmployeeId(), publicationName);
+			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), publicationName);
 			delete publicationName;
 			break;
 		default:
@@ -856,7 +855,7 @@ void HospitalController::selectSurgeon(int surgeonId) const
 				if (surgery->getIsDone())
 					cout << "Surgery number " << surgery->getVisitId() << " Already done." << endl;
 				else {
-					hospitalManager->performSurgery(surgeon, surgery);
+					HospitalManager::getInstance()->performSurgery(surgeon, surgery);
 					if(surgery->getIsDone() && surgery->getSuccsesfullSurgery())
 						cout << "The surgery was successful" << endl;
 					else
@@ -865,7 +864,7 @@ void HospitalController::selectSurgeon(int surgeonId) const
 			}
 			break;
 		case SURGEON_ADD_DIPLOMA:
-			hospitalManager->addDiplomaToDoctor(surgeon->getEmployeeId());
+			HospitalManager::getInstance()->addDiplomaToDoctor(surgeon->getEmployeeId());
 			break;
 		default:
 			return;
@@ -889,7 +888,7 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 		{
 			if (researchingDoctor != nullptr)
 			{
-				hospitalManager->addTestSubjectToRD(researchingDoctor->getEmployeeId(), getPatientFromUser());
+				HospitalManager::getInstance()->addTestSubjectToRD(researchingDoctor->getEmployeeId(), getPatientFromUser());
 				cout << "Researching Doctor add a new test subject" << endl;
 			}
 			else
@@ -901,7 +900,7 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 		{
 			if (researchingDoctor != nullptr)
 			{
-				hospitalManager->removeTestSubjectToRD(researchingDoctor->getEmployeeId(), getPatientFromUser());
+				HospitalManager::getInstance()->removeTestSubjectToRD(researchingDoctor->getEmployeeId(), getPatientFromUser());
 				cout << "Researching Doctor remove test subject" << endl;
 			}
 			else
@@ -934,7 +933,7 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 			break;
 		}
 		case RESEARCHING_DOCTOR_ADD_DIPLOMA:
-			hospitalManager->addDiplomaToDoctor(researchingDoctor->getEmployeeId());
+			HospitalManager::getInstance()->addDiplomaToDoctor(researchingDoctor->getEmployeeId());
 			break;
 		default:
 			return;
@@ -997,13 +996,13 @@ void HospitalController::selectVisit(int visitId) const
 			cge = getCareGivingEmployeeFromUser();
 			if (cge == nullptr)
 				return;
-			hospitalManager->addCareGivingEmployeeToVisit(cge, visit->getVisitId());
+			HospitalManager::getInstance()->addCareGivingEmployeeToVisit(cge, visit->getVisitId());
 			break;
 		case REMOVE_CARE_GIVING_EMPLOYEE:
 			cge = getCareGivingEmployeeFromUser();
 			if (cge == nullptr)
 				return;
-			hospitalManager->removeCareGivingEmployeeToVisit(cge, visit->getVisitId());
+			HospitalManager::getInstance()->removeCareGivingEmployeeToVisit(cge, visit->getVisitId());
 			break;
 		default:
 			return;
@@ -1017,8 +1016,8 @@ void HospitalController::selectVisit(int visitId) const
 /* Print all */
 void HospitalController::printAllDepartments() const
 {
-	const Department* const* allDepartments = hospitalManager->getAllDepartments();
-	int numberOfDepartments = hospitalManager->getCurrectNumOfDepartments();
+	const Department* const* allDepartments = HospitalManager::getInstance()->getAllDepartments();
+	int numberOfDepartments = HospitalManager::getInstance()->getCurrectNumOfDepartments();
 
 	if (numberOfDepartments == 0)
 		cout << "No departments created yet." << endl;
@@ -1030,8 +1029,8 @@ void HospitalController::printAllDepartments() const
 }
 void HospitalController::printAllPatients() const
 {
-	const Patient* const* allPatients = hospitalManager->getAllPatients();
-	int numberOfPatients = hospitalManager->getCurrectNumOfPatients();
+	const Patient* const* allPatients = HospitalManager::getInstance()->getAllPatients();
+	int numberOfPatients = HospitalManager::getInstance()->getCurrectNumOfPatients();
 
 	if (numberOfPatients == 0)
 		cout << "No patients created yet." << endl;
@@ -1043,8 +1042,8 @@ void HospitalController::printAllPatients() const
 }
 void HospitalController::printAllEmployees(const char* employeeType) const
 {
-	const Employee* const* allEmployees = hospitalManager->getAllEmployees();
-	int numberOfEmployees = hospitalManager->getCurrectNumOfEmployees();
+	const Employee* const* allEmployees = HospitalManager::getInstance()->getAllEmployees();
+	int numberOfEmployees = HospitalManager::getInstance()->getCurrectNumOfEmployees();
 
 	if (numberOfEmployees == 0)
 		cout << "No employees created yet." << endl;
@@ -1056,8 +1055,8 @@ void HospitalController::printAllEmployees(const char* employeeType) const
 }
 void HospitalController::printAllVisits() const
 {
-	const Visit* const* allVisits = hospitalManager->getAllVisits();
-	int numberOfVisits = hospitalManager->getCurrectNumOfVisits();
+	const Visit* const* allVisits = HospitalManager::getInstance()->getAllVisits();
+	int numberOfVisits = HospitalManager::getInstance()->getCurrectNumOfVisits();
 
 	if (numberOfVisits == 0)
 		cout << "No visits created yet." << endl;
@@ -1071,7 +1070,7 @@ void HospitalController::printAllVisits() const
 /* Get Object from user*/
 const Visit* HospitalController::getVisitFromUser(int visitId) const
 {
-	if (hospitalManager->getCurrectNumOfVisits() == 0)
+	if (HospitalManager::getInstance()->getCurrectNumOfVisits() == 0)
 	{
 		cout << "No visits found" << endl;
 		return nullptr;
@@ -1087,7 +1086,7 @@ const Visit* HospitalController::getVisitFromUser(int visitId) const
 		if (inputVisitId == HELP)
 			printAllVisits();
 		else
-			visit = hospitalManager->getConstVisitById(inputVisitId);
+			visit = HospitalManager::getInstance()->getConstVisitById(inputVisitId);
 		if (visit == nullptr) 
 		{
 			invalidVisitId = true;
@@ -1098,12 +1097,12 @@ const Visit* HospitalController::getVisitFromUser(int visitId) const
 	}
 
 	if (visit == nullptr)
-		return hospitalManager->getConstVisitById(visitId);
+		return HospitalManager::getInstance()->getConstVisitById(visitId);
 	return visit;
 }
 const Patient* HospitalController::getPatientFromUser(int patientId) const
 {
-	if (hospitalManager->getCurrectNumOfPatients() == 0)
+	if (HospitalManager::getInstance()->getCurrectNumOfPatients() == 0)
 	{
 		cout << "No patients found." << endl;
 		return nullptr;
@@ -1119,7 +1118,7 @@ const Patient* HospitalController::getPatientFromUser(int patientId) const
 		if (inputPatientId == HELP)
 			printAllPatients();
 		else
-			patient = hospitalManager->getConstPatientById(inputPatientId);
+			patient = HospitalManager::getInstance()->getConstPatientById(inputPatientId);
 		if (patient == nullptr) 
 		{
 			invalidPatientId = true;
@@ -1130,12 +1129,12 @@ const Patient* HospitalController::getPatientFromUser(int patientId) const
 	}
 
 	if (patient == nullptr)
-		return hospitalManager->getConstPatientById(patientId);
+		return HospitalManager::getInstance()->getConstPatientById(patientId);
 	return patient;
 }
 const Doctor* HospitalController::getDoctorFromUser(int doctorId) const
 {
-	if (hospitalManager->getCurrentNumOfDoctors() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfDoctors() == 0)
 	{
 		cout << "No Doctors found." << endl;
 		return nullptr;
@@ -1147,7 +1146,7 @@ const Doctor* HospitalController::getDoctorFromUser(int doctorId) const
 }
 const Nurse* HospitalController::getNurseFromUser(int nurseId) const
 {
-	if (hospitalManager->getCurrentNumOfNurses() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfNurses() == 0)
 	{
 		cout << "No Nurses found." << endl;
 		return nullptr;
@@ -1159,7 +1158,7 @@ const Nurse* HospitalController::getNurseFromUser(int nurseId) const
 }
 const Researcher* HospitalController::getResearcherFromUser(int researcherId) const
 {
-	if (hospitalManager->getCurrentNumOfResearchers() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfResearchers() == 0)
 	{
 		cout << "No Researchers found." << endl;
 		return nullptr;
@@ -1171,7 +1170,7 @@ const Researcher* HospitalController::getResearcherFromUser(int researcherId) co
 }
 const Surgeon* HospitalController::getSurgeonFromUser(int surgeonId) const
 {
-	if (hospitalManager->getCurrentNumOfSurgeons() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfSurgeons() == 0)
 	{
 		cout << "No Surgeons found." << endl;
 		return nullptr;
@@ -1183,7 +1182,7 @@ const Surgeon* HospitalController::getSurgeonFromUser(int surgeonId) const
 }
 const ResearchingDoctor* HospitalController::getResearchingDoctorFromUser(int researchingDoctorId) const
 {
-	if (hospitalManager->getCurrentNumOfResearchers() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfResearchers() == 0)
 	{
 		cout << "No ResearchingDoctors found." << endl;
 		return nullptr;
@@ -1222,7 +1221,7 @@ const CareGivingEmployee* HospitalController::getCareGivingEmployeeFromUser(int 
 }
 const Department* HospitalController::getDepartmentFromUser(const char* departmentName) const
 {
-	if (hospitalManager->getCurrectNumOfDepartments() == 0)
+	if (HospitalManager::getInstance()->getCurrectNumOfDepartments() == 0)
 	{
 		cout << "No departments found" << endl;
 		return nullptr;
@@ -1240,7 +1239,7 @@ const Department* HospitalController::getDepartmentFromUser(const char* departme
 			getStringFromUser(inputDepartmentName);
 			if (strcmp(inputDepartmentName, "-999") == 0)
 				printAllDepartments();
-			department = hospitalManager->getConstDepartmentByName(inputDepartmentName);
+			department = HospitalManager::getInstance()->getConstDepartmentByName(inputDepartmentName);
 			if (department == nullptr) 
 			{
 				invalidDepartmentName = true;
@@ -1252,7 +1251,7 @@ const Department* HospitalController::getDepartmentFromUser(const char* departme
 		delete[] inputDepartmentName;
 	}
 	else {
-		department = hospitalManager->getConstDepartmentByName(departmentName);
+		department = HospitalManager::getInstance()->getConstDepartmentByName(departmentName);
 	}
 	
 	
@@ -1260,7 +1259,7 @@ const Department* HospitalController::getDepartmentFromUser(const char* departme
 }
 const Surgery* HospitalController::getSurgeryFromUser(int surgeryId) const
 {
-	if (hospitalManager->getCurrentNumOfSurgeries() == 0)
+	if (HospitalManager::getInstance()->getCurrentNumOfSurgeries() == 0)
 	{
 		cout << "No Surgeries found." << endl;
 		return nullptr;
@@ -1277,7 +1276,7 @@ const Surgery* HospitalController::getSurgeryFromUser(int surgeryId) const
 }
 const Employee* HospitalController::getEmployeeFromUser(int employeeId, const char* employeeClass) const
 {
-	if (hospitalManager->getCurrectNumOfEmployees() == 0)
+	if (HospitalManager::getInstance()->getCurrectNumOfEmployees() == 0)
 	{
 		cout << "No Employees found." << endl;
 		return nullptr;
@@ -1294,7 +1293,7 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 		if (inputEmployeeId == HELP)
 			printAllEmployees();
 		else {
-			employee = hospitalManager->getConstEmployeeById(inputEmployeeId);
+			employee = HospitalManager::getInstance()->getConstEmployeeById(inputEmployeeId);
 			if (strcmp(typeid(*employee).name(), employeeClass) != 0)
 				employee = nullptr;
 		}
@@ -1309,7 +1308,7 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 	}
 
 	if (employee == nullptr) {
-		employee = (Employee*)hospitalManager->getConstEmployeeById(employeeId);
+		employee = (Employee*)HospitalManager::getInstance()->getConstEmployeeById(employeeId);
 		if (strcmp(typeid(*employee).name(), employeeClass) != 0)
 			employee = nullptr;
 	}

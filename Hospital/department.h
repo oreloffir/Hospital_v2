@@ -1,12 +1,13 @@
 #ifndef _DEPARTMENT_H
 #define _DEPARTMENT_H
 #include <iostream>
+#include "EmployeeListener.h"
 
 class Patient;
 class Employee;
 class Visit;
 
-class Department
+class Department : public EmployeeListener
 {
 private:
     char* name;
@@ -54,7 +55,10 @@ public:
     void removeEmployeeById(int employeeId);
 	void addVisit(const Visit* visit);
 	void removeVisitById(int visitId);
-
+	
+	virtual void onEmployeeRemoved(int employeeId) override;
+	virtual void onEmployeeReplaced(const Employee* newPointer) override;
+	
 	friend std::ostream& operator<<(std::ostream& os, const Department& department);
 };
 

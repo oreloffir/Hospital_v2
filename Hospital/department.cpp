@@ -29,37 +29,30 @@ const char* Department::getName() const
 {
 	return name;
 }
-
 int Department::getCurrentNumOfPatients() const
 {
 	return currentNumOfPatients;
 }
-
 int Department::getCurrentNumOfEmployees() const
 {
 	return currentNumOfEmployees;
 }
-
 int Department::getCurrentNumOfVisits() const
 {
 	return currentNumOfVisits;
 }
-
 const Patient* const* Department::getAllPatients() const
 {
 	return allPatients;
 }
-
 const Visit* const* Department::getAllVisits() const
 {
 	return allVisits;
 }
-
 const Employee* const* Department::getAllEmployees() const
 {
 	return allEmployees;
 }
-
 const Patient* Department::getPatientById(int id) const
 {
 	for (int i = 0; i < currentNumOfPatients; i++)
@@ -67,7 +60,6 @@ const Patient* Department::getPatientById(int id) const
 			return allPatients[i];
 	return nullptr;
 }
-
 const Visit* Department::getVisitById(int id) const
 {
 	for (int i = 0; i < currentNumOfVisits; i++)
@@ -75,7 +67,6 @@ const Visit* Department::getVisitById(int id) const
 			return allVisits[i];
 	return nullptr;
 }
-
 const Employee* Department::getEmployeeById(int id) const
 {
 	for (int i = 0; i < currentNumOfEmployees; i++)
@@ -83,7 +74,6 @@ const Employee* Department::getEmployeeById(int id) const
 			return allEmployees[i];
 	return nullptr;
 }
-
 const Employee* Department::getEmployeeByEmployeeId(int employeeId) const
 {
 	for (int i = 0; i < currentNumOfEmployees; i++)
@@ -97,7 +87,6 @@ void Department::setName(const char* name)
 	delete[] name;
 	name = _strdup(name);
 }
-
 void Department::addPatient(const Patient* newPatient)
 {
 	// check if we have pointer to this employee already (by Id)
@@ -107,7 +96,6 @@ void Department::addPatient(const Patient* newPatient)
 	allPatients[currentNumOfPatients] = newPatient;
 	++currentNumOfPatients;
 }
-
 void Department::addEmployee(const Employee* newEmployee)
 {
 	// check if we have pointer to this employee already (by Id)
@@ -117,7 +105,6 @@ void Department::addEmployee(const Employee* newEmployee)
 	allEmployees[currentNumOfEmployees] = newEmployee;
 	++currentNumOfEmployees;
 }
-
 void Department::removePatientById(int id)
 {
 	int pos = -1;
@@ -138,7 +125,6 @@ void Department::removePatientById(int id)
 		allPatients[i] = allPatients[i + 1];
 	--currentNumOfPatients;
 }
-
 void Department::removeEmployeeById(int employeeId)
 {
 	int pos = -1;
@@ -159,7 +145,6 @@ void Department::removeEmployeeById(int employeeId)
 		allEmployees[i] = allEmployees[i + 1];
 	--currentNumOfEmployees;
 }
-
 void Department::addVisit(const Visit* visit)
 {
 	// check if we have pointer to this employee already (by Id)
@@ -195,30 +180,38 @@ void Department::operator+=(const Employee& newEmployee)
 {
 	this->addEmployee(&newEmployee);
 }
-
-void Department:: operator+=(const Patient& newPatient)
+void Department::operator+=(const Patient& newPatient)
 {
 	this->addPatient(&newPatient);
 }
-
 void Department::operator+=(const Visit& newVisit)
 {
 	this->addVisit(&newVisit);
 }
-
 void Department::operator-=(const Employee& existingEmployee)
 {
 	this->removeEmployeeById(existingEmployee.getEmployeeId());
 }
-
 void Department::operator-=(const Patient& existingPatient)
 {
 	this->removePatientById(existingPatient.getId());
 }
-
 void Department::operator-=(const Visit& existingVisit)
 {
 	this->removeVisitById(existingVisit.getVisitId());
+}
+
+void Department::onEmployeeRemoved(int employeeId)
+{
+	removeEmployeeById(employeeId);
+}
+void Department::onEmployeeReplaced(const Employee* newPointer)
+{
+	if (newPointer != nullptr)
+	{
+		*this -= *newPointer;
+		*this += *newPointer;
+	}
 }
 
 ostream& operator<<(ostream& os, const Department& department)

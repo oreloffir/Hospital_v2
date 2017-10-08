@@ -13,10 +13,12 @@
 class HospitalManager
 {
 private:
+	static HospitalManager* instance;
 	Department** departments;
 	Patient** patients;
 	Visit** visits; // Surgery , Inspection
 	Employee** employees;  // Doctor, Nurse, Researcher, Surgeon, ResearchingDoctor
+	EmployeeListener** employeeListeners;
 
 	int currectNumOfDepartments;
 	int currentNumOfPatients;
@@ -29,6 +31,10 @@ private:
 	int currentNumOfResearchers;	// Validation usage
 	int currentNumOfSurgeons;		// Validation usage
 
+	int currentNumOfEmployeeListeners;
+
+	HospitalManager();
+
 	Patient* getPatientById(int patientId)							const;
 	Department* getDepartmentByName(const char* departmentName)		const;
 	Visit* getVisitById(int visitId)								const;
@@ -39,10 +45,11 @@ private:
 	ResearchingDoctor* getResearchingDoctorById(int resercherId)	const;
 	Surgeon* getSurgeonById(int surgeonId)							const;
 public:
-	HospitalManager();
 	~HospitalManager();
 	HospitalManager(HospitalManager& other) = delete;
 	HospitalManager& operator=(const HospitalManager& other) = delete;
+
+	static HospitalManager* getInstance();
 
 	static constexpr int MAX_NUMBER_OF_DEPARTMENTS = 50;
 	static constexpr int MAX_NUMBER_OF_PATIENTS = 1000;
@@ -51,6 +58,8 @@ public:
 	static constexpr int MAX_NUMBER_OF_DOCTORS = 150;
 	static constexpr int MAX_NUMBER_OF_NURSES = 350;
 	static constexpr int MAX_NUMBER_OF_RESEARCHERS = 300;
+	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS = 1000;
+
 	
 	/* Department managment */
 	const Department& createDepartment(char* departmentName);
@@ -109,5 +118,8 @@ public:
 	const ResearchingDoctor* getConstResearchingDoctorById(int id) const;
 	void addTestSubjectToRD(int researcherId, const Patient* testSubject) const;
 	void removeTestSubjectToRD(int researcherId, const Patient* testSubject) const;
+
+	void addEmployeeListener(EmployeeListener * employeeListener);
+	void removeEmployeeListener(EmployeeListener * employeeListener);
 };
 #endif
