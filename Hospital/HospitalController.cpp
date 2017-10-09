@@ -738,7 +738,7 @@ void HospitalController::selectDoctor(int doctorId) const
 void HospitalController::selectNurse(int nurseId) const
 {
 	const Nurse* nurse = getNurseFromUser(nurseId);
-	const char* const* duties;
+	const LinkedList<string>* duties;
 	cout << (Person&)*nurse << endl;
 
 	while (true)
@@ -748,21 +748,21 @@ void HospitalController::selectNurse(int nurseId) const
 		case NURSE_GET_DUTIES:
 			if (nurse != nullptr)
 			{
-				duties = nurse->getDuties();
+				duties = &nurse->getDuties();
 				cout << "================= " << nurse->getName() << " Duties =================" << endl;
-				for (int i = 0; i < nurse->getCurrentNumOfDuties(); i++)
-					cout << "\t - " << duties[i] << endl;
+				if (duties->getSize() > 0)
+					cout << duties << endl;
 			}
 			else
 				cout << "================= Invalid nurse id =================" << endl;
 			break;
 		case NURSE_ADD_DUTY:
 			cout << "Enter a new duty name: ";
-			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), getStringFromUser());
+			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), string(getStringFromUser()));
 			break;
 		case NURSE_REMOVE_DUTY:
 			cout << "Enter a duty name to remove: ";
-			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), getStringFromUser());
+			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), string(getStringFromUser()));
 			break;
 		default:
 			return;
