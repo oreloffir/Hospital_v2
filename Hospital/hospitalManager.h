@@ -100,8 +100,8 @@ public:
 	/*Nurse*/
 	const Nurse& createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties);
 	const Nurse* getConstNurseById(int id) const;
-	void addDuty(int id, const char* newDuty); // TODO: check const
-	void removeDuty(int id, const char* oldDuty); // TODO: check const
+	void addDuty(int id, const string duty);
+	void removeDuty(int id, const string duty);
 	int getCurrentNumOfNurses() const;
 	/*Researcher*/
 	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const char* areaOfResearch);

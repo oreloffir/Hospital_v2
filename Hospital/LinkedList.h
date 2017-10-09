@@ -1,6 +1,8 @@
 #pragma once
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
+#include <iostream>
+
 template<class T>
 class LinkedList
 {
@@ -10,7 +12,7 @@ private:
 	public:
 		T		data;
 		Node*	next;
-		Node(T& data, Node* next = nullptr); //Constructor
+		Node(T& data, Node* next = nullptr);
 	};
 
 	int size;
@@ -23,7 +25,9 @@ public:
 	int getSize()	const;
 	void insertToTail(T data);
 	bool remove(T data);
-	
+
+	template<class T>
+	friend std::ostream& operator<<(std::ostream& os, const LinkedList<T>& linkedList);
 };
 template<class T>
 LinkedList<T>::Node::Node(T& data, Node* next) : data(data), next(next) {}
@@ -48,35 +52,46 @@ int LinkedList<T>::getSize() const
 template<class T>
 void LinkedList<T>::insertToTail(T data)
 {
-	Node<T> * newNode = new Node<T>(data);
+	LinkedList<T>::Node* newNode = new LinkedList<T>::Node(data);
 	if (tail == nullptr)
 	{
 		newNode->next = tail;
 		tail = newNode;
 		head = newNode;
-		return;
 	}
-	tail->next = newNode;
-	tail = tail->next;
+	else {
+		tail->next = newNode;
+		tail = tail->next;
+	}
+	size++;
 }
 
 template<class T>
 bool LinkedList<T>::remove(T data)
 {
-	Node<T> *prev, *currect;
-	for (currect = head; currect != nullptr; prev = currect, currect = currect->next)
-		if (currect->value == data) 
+	LinkedList<T>::Node* prev = nullptr;
+	LinkedList<T>::Node* current;
+
+	for (current = head; current != nullptr; prev = current, current = current->next)
+		if (current->data == data)
 			break;
 
 	if (current != nullptr)
 	{
-		prev->next = currect->next;
-		delete currect;
+		prev->next = current->next;
+		delete current;
 		size--;
 		return true;
 	}
 	return false;
 }
+template<class T>
+std::ostream& operator<<(std::ostream& os, const LinkedList<T>& linkedList)
+{
+	for(LinkedList<T>::Node* current = linkedList.head; current != nullptr; current = current->next)
+		os << current->data << std::endl;
 
+	return os;
+}
 
 #endif
