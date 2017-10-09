@@ -1016,7 +1016,10 @@ void HospitalController::printAllEmployees(const string employeeType) const
 	else
 		for (int i = 0; i < numberOfEmployees; i++)
 		{
-			cout << *allEmployees[i] << endl;
+			if(employeeClass != nullptr && strcmp(employeeClass, typeid(*allEmployees[i]).name()) == 0)
+				cout << *allEmployees[i] << endl;
+			else if(employeeClass == nullptr)
+				cout << *allEmployees[i] << endl;
 		}
 }
 void HospitalController::printAllVisits() const
@@ -1256,7 +1259,7 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 		cout << "Please enter "<< employeeClass+6 <<" id: (or " << HELP << " to print all employees) ";
 		inputEmployeeId = getIntegerFromUser(1);
 		if (inputEmployeeId == HELP)
-			printAllEmployees();
+			printAllEmployees(employeeClass);
 		else {
 			employee = HospitalManager::getInstance()->getConstEmployeeById(inputEmployeeId);
 			if (employee!= nullptr && strcmp(typeid(*employee).name(), employeeClass) != 0)
