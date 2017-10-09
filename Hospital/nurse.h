@@ -10,7 +10,7 @@ class Nurse : public CareGivingEmployee
 {
 
 public:
-	Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties);
+	Nurse(CareGivingEmployee& CGEmployee);
 	Nurse(const Nurse& other) = delete;
 	Nurse& operator=(const Nurse& other) = delete;
 
