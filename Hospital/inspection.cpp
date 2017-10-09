@@ -1,17 +1,17 @@
 #include "inspection.h"
 #include <iostream>
 
-Inspection::Inspection(const Visit::VisitInfo visitInfo, const char* typeOfInspection)
+Inspection::Inspection(const Visit::VisitInfo visitInfo, const string typeOfInspection)
 :	Visit(visitInfo.date, visitInfo.cause, visitInfo.department, visitInfo.patient, visitInfo.typeOfCare) {
-	this->typeOfInspection = _strdup(typeOfInspection);
+	this->typeOfInspection = typeOfInspection;
 }
 
 Inspection::~Inspection()
 {
-	delete[] typeOfInspection;
+	//delete[] typeOfInspection; TODO
 }
 
-const char* Inspection::getTypeOfInspection() const
+const string Inspection::getTypeOfInspection() const
 {
 	return this->typeOfInspection;
 }
@@ -21,10 +21,10 @@ Inspection::eLabResult Inspection::getLabResult() const
 	return this->labResult;
 }
 
-void Inspection::setTypeOfInspection(const char* typeOfInspection) 
+void Inspection::setTypeOfInspection(const string typeOfInspection) 
 {
-	delete[] this->typeOfInspection;
-	this->typeOfInspection = _strdup(typeOfInspection);
+	//delete[] this->typeOfInspection; // TODO
+	this->typeOfInspection = typeOfInspection;
 }
 
 void Inspection::setLabResult(Inspection::eLabResult labResult)
@@ -32,9 +32,9 @@ void Inspection::setLabResult(Inspection::eLabResult labResult)
 	this->labResult = labResult;
 }
 
-const char* Inspection::labResults[] = { "POSITIVE", "NEGETIVE" };
+const string Inspection::labResults[] = { "POSITIVE", "NEGETIVE" };
 
-const char* Inspection::getLabResultName() const
+const string Inspection::getLabResultName() const
 {
 	return Inspection::labResults[labResult];
 }

@@ -2,13 +2,14 @@
 #include "department.h"
 #include "patient.h"
 #include "employee.h"
+#include <string>
 #include <iostream>
 using namespace std;
 
-Department::Department(const char* name)
+Department::Department(const string name)
 {
 	cout << "In Department::Department (name=" << name << ")" << endl;
-	this->name = _strdup(name);
+	this->name = name;
 	currentNumOfPatients	= 0;
 	currentNumOfEmployees	= 0;
 	currentNumOfVisits		= 0;
@@ -20,12 +21,12 @@ Department::Department(const char* name)
 Department::~Department()
 {
 	cout << "In Department::~Department (name=" << name << ")" << endl;
-	delete[] name;
+	//delete[] name; // TODO
 	delete[] allPatients;
 	delete[] allEmployees;
 }
 
-const char* Department::getName() const
+const string Department::getName() const
 {
 	return name;
 }
@@ -82,10 +83,10 @@ const Employee* Department::getEmployeeByEmployeeId(int employeeId) const
 	return nullptr;
 }
 
-void Department::setName(const char* name) 
+void Department::setName(const string name) 
 {
-	delete[] name;
-	name = _strdup(name);
+	//delete[] name; // TODO
+	this->name = name;
 }
 void Department::addPatient(const Patient* newPatient)
 {

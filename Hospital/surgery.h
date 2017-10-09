@@ -2,13 +2,14 @@
 #define _SURGERY_H
 #include "visit.h"
 #include "surgeryType.h"
-
-
+#include <string>
+#include <iostream>
+using namespace std;
 
 class Surgery: public Visit
 {
 public:
-	static const char* surgeryKind[];
+	static const string surgeryKind[];
 	static constexpr int NUMBER_OF_TYPES = 4;
     enum eSurgeryKind {EASY, NORMAL, HARD, LIFE_SAVING};
     
@@ -16,7 +17,7 @@ public:
     Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int numOfSurgeons = 1);
     //getters
     const SurgeryType* getSurgeryType() const;
-	const char* getSurgeryKindName()	const;
+	const string getSurgeryKindName()	const;
 	eSurgeryKind getSurgeryKind()		const;
     int getNumOfSurgeons()				const;
     int getDurationMin()				const;

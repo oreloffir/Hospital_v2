@@ -1,16 +1,17 @@
 #include "doctor.h"
+
 #include <iostream>
 using namespace std;
 
 
 
-Doctor::Doctor(CareGivingEmployee& CGEmployee, const char* fieldOfExpertise, int numOfDiplomas)
+Doctor::Doctor(CareGivingEmployee& CGEmployee, const string fieldOfExpertise, int numOfDiplomas)
 	: Employee(CGEmployee),
 	CareGivingEmployee(CGEmployee)
 {
 	std::cout << "In Doctor::Doctor()" << "---->" << this->name << std::endl;
 	this->numOfDiplomas = numOfDiplomas;
-	this->fieldOfExpertise = _strdup(fieldOfExpertise);
+	this->fieldOfExpertise = fieldOfExpertise;
 }
 Doctor::Doctor(const Doctor& other)
 	:Employee(other), CareGivingEmployee(other)
@@ -24,7 +25,7 @@ const Doctor& Doctor::operator=(const Doctor& other)
 	if (this != &other)
 	{
 		this->free();
-		this->fieldOfExpertise = _strdup(other.fieldOfExpertise);
+		this->fieldOfExpertise = other.fieldOfExpertise;
 		this->numOfDiplomas = other.numOfDiplomas;
 	}
 	return *this;
@@ -38,7 +39,7 @@ int Doctor::getNumOfDiplomas() const
 {
 	return numOfDiplomas;
 }
-const char* Doctor::getFieldOfExpertise() const
+const string Doctor::getFieldOfExpertise() const
 {
 	return fieldOfExpertise;
 }
@@ -52,7 +53,7 @@ void Doctor::addDiploma()
 }
 void Doctor::free()
 {
-	delete[] fieldOfExpertise;
+	//delete[] fieldOfExpertise; // TODO
 }
 void Doctor::work() const
 {

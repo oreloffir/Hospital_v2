@@ -3,6 +3,7 @@
 #define hospital_controller_h
 #include "hospitalManager.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 class HospitalController
@@ -57,7 +58,7 @@ public:
 	void HospitalController::deleteVisitInfo(Visit::VisitInfo visitInfo)							const;
 
 	/* Selectors */
-	void selectDepartment(const char* departmentName = nullptr)	const;
+	void selectDepartment(const string departmentName = string())	const;
 	void selectPatient(int patientId = 0)						const;
 	void selectEmployee(int employeeId = 0)						const;
 	void selectDoctor(int doctorId = 0)							const;
@@ -70,7 +71,7 @@ public:
 	/* Print all */
 	void printAllDepartments()									const;
 	void printAllPatients()										const;
-	void printAllEmployees(const char* employeeType = nullptr)	const;
+	void printAllEmployees(const string employeeType = string())	const;
 	void printAllVisits()										const;
 
 	/* Get Object by user id*/
@@ -83,11 +84,11 @@ public:
 	const Surgeon* getSurgeonFromUser(int surgeonId = 0)															const;
 	const ResearchingDoctor* getResearchingDoctorFromUser(int researchingDoctorId = 0)								const;
 	const CareGivingEmployee* getCareGivingEmployeeFromUser(int careGivingEmployeeId = 0)							const;
-	const Department* getDepartmentFromUser(const char* departmentName = nullptr)									const;
+	const Department* getDepartmentFromUser(const string departmentName = "")										const;
 	const Surgery* getSurgeryFromUser(int surgeryId = 0)															const;
 
 	/* general functions */
-	char* getStringFromUser(char* outputBuffer = nullptr) const;
+	string getStringFromUser(char* outputBuffer = nullptr) const;
 	int getIntegerFromUser(int minVal = INT_MIN, int maxVal = INT_MAX) const;
 	double getDoubleFromUser(double minVal = DBL_MIN, double maxVal = DBL_MAX) const;
 	bool validateString(const char* str) const;
@@ -170,8 +171,8 @@ public:
 
 	static constexpr int MAX_STRING_SIZE	= 30;
 
-	static const char* PRESS_TO_GO_BACK;
-	static const char* INVALID_INPUT;
+	static const string PRESS_TO_GO_BACK;
+	static const string INVALID_INPUT;
 private:
 	char* inputBuffer;
 };

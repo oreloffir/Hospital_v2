@@ -7,6 +7,7 @@ Surgery::Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int 
 	type(type),
 	actualNumOfSurgeons(numOfSurgeons)
 {
+	cout << "In Surgery::Surgery (type=" << type.getName() << ")" << endl;
 	isDone = false;
 	double precentageOfSuccess = type.getPrecentageOfSuccess();
 	if (precentageOfSuccess < 25.0)
@@ -23,41 +24,26 @@ const SurgeryType* Surgery::getSurgeryType() const
 {
 	return &type;
 }
-
-const char* Surgery::getSurgeryKindName() const
+const string Surgery::getSurgeryKindName() const
 {
 	return Surgery::surgeryKind[kind];
 }
-
 Surgery::eSurgeryKind Surgery::getSurgeryKind() const
 {
 	return kind;
 }
-
-void Surgery::surgeryDone(bool result)
-{
-	if (!isDone) 
-	{
-		isDone = true;
-		succsesfullSurgery = result;
-	}
-}
-
 int Surgery::getNumOfSurgeons() const
 {
 	return actualNumOfSurgeons;
 }
-
 int Surgery::getDurationMin() const
 {
 	return actualDurationMin;
 }
-
 bool Surgery::getIsDone() const
 {
 	return isDone;
 }
-
 bool Surgery::getSuccsesfullSurgery() const
 {
 	return succsesfullSurgery;
@@ -67,10 +53,17 @@ void Surgery::setNumOfSurgeons(int numOfSurgeons)
 {
 	this->actualNumOfSurgeons = numOfSurgeons;
 }
-
 void Surgery::setDurationMin(int duration)
 {
 	this->actualDurationMin = duration;
+}
+void Surgery::surgeryDone(bool result)
+{
+	if (!isDone)
+	{
+		isDone = true;
+		succsesfullSurgery = result;
+	}
 }
 
 void Surgery::toOs(std::ostream& os) const
@@ -90,4 +83,4 @@ void Surgery::toOs(std::ostream& os) const
 	os << endl;
 }
 
-const char* Surgery::surgeryKind[] = {"EASY", "NORMAL", "HARD", "LIFE_SAVING" };
+const string Surgery::surgeryKind[] = {"EASY", "NORMAL", "HARD", "LIFE_SAVING" };

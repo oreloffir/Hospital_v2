@@ -9,27 +9,27 @@ class Doctor;
 class Inspection: public Visit
 {
 public:
-	static const char* labResults[];
+	static const string labResults[];
     enum eLabResult {POSITIVE, NEGETIVE};
     
     //ctors
-    Inspection(const Visit::VisitInfo visitInfo, const char* typeOfInspection);
+    Inspection(const Visit::VisitInfo visitInfo, const string typeOfInspection);
 	Inspection(const Inspection& other) = delete;
     ~Inspection();
 
     const Inspection& operator=(const Inspection& other) = delete;
 
-    const char* getTypeOfInspection()	const;
+    const string getTypeOfInspection()	const;
     eLabResult getLabResult()			const;
-	const char* getLabResultName()		const;
+	const string getLabResultName()		const;
 
-	void setTypeOfInspection(const char* typeOfInspection);
+	void setTypeOfInspection(const string typeOfInspection);
     void setLabResult(eLabResult labResult);
 
 	void toOs(std::ostream& os) const override;
 
 protected:
-    char* typeOfInspection;
+    string typeOfInspection;
     eLabResult labResult;
 };
 

@@ -1,6 +1,8 @@
 #ifndef _DEPARTMENT_H
 #define _DEPARTMENT_H
+#include <string>
 #include <iostream>
+using namespace std;
 #include "EmployeeListener.h"
 
 class Patient;
@@ -10,7 +12,7 @@ class Visit;
 class Department : public EmployeeListener
 {
 private:
-    char* name;
+    string name;
     int currentNumOfPatients;
     int currentNumOfEmployees;
 	int currentNumOfVisits;
@@ -21,7 +23,7 @@ public:
 	static constexpr int MAX_NUMBER_OF_PATIENTS		= 200;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
 	static constexpr int MAX_NUMBER_OF_VISITS		= 500;
-    Department(const char* name);
+    Department(const string name);
 
     ~Department();
 
@@ -35,7 +37,7 @@ public:
 	void operator-=(const Visit& existingVisit);
 
 
-    const char* getName()									const;
+    const string getName()									const;
     int getCurrentNumOfPatients()							const;
     int getCurrentNumOfEmployees()							const;
 	int getCurrentNumOfVisits()								const;
@@ -47,7 +49,7 @@ public:
 	const Employee* getEmployeeById(int id)					const; // person id
 	const Visit* getVisitById(int id)						const;
 
-    void setName(const char* name);
+    void setName(const string name);
 
     void addPatient(const Patient* newPatient);
     void removePatientById(int Id);

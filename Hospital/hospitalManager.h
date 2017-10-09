@@ -36,7 +36,7 @@ private:
 	HospitalManager();
 
 	Patient* getPatientById(int patientId)							const;
-	Department* getDepartmentByName(const char* departmentName)		const;
+	Department* getDepartmentByName(const string departmentName)		const;
 	Visit* getVisitById(int visitId)								const;
 	Employee* getEmployeeById(int employeeId)						const;
 	Doctor* getDoctorById(int doctorId)								const;
@@ -62,8 +62,8 @@ public:
 
 	
 	/* Department managment */
-	const Department& createDepartment(char* departmentName);
-	const Department* getConstDepartmentByName(const char* departmentName) const;
+	const Department& createDepartment(const string departmentName);
+	const Department* getConstDepartmentByName(const string departmentName) const;
 	const Department* const* getAllDepartments() const;
 	int getCurrectNumOfDepartments() const;
 	void addPatientToDepartment(const Patient* patient, const Department* department);
@@ -72,14 +72,14 @@ public:
 	void removeEmployeeFromDepartment(const Employee* employee, const Department* department);
 
 	/* Patient Managment */
-	const Patient& createPatient(int id, const char* name, const char* dateOfBirth, Person::eGender gender);
+	const Patient& createPatient(int id, const string name, const string dateOfBirth, Person::eGender gender);
 	const Patient* getConstPatientById(int patientId) const;
 	const Patient* const* getAllPatients() const;
 	int getCurrectNumOfPatients() const;
-	bool addAllergieToPatient(int patientId, const char* allergieName) const; // TODO: check const
+	bool addAllergieToPatient(int patientId, const string allergieName) const; // TODO: check const
 
 	/* Visit Managment */
-	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, char* typeOfInspection);
+	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string typeOfInspection);
 	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1);
 	const Visit* getConstVisitById(int id) const;
 	const Visit* const* getAllVisits() const;
@@ -93,7 +93,7 @@ public:
 	int getCurrectNumOfEmployees() const;
 	const Employee* getConstEmployeeById(int employeeId) const;
 	/*Doctor*/
-	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const char* fieldOfExpertise, int numOfDiplomas = 0);
+	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const string fieldOfExpertise, int numOfDiplomas = 0);
 	const Doctor* getConstDoctorById(int id) const;
 	void addDiplomaToDoctor(int id); // TODO: check const
 	int getCurrentNumOfDoctors() const;
@@ -104,9 +104,9 @@ public:
 	void removeDuty(int id, const char* oldDuty); // TODO: check const
 	int getCurrentNumOfNurses() const;
 	/*Researcher*/
-	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const char* areaOfResearch);
+	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string areaOfResearch);
 	const Researcher* getConstResearcherById(int id) const;
-	bool addPublicationToResearcher(int researcherId, const char* publicationName) const; // TODO: check const
+	bool addPublicationToResearcher(int researcherId, const string publicationName) const; // TODO: check const
 	int getCurrentNumOfResearchers() const;
 	/*Surgeon*/
 	const Surgeon& createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0);
@@ -114,7 +114,7 @@ public:
 	bool performSurgery(const Surgeon* surgeon, const Surgery* surgery) const;
 	int getCurrentNumOfSurgeons() const;
 	/*Researching doctor*/
-	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor,const char* areaOfResearch, int maxNumOfTestSubjects = 0);
+	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor,const string areaOfResearch, int maxNumOfTestSubjects = 0);
 	const ResearchingDoctor* getConstResearchingDoctorById(int id) const;
 	void addTestSubjectToRD(int researcherId, const Patient* testSubject) const;
 	void removeTestSubjectToRD(int researcherId, const Patient* testSubject) const;
