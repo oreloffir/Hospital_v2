@@ -239,12 +239,14 @@ int HospitalManager::getCurrentNumOfDoctors() const
 	return currentNumOfDoctors;
 }
 /*Nurse functions*/
+
 const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
 		throw ARRAY_MAX_SIZE;
+  
 	NurseBuilder nurseBuilder;
-
+  
 	nurseBuilder.setId(employeeInfo.id)
 		.setName(employeeInfo.name)
 		.setDateOfBirth(employeeInfo.dateOfBirth)
@@ -304,7 +306,7 @@ const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo
 	researcherBuilder.setAreaOfResearch(areaOfResearch);
 
 	Researcher* researcher = researcherBuilder.build();
-
+  
 	employees[currentNumOfEmployees] = researcher;
 	++currentNumOfEmployees;
 	++currentNumOfResearchers;

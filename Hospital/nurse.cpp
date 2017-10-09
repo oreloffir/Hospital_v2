@@ -24,7 +24,6 @@ void Nurse::addDuty(const string& duty)
 {
 	dutiesList.insertToTail(duty);
 }
-
 void Nurse::removeDuty(const string& duty)
 {
 	dutiesList.remove(duty);
@@ -34,7 +33,6 @@ void Nurse::operator+=(const string& duty)
 {
 	this->addDuty(duty);
 }
-
 void Nurse::operator-=(const string& duty)
 {
 	this->removeDuty(duty);
@@ -44,7 +42,6 @@ void Nurse::work() const
 {
 	std::cout << "I'm a nurse " << name << " and I'm working" << std::endl;
 }
-
 void Nurse::toOs(ostream& os) const
 {
 	Employee::toOs(os);
