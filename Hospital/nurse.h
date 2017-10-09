@@ -2,6 +2,8 @@
 #define NURSE_H_INCLUDED
 
 #include "careGivingEmployee.h"
+#include "LinkedList.h"
+#include <string>
 
 class Nurse : public CareGivingEmployee
 {
@@ -13,25 +15,20 @@ public:
 
 	virtual ~Nurse();
 
-	const char* const* getDuties() const;
-	int getMaxNumOfDuties()        const;
+	const LinkedList<string>& getDuties() const;
 	int getCurrentNumOfDuties()    const;
 
-	void setMaxNumOfDuties(int maxNumOfDuties);
-
-	void addDuty(const char* duty);
-	void removeDuty(const char* duty);
+	void addDuty(const string duty);
+	void removeDuty(const string duty);
 
 	void work() const override;
 	virtual void toOs(std::ostream& os) const override;
 
-	void operator+=(const char* duty);
-	void operator-=(const char* duty);
+	void operator+=(const string duty);
+	void operator-=(const string duty);
 
-protected:
-	int maxNumOfDuties;
-	int currentNumOfDuties;
-	char** duties;
+private:
+	LinkedList<string> dutiesList;
 };
 
 #endif // NURSE_H_INCLUDED

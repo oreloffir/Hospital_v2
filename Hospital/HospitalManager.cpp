@@ -242,19 +242,19 @@ const Nurse* HospitalManager::getConstNurseById(int id) const
 {
 	return getNurseById(id);
 }
-void HospitalManager::addDuty(int id, const char* newDuty)
+void HospitalManager::addDuty(int id, const string duty)
 {
 	Nurse* nurse = getNurseById(id);
 	if (nurse == nullptr)
 		return;
-	nurse->addDuty(newDuty);
+	nurse->addDuty(duty);
 }
-void HospitalManager::removeDuty(int id, const char* oldDuty)
+void HospitalManager::removeDuty(int id, const string duty)
 {
 	Nurse* nurse = getNurseById(id);
 	if (nurse == nullptr)
 		return;
-	nurse->removeDuty(oldDuty);
+	nurse->removeDuty(duty);
 }
 int HospitalManager::getCurrentNumOfNurses() const
 {
