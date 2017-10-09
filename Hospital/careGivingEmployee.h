@@ -10,9 +10,9 @@ using namespace std;
 class CareGivingEmployee : virtual public Employee
 {
 public:
-	CareGivingEmployee(int id, const string name, const string dateOfBirth, eGender gender,
-		const string startWorkingDate, eRank employeeRank, double salary,
-		const string areaOfTraining, float seniorityYears);
+	CareGivingEmployee(int id, const string& name, const string& dateOfBirth, eGender gender,
+		const string& startWorkingDate, eRank employeeRank, double salary,
+		const string& areaOfTraining, float seniorityYears);
 	CareGivingEmployee(const CareGivingEmployee& other) : Employee(other) {
 		std::cout << "In CareGivingEmployee::CareGivingEmployee(copy)" << "---->" << this->name << std::endl;
 	};

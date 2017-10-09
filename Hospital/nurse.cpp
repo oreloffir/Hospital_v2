@@ -1,7 +1,7 @@
 #include "nurse.h"
 #include <iostream>
 
-Nurse::Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties)
+Nurse::Nurse(CareGivingEmployee& CGEmployee)
 	: Employee(CGEmployee),
 	CareGivingEmployee(CGEmployee)
 {

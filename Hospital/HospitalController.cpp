@@ -391,10 +391,7 @@ const Nurse* HospitalController::createNurse(bool showSelectMenu) const
 
 	Employee::employeeInfo employeeInfo = createEmployeeInfo();
 
-	cout << "Please enter nurse num of max num of duties: ";
-	int maxNumOfDuties = getIntegerFromUser(0);
-
-	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo, maxNumOfDuties);
+	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo);
 
 	cout << "New nurse was created" << endl;
 
