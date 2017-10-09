@@ -88,10 +88,10 @@ public:
 	const Surgery* getSurgeryFromUser(int surgeryId = 0)															const;
 
 	/* general functions */
-	string getStringFromUser(char* outputBuffer = nullptr) const;
+	string getStringFromUser(string& outputBuffer = string()) const;
 	int getIntegerFromUser(int minVal = INT_MIN, int maxVal = INT_MAX) const;
 	double getDoubleFromUser(double minVal = DBL_MIN, double maxVal = DBL_MAX) const;
-	bool validateString(const char* str) const;
+	bool validateString(const string& str) const;
 
 	static constexpr int CREATE_OPTION	= 1;
 	static constexpr int SELECT_OPTION	= 2;

@@ -4,6 +4,7 @@
 #include "careGivingEmployee.h"
 #include "LinkedList.h"
 #include <string>
+using namespace std;
 
 class Nurse : public CareGivingEmployee
 {

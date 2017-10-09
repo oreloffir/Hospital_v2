@@ -748,11 +748,11 @@ void HospitalController::selectNurse(int nurseId) const
 			break;
 		case NURSE_ADD_DUTY:
 			cout << "Enter a new duty name: ";
-			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), string(getStringFromUser()));
+			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		case NURSE_REMOVE_DUTY:
 			cout << "Enter a duty name to remove: ";
-			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), string(getStringFromUser()));
+			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		default:
 			return;
@@ -1221,12 +1221,12 @@ const Department* HospitalController::getDepartmentFromUser(const string departm
 
 	if (departmentName.empty())
 	{
-		char* inputDepartmentName;// TODO = new char[MAX_STRING_SIZE];
+		string inputDepartmentName;// TODO = new char[MAX_STRING_SIZE];
 		while (invalidDepartmentName)
 		{
 			cout << "Please enter department name (or " << HELP << " to print all departments): ";
 			getStringFromUser(inputDepartmentName);
-			if (strcmp(inputDepartmentName, "-999") == 0)
+			if (inputDepartmentName.compare("-999") == 0)
 				printAllDepartments();
 			department = HospitalManager::getInstance()->getConstDepartmentByName(inputDepartmentName);
 			if (department == nullptr) 
@@ -1237,7 +1237,6 @@ const Department* HospitalController::getDepartmentFromUser(const string departm
 			else
 				invalidDepartmentName = false;
 		}
-		delete[] inputDepartmentName;
 	}
 	else {
 		department = HospitalManager::getInstance()->getConstDepartmentByName(departmentName);
@@ -1309,17 +1308,19 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 * A general function to get a string input from user
 * @return char*
 */
-string HospitalController::getStringFromUser(char* outputBuffer) const
+string HospitalController::getStringFromUser(string& outputBuffer) const
 {
-	char* buffer = outputBuffer;
+	string& buffer = outputBuffer;
 	bool validString = true;
-	// allocate new inputBuffer
-	if(buffer == nullptr)
-		buffer = new char[MAX_STRING_SIZE];
+	
+	/*// allocate new inputBuffer
+	if(buffer.empty())
+		string buffer;
+		*/
 
 	do
 	{
-		cin.getline(buffer, MAX_STRING_SIZE);
+		getline(cin, buffer);
 		validString = validateString(buffer);
 		if (!validString)
 			cout << HospitalController::INVALID_INPUT << endl;
@@ -1357,32 +1358,34 @@ double HospitalController::getDoubleFromUser(double minVal, double maxVal) const
 
 	return result;
 }
-bool HospitalController::validateString(const char* str) const 
+bool HospitalController::validateString(const string& str) const 
 {
-	if (!*str)
+	if (str.empty())
 		return false;
-
-	int size = static_cast<int>(strlen(str));
-	char* temp = new char[size+1];
-	char* cpy = temp;
-
-	while (*str) 
-	{
-		if (*str == ' ') 
-			str++;
-		else 
-			*cpy++ = *str++;
-	}
-	*cpy = '\0';
-
-	if (strlen(temp) == 0)
-	{
-		delete[] temp;
-		return false;
-	}
-
-	delete[] temp;
 	return true;
+
+	/*
+	int size = static_cast<int>(str.size());
+	string temp; // TODO = new char[size + 1];
+	string cpy = temp;
+
+	int i = 0;
+	while (str.at[i]) 
+	{
+		if (str.at[i] == ' ')
+			i++;
+		else 
+			cpy.at[i] = str.at[i];
+
+		i++;
+	}
+	cpy.at[i] = '\0';
+
+	if (temp.size() == 0)
+		return false;
+
+	return true;
+	*/
 }
 
 const string HospitalController::PRESS_TO_GO_BACK	= "Press any other key to go back to previous menu.";
