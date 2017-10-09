@@ -6,10 +6,10 @@
 #include <iostream>
 using namespace std;
 
-Department::Department(const string name)
+Department::Department(const string& name)
+	:name(name)
 {
 	cout << "In Department::Department (name=" << name << ")" << endl;
-	this->name = name;
 	currentNumOfPatients	= 0;
 	currentNumOfEmployees	= 0;
 	currentNumOfVisits		= 0;
@@ -21,12 +21,11 @@ Department::Department(const string name)
 Department::~Department()
 {
 	cout << "In Department::~Department (name=" << name << ")" << endl;
-	//delete[] name; // TODO
 	delete[] allPatients;
 	delete[] allEmployees;
 }
 
-const string Department::getName() const
+const string& Department::getName() const
 {
 	return name;
 }
@@ -83,9 +82,8 @@ const Employee* Department::getEmployeeByEmployeeId(int employeeId) const
 	return nullptr;
 }
 
-void Department::setName(const string name) 
+void Department::setName(const string& name) 
 {
-	//delete[] name; // TODO
 	this->name = name;
 }
 void Department::addPatient(const Patient* newPatient)
@@ -136,7 +134,7 @@ void Department::removeEmployeeById(int employeeId)
 			break;
 		}
 	if (pos < 0) return;
-	if (pos == currentNumOfPatients - 1)
+	if (pos == currentNumOfEmployees - 1)
 	{
 		allEmployees[pos] = nullptr;
 		--currentNumOfEmployees;

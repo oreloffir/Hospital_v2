@@ -24,7 +24,7 @@ const SurgeryType* Surgery::getSurgeryType() const
 {
 	return &type;
 }
-const string Surgery::getSurgeryKindName() const
+const string& Surgery::getSurgeryKindName() const
 {
 	return Surgery::surgeryKind[kind];
 }

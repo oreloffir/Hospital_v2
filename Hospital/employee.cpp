@@ -3,20 +3,20 @@
 
 int Employee::employeeIdGenerator = 1;
 
-Employee::Employee(int id, const string name, const string dateOfBirth, eGender gender,
-	const string startWorkingDate, eRank employeeRank, double salary,
-	const string areaOfTraining, float seniorityYears = 0)
-	:Person(id, name, dateOfBirth, gender)
+Employee::Employee(int id, const string& name, const string& dateOfBirth, eGender gender,
+	const string& startWorkingDate, eRank employeeRank, double salary,
+	const string& areaOfTraining, float seniorityYears = 0)
+	:Person(id, name, dateOfBirth, gender),
+	startWorkingDate(startWorkingDate),
+	areaOfTraining(areaOfTraining),
+	salary(salary),
+	employeeRank(employeeRank),
+	seniorityYears(seniorityYears)
 {
 	std::cout << "In Employee::Employee" << "---->" << this->name << std::endl;
 	this->employeeId = Employee::employeeIdGenerator;
 	++Employee::employeeIdGenerator;
 	this->departments = new const Department*[Employee::MAX_NUMBER_OF_DEPATRMENTS];
-	this->startWorkingDate = startWorkingDate;
-	this->employeeRank = employeeRank;
-	this->salary = salary;
-	this->areaOfTraining = areaOfTraining;
-	this->seniorityYears = seniorityYears;
 	this->numberOfDepatments = 0;
 }
 
@@ -66,7 +66,7 @@ const Department* const* Employee::getDepartments() const
 	return this->departments;
 }
 
-const string Employee::getStartWorkingDate() const
+const string& Employee::getStartWorkingDate() const
 {
 	return this->startWorkingDate;
 }
@@ -102,7 +102,7 @@ void Employee::updateSenorityYear(float senorityYears)
 	this->seniorityYears = senorityYears;
 }
 
-const string Employee::getAreaOfTraining() const
+const string& Employee::getAreaOfTraining() const
 {
 	return areaOfTraining;
 }
@@ -118,7 +118,7 @@ void Employee::addDepartment(const Department* department)
 	++numberOfDepatments;
 }
 
-void Employee::removeDepartment(const string departmentName)
+void Employee::removeDepartment(const string& departmentName)
 {
 	int pos = -1;
 	for (int i = 0; i < this->numberOfDepatments; i++)

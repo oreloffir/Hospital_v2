@@ -32,7 +32,7 @@ public:
 protected:
 	int maxNumOfTestSubjects;
 	int currentNumOfTestSubjects;
-	Patient const* * testSubjects;
+	const Patient** testSubjects;
 
 	void free();
 };

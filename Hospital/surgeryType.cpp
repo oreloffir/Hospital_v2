@@ -3,14 +3,13 @@
 #include <iostream>
 using namespace std;
 
-SurgeryType::SurgeryType(const string name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons = 1)
+SurgeryType::SurgeryType(const string& name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons = 1)
 	: durationMin(durationMin), precentageOfSuccess(precentageOfSuccess), maxNumOfSurgeons(maxNumOfSurgeons)
 {
 	this->name = name;
 	cout << "In SurgeryType::SurgeryType (name=" << this->name << ")" << endl;
 }
-
-SurgeryType::SurgeryType(const SurgeryType & surgeryType)
+SurgeryType::SurgeryType(const SurgeryType& surgeryType)
 {
 	name = surgeryType.name;
 	durationMin = surgeryType.durationMin;
@@ -18,49 +17,42 @@ SurgeryType::SurgeryType(const SurgeryType & surgeryType)
 	maxNumOfSurgeons = surgeryType.maxNumOfSurgeons;
 	cout << "In SurgeryType::SurgeryType(copy) (name=" << name << ")" << endl;
 }
-
 SurgeryType::~SurgeryType()
 {
 	cout << "In SurgeryType::~SurgeryType (name=" << name << ")" << endl;
 }
 
-const string SurgeryType::getName() const
+const string& SurgeryType::getName() const
 {
 	return name;
 }
-
-void  SurgeryType::setName(const string name)
+float SurgeryType::getPrecentageOfSuccess() const
 {
-	//delete[] name;
-	this->name = name;
+	return precentageOfSuccess;
 }
-
-int  SurgeryType::getDurationMin() const
+int SurgeryType::getMaxNumOfSurgeons() const
+{
+	return maxNumOfSurgeons;
+}
+int SurgeryType::getDurationMin() const
 {
 	return durationMin;
 }
 
-void  SurgeryType::setDurationMin(int durationMin)
+void SurgeryType::setDurationMin(int durationMin)
 {
 	this->durationMin= durationMin;
 }
-
-float  SurgeryType::getPrecentageOfSuccess() const
+void SurgeryType::setName(const string& name)
 {
-	return precentageOfSuccess;
+	//delete[] name;
+	this->name = name;
 }
-
-void  SurgeryType::setPrecentageOfSuccess(float precentageOfSuccess)
+void SurgeryType::setPrecentageOfSuccess(float precentageOfSuccess)
 {
 	this->precentageOfSuccess = precentageOfSuccess;
 }
-
-int  SurgeryType::getMaxNumOfSurgeons() const
-{
-	return maxNumOfSurgeons;
-}
-
-void  SurgeryType::setMaxNumOfSurgeons(int maxNumOfSurgeons)
+void SurgeryType::setMaxNumOfSurgeons(int maxNumOfSurgeons)
 {
 	this->maxNumOfSurgeons = maxNumOfSurgeons;
 }

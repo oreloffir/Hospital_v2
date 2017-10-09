@@ -20,7 +20,6 @@ HospitalManager::HospitalManager()
 	employees			= new Employee*[MAX_NUMBER_OF_EMPLOYEES];
 	employeeListeners	= new EmployeeListener*[MAX_NUMBER_OF_EMPLOYEE_LISTENERS];
 }
-
 HospitalManager::~HospitalManager()
 {
 	cout << "in HospitalManager::~HospitalManager()" << endl;
@@ -39,7 +38,6 @@ HospitalManager::~HospitalManager()
 	delete[] visits;
 	delete[] employeeListeners;
 }
-
 HospitalManager * HospitalManager::getInstance()
 {
 	if (instance == nullptr)
@@ -90,7 +88,7 @@ Surgeon* HospitalManager::getSurgeonById(int surgeonId) const
 			return dynamic_cast<Surgeon*>(employees[i]);
 	return nullptr;
 }
-Department* HospitalManager::getDepartmentByName(const string departmentName) const
+Department* HospitalManager::getDepartmentByName(const string& departmentName) const
 {
 	for (int i = 0; i < currectNumOfDepartments; i++)
 		if (departments[i]->getName().compare(departmentName) == 0)
@@ -106,7 +104,7 @@ Patient* HospitalManager::getPatientById(int patientId) const
 }
 
 /*Department functions*/
-const Department& HospitalManager::createDepartment(const string departmentName)
+const Department& HospitalManager::createDepartment(const string& departmentName)
 {
 	//if (departmentName.empty()) // TODO throw exception
 	
@@ -116,7 +114,7 @@ const Department& HospitalManager::createDepartment(const string departmentName)
 	++currectNumOfDepartments;
 	return *departments[currectNumOfDepartments - 1];
 }
-const Department* HospitalManager::getConstDepartmentByName(const string departmentName) const
+const Department* HospitalManager::getConstDepartmentByName(const string& departmentName) const
 {
 	return getDepartmentByName(departmentName);
 }
@@ -154,7 +152,7 @@ void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, con
 }
 
 /*Patient functions*/
-const Patient& HospitalManager::createPatient(int id, const string name, const string dateOfBirth, Person::eGender gender)
+const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender)
 {
 	patients[currentNumOfPatients] = new Patient(id, name, dateOfBirth, gender);
 	++currentNumOfPatients;
@@ -164,7 +162,7 @@ const Patient* HospitalManager::getConstPatientById(int patientId) const
 {
 	return getPatientById(patientId);
 }
-bool HospitalManager::addAllergieToPatient(int patientId, const string allergieName) const
+bool HospitalManager::addAllergieToPatient(int patientId, const string& allergieName)
 {
 	for (int i = 0; i < currentNumOfPatients; i++)
 		if (patients[i]->getId() == patientId)
@@ -194,7 +192,7 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 	return getEmployeeById(employeeId);
 }
 /*Doctor functions*/
-const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string fieldOfExpertise, int numOfDiplomas)
+const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas)
 {
 	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
@@ -242,14 +240,14 @@ const Nurse* HospitalManager::getConstNurseById(int id) const
 {
 	return getNurseById(id);
 }
-void HospitalManager::addDuty(int id, const string duty)
+void HospitalManager::addDuty(int id, const string& duty)
 {
 	Nurse* nurse = getNurseById(id);
 	if (nurse == nullptr)
 		return;
 	nurse->addDuty(duty);
 }
-void HospitalManager::removeDuty(int id, const string duty)
+void HospitalManager::removeDuty(int id, const string& duty)
 {
 	Nurse* nurse = getNurseById(id);
 	if (nurse == nullptr)
@@ -261,7 +259,7 @@ int HospitalManager::getCurrentNumOfNurses() const
 	return currentNumOfNurses;
 }
 /*Researcher functions*/
-const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string areaOfResearch)
+const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch)
 {
 	Researcher* researcher = new Researcher(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
@@ -277,7 +275,7 @@ const Researcher* HospitalManager::getConstResearcherById(int id) const
 {
 	return getResercherById(id);
 }
-bool HospitalManager::addPublicationToResearcher(int researcherId, const string publicationName) const
+bool HospitalManager::addPublicationToResearcher(int researcherId, const string& publicationName)
 {
 	Researcher* researcher = getResercherById(researcherId);
 	if (researcher == nullptr)
@@ -333,7 +331,7 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 	return currentNumOfSurgeons;
 }
 /*Researching Doctor functions*/
-const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string areaOfResearch, int maxNumOfTestSubjects)
+const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects)
 {
 	int doctorIndx;
 
@@ -437,7 +435,7 @@ const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo,
 	return *(Surgery*)visits[currentNumOfVisits - 1];
 }
 /*Inspection functions*/
-const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string typeOfInspection)
+const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection)
 {
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
 	visits[currentNumOfVisits] = inspection;

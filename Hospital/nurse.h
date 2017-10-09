@@ -19,14 +19,14 @@ public:
 	const LinkedList<string>& getDuties() const;
 	int getCurrentNumOfDuties()    const;
 
-	void addDuty(const string duty);
-	void removeDuty(const string duty);
+	void addDuty(const string& duty);
+	void removeDuty(const string& duty);
 
 	void work() const override;
 	virtual void toOs(std::ostream& os) const override;
 
-	void operator+=(const string duty);
-	void operator-=(const string duty);
+	void operator+=(const string& duty);
+	void operator-=(const string& duty);
 
 private:
 	LinkedList<string> dutiesList;

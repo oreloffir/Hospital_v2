@@ -1,14 +1,5 @@
 #include "HospitalController.h"
 
-HospitalController::HospitalController()
-{
-	this->inputBuffer		= new char[MAX_STRING_SIZE];
-}
-HospitalController::~HospitalController()
-{
-	delete[] inputBuffer;
-}
-
 void HospitalController::run() const
 {
 	cout << "Welcome to Hospital Managment system" << endl;
@@ -387,7 +378,6 @@ const Doctor* HospitalController::createDoctor(bool showSelectMenu) const
 	const Doctor& doctor = HospitalManager::getInstance()->createDoctor(employeeInfo, fieldOfExpertise, numOfDiplomas);
 
 	cout << "New doctor was created" << endl;
-	deleteEmployeeInfo(&employeeInfo);
 
 	if(showSelectMenu)
 		selectDoctor(doctor.getEmployeeId());
@@ -407,7 +397,6 @@ const Nurse* HospitalController::createNurse(bool showSelectMenu) const
 	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo, maxNumOfDuties);
 
 	cout << "New nurse was created" << endl;
-	deleteEmployeeInfo(&employeeInfo);
 
 	if(showSelectMenu)
 		selectNurse(nurse.getEmployeeId());
@@ -427,7 +416,6 @@ const Researcher* HospitalController::createResearcher(bool showSelectMenu) cons
 	const Researcher& researcher = HospitalManager::getInstance()->createResearcher(employeeInfo, areaOfResearch);
 
 	cout << "New researcher was created" << endl;
-	deleteEmployeeInfo(&employeeInfo);
 
 	if(showSelectMenu)
 		selectResearcher(researcher.getEmployeeId());
@@ -500,7 +488,6 @@ const Surgery* HospitalController::createSurgery(const Patient& patient, bool sh
 	const Surgery& surgery = HospitalManager::getInstance()->createSurgery(visitInfo, type, numOfSurgeons);
 
 	delete type;
-	deleteVisitInfo(visitInfo);
 
 	if (showSelectMenu)
 		selectVisit(surgery.getVisitId());
@@ -514,8 +501,6 @@ const Inspection* HospitalController::createInspection(const Patient& patient, b
 	string typeOfInspection = getStringFromUser();
 
 	const Inspection& inspection = HospitalManager::getInstance()->createInspection(visitInfo, typeOfInspection);
-
-	deleteVisitInfo(visitInfo);
 
 	if (showSelectMenu)
 		selectVisit(inspection.getVisitId());
@@ -546,7 +531,7 @@ Employee::employeeInfo HospitalController::createEmployeeInfo() const
 
 	return employee;
 }
-Visit::VisitInfo& HospitalController::createVisitInfo(const Patient& patient) const
+Visit::VisitInfo HospitalController::createVisitInfo(const Patient& patient) const
 {
 	const Department* department = nullptr;
 	
@@ -566,20 +551,6 @@ Visit::VisitInfo& HospitalController::createVisitInfo(const Patient& patient) co
 	visitInfo.typeOfCare = typeOfCare;
 
 	return visitInfo;
-}
-void HospitalController::deleteEmployeeInfo(Employee::employeeInfo* employeeInfo) const
-{
-	/* TODO
-	delete[] employeeInfo->name;
-	delete[] employeeInfo->dateOfBirth;
-	delete[] employeeInfo->startWorkingDate;
-	delete[] employeeInfo->areaOfTraining;
-	*/
-}
-void HospitalController::deleteVisitInfo(Visit::VisitInfo visitInfo) const
-{
-	//delete[] visitInfo.cause;
-	//delete[] visitInfo.date;
 }
 
 /* Selectors */
@@ -763,10 +734,8 @@ void HospitalController::selectNurse(int nurseId) const
 void HospitalController::selectResearcher(int researcherId) const
 {
 	const Researcher* researcher = getResearcherFromUser(researcherId);
-	const string const* names;
+	const string* names;
 	cout << (Person&)*researcher << endl;
-
-	string publicationName;
 
 	while (true)
 	{
@@ -797,8 +766,7 @@ void HospitalController::selectResearcher(int researcherId) const
 			break;
 		case RESEARCHER_ADD_PUBLICATION:
 			cout << "Please insert a publication name: ";
-			publicationName = getStringFromUser();
-			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), publicationName);
+			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), getStringFromUser());
 			break;
 		default:
 			return;
@@ -866,8 +834,6 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 	const ResearchingDoctor* researchingDoctor = getResearchingDoctorFromUser(researchingDoctorId);
 	const Patient* const* testSubjects;
 	cout << (Person&)*researchingDoctor << endl;
-
-	string publicationName = nullptr;
 
 	while (true)
 	{
@@ -1225,7 +1191,7 @@ const Department* HospitalController::getDepartmentFromUser(const string departm
 		while (invalidDepartmentName)
 		{
 			cout << "Please enter department name (or " << HELP << " to print all departments): ";
-			getStringFromUser(inputDepartmentName);
+			inputDepartmentName = getStringFromUser();
 			if (inputDepartmentName.compare("-999") == 0)
 				printAllDepartments();
 			department = HospitalManager::getInstance()->getConstDepartmentByName(inputDepartmentName);
@@ -1282,7 +1248,7 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 			printAllEmployees();
 		else {
 			employee = HospitalManager::getInstance()->getConstEmployeeById(inputEmployeeId);
-			if (strcmp(typeid(*employee).name(), employeeClass) != 0)
+			if (employee!= nullptr && strcmp(typeid(*employee).name(), employeeClass) != 0)
 				employee = nullptr;
 		}
 			
@@ -1308,85 +1274,51 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 * A general function to get a string input from user
 * @return char*
 */
-string HospitalController::getStringFromUser(string& outputBuffer) const
+string HospitalController::getStringFromUser() const
 {
-	string& buffer = outputBuffer;
+	string buffer;
 	bool validString = true;
-	
-	/*// allocate new inputBuffer
-	if(buffer.empty())
-		string buffer;
-		*/
 
-	do
-	{
-		getline(cin, buffer);
-		validString = validateString(buffer);
-		if (!validString)
-			cout << HospitalController::INVALID_INPUT << endl;
-	} while (!validString);
+	cin >> buffer;
 		
-	return string(buffer);
+	return buffer;
 }
 int HospitalController::getIntegerFromUser(int minVal, int maxVal) const
 {
 	int result;
-	cin.getline(inputBuffer, MAX_STRING_SIZE);
-	result = atoi(inputBuffer);
-
-	while ((result < minVal || result > maxVal ) && result != HELP)
-	{
-		cout << HospitalController::INVALID_INPUT << endl;
-		cin.getline(inputBuffer, MAX_STRING_SIZE);
-		result = atoi(inputBuffer);
-	} 
+	string input;
+	bool invalidInput = false;
+	do{
+		cin >> input;
+		try
+		{
+			result = stoi(input);
+			invalidInput = false;
+		}
+		catch (...)
+		{
+			cout << HospitalController::INVALID_INPUT << endl;
+			invalidInput = true;
+		}
+	} while (invalidInput || (result < minVal || result > maxVal) && result != HELP);
 
 	return result;
 }
 double HospitalController::getDoubleFromUser(double minVal, double maxVal) const
 {
 	double result;
-	cin.getline(inputBuffer, MAX_STRING_SIZE);
-	result = atoi(inputBuffer);
+	string input;
+	cin >> input;
+	result = stod(input);
 
 	while ((result < minVal || result > maxVal) && result != HELP)
 	{
 		cout << HospitalController::INVALID_INPUT << endl;
-		cin.getline(inputBuffer, MAX_STRING_SIZE);
-		result = atof(inputBuffer);
+		cin >> input;
+		result = stod(input);
 	}
 
 	return result;
 }
-bool HospitalController::validateString(const string& str) const 
-{
-	if (str.empty())
-		return false;
-	return true;
-
-	/*
-	int size = static_cast<int>(str.size());
-	string temp; // TODO = new char[size + 1];
-	string cpy = temp;
-
-	int i = 0;
-	while (str.at[i]) 
-	{
-		if (str.at[i] == ' ')
-			i++;
-		else 
-			cpy.at[i] = str.at[i];
-
-		i++;
-	}
-	cpy.at[i] = '\0';
-
-	if (temp.size() == 0)
-		return false;
-
-	return true;
-	*/
-}
-
-const string HospitalController::PRESS_TO_GO_BACK	= "Press any other key to go back to previous menu.";
+const string HospitalController::PRESS_TO_GO_BACK	= "Press any other number to go back to previous menu.";
 const string HospitalController::INVALID_INPUT		= "Invalid Input.";

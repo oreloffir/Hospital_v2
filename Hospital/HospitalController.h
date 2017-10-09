@@ -9,8 +9,7 @@ using namespace std;
 class HospitalController
 {
 public:
-	HospitalController();
-	~HospitalController();
+	HospitalController() {};
 	HospitalController(const HospitalController& other)				= delete;
 	HospitalController& operator=(const HospitalController& other)	= delete;
 
@@ -50,12 +49,9 @@ public:
 	const Researcher* createResearcher(bool showSelectMenu = true)									const;
 	const Surgeon* createSurgeon(int doctorId = 0, bool showSelectMenu = true)						const;
 	const ResearchingDoctor* createResearchingDoctor(int doctorId = 0, bool showSelectMenu = true)	const;
-	Visit::VisitInfo& HospitalController::createVisitInfo(const Patient& patient)					const;
+	Visit::VisitInfo HospitalController::createVisitInfo(const Patient& patient)					const;
 	const Surgery* createSurgery(const Patient& patient, bool showSelectMenu = true)				const;
 	const Inspection* createInspection(const Patient& patient, bool showSelectMenu = true)			const;
-
-	void deleteEmployeeInfo(Employee::employeeInfo* employeeInfo) 									const;
-	void HospitalController::deleteVisitInfo(Visit::VisitInfo visitInfo)							const;
 
 	/* Selectors */
 	void selectDepartment(const string departmentName = string())	const;
@@ -84,14 +80,13 @@ public:
 	const Surgeon* getSurgeonFromUser(int surgeonId = 0)															const;
 	const ResearchingDoctor* getResearchingDoctorFromUser(int researchingDoctorId = 0)								const;
 	const CareGivingEmployee* getCareGivingEmployeeFromUser(int careGivingEmployeeId = 0)							const;
-	const Department* getDepartmentFromUser(const string departmentName = "")										const;
+	const Department* getDepartmentFromUser(const string departmentName = string())									const;
 	const Surgery* getSurgeryFromUser(int surgeryId = 0)															const;
 
 	/* general functions */
-	string getStringFromUser(string& outputBuffer = string()) const;
+	string getStringFromUser() const;
 	int getIntegerFromUser(int minVal = INT_MIN, int maxVal = INT_MAX) const;
 	double getDoubleFromUser(double minVal = DBL_MIN, double maxVal = DBL_MAX) const;
-	bool validateString(const string& str) const;
 
 	static constexpr int CREATE_OPTION	= 1;
 	static constexpr int SELECT_OPTION	= 2;
@@ -173,8 +168,6 @@ public:
 
 	static const string PRESS_TO_GO_BACK;
 	static const string INVALID_INPUT;
-private:
-	char* inputBuffer;
 };
 
 #endif
