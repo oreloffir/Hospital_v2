@@ -24,7 +24,7 @@ public:
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
 	static constexpr int MAX_NUMBER_OF_VISITS		= 500;
     Department(const string& name);
-
+	Department(const Department& other) = delete;
     ~Department();
 
     Department& operator=(const Department& other) = delete;

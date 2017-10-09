@@ -675,6 +675,8 @@ void HospitalController::selectPatient(int patientId) const
 void HospitalController::selectDoctor(int doctorId) const
 {
 	const Doctor* doctor = getDoctorFromUser(doctorId);
+	if (doctor == nullptr)
+		return;
 
 	cout << (Person&)*doctor << endl;
 
@@ -699,6 +701,9 @@ void HospitalController::selectDoctor(int doctorId) const
 void HospitalController::selectNurse(int nurseId) const
 {
 	const Nurse* nurse = getNurseFromUser(nurseId);
+	if (nurse == nullptr)
+		return;
+
 	const LinkedList<string>* duties;
 	cout << (Person&)*nurse << endl;
 
@@ -734,6 +739,9 @@ void HospitalController::selectNurse(int nurseId) const
 void HospitalController::selectResearcher(int researcherId) const
 {
 	const Researcher* researcher = getResearcherFromUser(researcherId);
+	if (researcher == nullptr)
+		return;
+
 	const string* names;
 	cout << (Person&)*researcher << endl;
 
@@ -777,6 +785,9 @@ void HospitalController::selectResearcher(int researcherId) const
 void HospitalController::selectSurgeon(int surgeonId) const
 {
 	const Surgeon* surgeon = getSurgeonFromUser(surgeonId);
+	if (surgeon == nullptr)
+		return;
+
 	if (surgeon == nullptr)
 	{
 		cout << "================= Invalid surgeon id =================" << endl;
@@ -832,6 +843,9 @@ void HospitalController::selectSurgeon(int surgeonId) const
 void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 {
 	const ResearchingDoctor* researchingDoctor = getResearchingDoctorFromUser(researchingDoctorId);
+	if (researchingDoctor == nullptr)
+		return;
+
 	const Patient* const* testSubjects;
 	cout << (Person&)*researchingDoctor << endl;
 

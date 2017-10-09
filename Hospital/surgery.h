@@ -15,6 +15,7 @@ public:
     
     //ctors
     Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int numOfSurgeons = 1);
+	~Surgery();
     //getters
     const SurgeryType* getSurgeryType() const;
 	const string& getSurgeryKindName()	const;

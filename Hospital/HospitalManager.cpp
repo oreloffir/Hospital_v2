@@ -104,10 +104,11 @@ Patient* HospitalManager::getPatientById(int patientId) const
 }
 
 /*Department functions*/
-const Department& HospitalManager::createDepartment(const string& departmentName)
+const Department& HospitalManager::createDepartment(const string& departmentName) throw(char*)
 {
-	//if (departmentName.empty()) // TODO throw exception
-	
+	if (currectNumOfDepartments == MAX_NUMBER_OF_DEPARTMENTS)
+		throw "";
+
 	Department* department = new Department(departmentName);
 	departments[currectNumOfDepartments] = department;
 	addEmployeeListener(department);
@@ -154,6 +155,8 @@ void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, con
 /*Patient functions*/
 const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender)
 {
+	if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS)
+		return;
 	patients[currentNumOfPatients] = new Patient(id, name, dateOfBirth, gender);
 	++currentNumOfPatients;
 	return *patients[currentNumOfPatients - 1];
@@ -194,6 +197,8 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 /*Doctor functions*/
 const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas)
 {
+	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
+		return;
 	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
@@ -224,6 +229,8 @@ int HospitalManager::getCurrentNumOfDoctors() const
 /*Nurse functions*/
 const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties)
 {
+	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
+		return;
 	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
@@ -261,6 +268,8 @@ int HospitalManager::getCurrentNumOfNurses() const
 /*Researcher functions*/
 const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch)
 {
+	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
+		return;
 	Researcher* researcher = new Researcher(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears, areaOfResearch);
@@ -333,6 +342,9 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 /*Researching Doctor functions*/
 const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects)
 {
+	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
+		return;
+
 	int doctorIndx;
 
 	Researcher* researcher = new Researcher(*doctor, areaOfResearch);
@@ -423,6 +435,8 @@ int HospitalManager::getCurrectNumOfVisits() const
 /*Surgery functions*/
 const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons)
 {
+	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
+		return;
 	Surgery* surgery = new Surgery(visitInfo, *type, numOfSurgeons);
 	visits[currentNumOfVisits] = surgery;
 	addEmployeeListener(surgery);
@@ -437,6 +451,8 @@ const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo,
 /*Inspection functions*/
 const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection)
 {
+	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
+		return;
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
 	visits[currentNumOfVisits] = inspection;
 	addEmployeeListener(inspection);

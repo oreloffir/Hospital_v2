@@ -25,7 +25,6 @@ Employee::Employee(const Employee& other)
 	std::cout << "In Employee::Employee(copy)" << "---->" << this->name << std::endl;
 	*this = other;
 }
-
 const Employee& Employee::operator=(const Employee& other)
 {
 	std::cout << "In Employee::operator=" << std::endl;
@@ -47,7 +46,6 @@ const Employee& Employee::operator=(const Employee& other)
 	}
 	return *this;
 }
-
 Employee::~Employee()
 {
 	std::cout << "In Employee::~Employee" << "---->" << this->name << std::endl;
@@ -60,27 +58,22 @@ int Employee::getEmployeeId() const
 {
 	return this->employeeId;
 }
-
 const Department* const* Employee::getDepartments() const
 {
 	return this->departments;
 }
-
 const string& Employee::getStartWorkingDate() const
 {
 	return this->startWorkingDate;
 }
-
 Employee::eRank Employee::getEmployeeRank() const
 {
 	return this->employeeRank;
 }
-
 float Employee::getSeniorityYears() const
 {
 	return this->seniorityYears;
 }
-
 double Employee::getSalary() const
 {
 	return this->salary;
@@ -96,17 +89,14 @@ void Employee::setSalary(double salary)
 {
 	this->salary = salary;
 }
-
 void Employee::updateSenorityYear(float senorityYears)
 {
 	this->seniorityYears = senorityYears;
 }
-
 const string& Employee::getAreaOfTraining() const
 {
 	return areaOfTraining;
 }
-
 void Employee::addDepartment(const Department* department)
 {
 	if (department == nullptr)
@@ -117,7 +107,6 @@ void Employee::addDepartment(const Department* department)
 	departments[numberOfDepatments] = department;
 	++numberOfDepatments;
 }
-
 void Employee::removeDepartment(const string& departmentName)
 {
 	int pos = -1;

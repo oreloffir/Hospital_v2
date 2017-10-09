@@ -19,6 +19,10 @@ Surgery::Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int 
 	else if (precentageOfSuccess < 100.0)
 		kind = EASY;
 }
+Surgery::~Surgery()
+{
+	cout << "In Surgery::~Surgery (type=" << type.getName() << ")" << endl;
+}
 
 const SurgeryType* Surgery::getSurgeryType() const
 {
