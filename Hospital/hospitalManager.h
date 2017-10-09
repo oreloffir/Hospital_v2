@@ -56,9 +56,11 @@ public:
 	static constexpr int MAX_NUMBER_OF_VISITS = 4000;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES = 500;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS = 1000;
+
+	static const char* ARRAY_MAX_SIZE;
 	
 	/* Department managment */
-	const Department& createDepartment(const string& departmentName);
+	const Department& createDepartment(const string& departmentName) throw(const char*);
 	const Department* getConstDepartmentByName(const string& departmentName) const;
 	const Department* const* getAllDepartments() const;
 	int getCurrectNumOfDepartments() const;
@@ -68,15 +70,15 @@ public:
 	void removeEmployeeFromDepartment(const Employee* employee, const Department* department);
 
 	/* Patient Managment */
-	const Patient& createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender);
+	const Patient& createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*);
 	const Patient* getConstPatientById(int patientId) const;
 	const Patient* const* getAllPatients() const;
 	int getCurrectNumOfPatients() const;
 	bool addAllergieToPatient(int patientId, const string& allergieName);
 
 	/* Visit Managment */
-	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection);
-	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1);
+	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*);
+	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1) throw(const char*);
 	const Visit* getConstVisitById(int id) const;
 	const Visit* const* getAllVisits() const;
 	int getCurrectNumOfVisits() const;
@@ -89,28 +91,28 @@ public:
 	int getCurrectNumOfEmployees() const;
 	const Employee* getConstEmployeeById(int employeeId) const;
 	/*Doctor*/
-	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas = 0);
+	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas = 0) throw(const char*);
 	const Doctor* getConstDoctorById(int id) const;
 	void addDiplomaToDoctor(int id);
 	int getCurrentNumOfDoctors() const;
 	/*Nurse*/
-	const Nurse& createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties);
+	const Nurse& createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties) throw(const char*);
 	const Nurse* getConstNurseById(int id) const;
 	void addDuty(int id, const string& duty);
 	void removeDuty(int id, const string& duty);
 	int getCurrentNumOfNurses() const;
 	/*Researcher*/
-	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch);
+	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*);
 	const Researcher* getConstResearcherById(int id) const;
 	bool addPublicationToResearcher(int researcherId, const string& publicationName);
 	int getCurrentNumOfResearchers() const;
 	/*Surgeon*/
-	const Surgeon& createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0);
+	const Surgeon& createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0) throw(const char*);
 	const Surgeon* getConstSurgeonById(int id) const;
 	bool performSurgery(const Surgeon* surgeon, const Surgery* surgery) const;
 	int getCurrentNumOfSurgeons() const;
 	/*Researching doctor*/
-	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor,const string& areaOfResearch, int maxNumOfTestSubjects = 0);
+	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor,const string& areaOfResearch, int maxNumOfTestSubjects = 0) throw(const char*);
 	const ResearchingDoctor* getConstResearchingDoctorById(int id) const;
 	void addTestSubjectToRD(int researcherId, const Patient* testSubject) const;
 	void removeTestSubjectToRD(int researcherId, const Patient* testSubject) const;

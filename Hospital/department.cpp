@@ -13,16 +13,11 @@ Department::Department(const string& name)
 	currentNumOfPatients	= 0;
 	currentNumOfEmployees	= 0;
 	currentNumOfVisits		= 0;
-	allPatients	 = new const Patient*[MAX_NUMBER_OF_PATIENTS];
-	allEmployees = new const Employee*[MAX_NUMBER_OF_EMPLOYEES];
-	allVisits	 = new const Visit*[MAX_NUMBER_OF_VISITS];
 }
 
 Department::~Department()
 {
 	cout << "In Department::~Department (name=" << name << ")" << endl;
-	delete[] allPatients;
-	delete[] allEmployees;
 }
 
 const string& Department::getName() const
@@ -41,44 +36,53 @@ int Department::getCurrentNumOfVisits() const
 {
 	return currentNumOfVisits;
 }
-const Patient* const* Department::getAllPatients() const
+const vector<const Patient*> Department::getAllPatients() const
 {
 	return allPatients;
 }
-const Visit* const* Department::getAllVisits() const
+const vector<const Visit*> Department::getAllVisits() const
 {
 	return allVisits;
 }
-const Employee* const* Department::getAllEmployees() const
+const vector<const Employee*> Department::getAllEmployees() const
 {
 	return allEmployees;
 }
 const Patient* Department::getPatientById(int id) const
 {
-	for (int i = 0; i < currentNumOfPatients; i++)
-		if (allPatients[i]->getId() == id)
-			return allPatients[i];
+	vector<const Patient*>::const_iterator itr = allPatients.begin();
+	vector<const Patient*>::const_iterator itrEnd = allPatients.end();
+	for ( ; itr != itrEnd && *itr != NULL; itr++ )
+		if ((*itr)->getId() == id )
+			return *itr;
 	return nullptr;
 }
 const Visit* Department::getVisitById(int id) const
 {
-	for (int i = 0; i < currentNumOfVisits; i++)
-		if (allVisits[i]->getVisitId() == id)
-			return allVisits[i];
+	vector<const Visit*>::const_iterator itr = allVisits.begin();
+	vector<const Visit*>::const_iterator itrEnd = allVisits.end();
+	for (; itr != itrEnd && *itr != NULL; itr++)
+		if ((*itr)->getVisitId() == id)
+			return *itr;
 	return nullptr;
+	
 }
 const Employee* Department::getEmployeeById(int id) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
-		if (allEmployees[i]->getId() == id)
-			return allEmployees[i];
+	vector<const Employee*>::const_iterator itr = allEmployees.begin();
+	vector<const Employee*>::const_iterator itrEnd = allEmployees.end();
+	for (; itr != itrEnd && *itr != NULL ; itr++)
+		if ((*itr)->getId() == id)
+			return *itr;
 	return nullptr;
 }
 const Employee* Department::getEmployeeByEmployeeId(int employeeId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
-		if (allEmployees[i]->getEmployeeId() == employeeId)
-			return allEmployees[i];
+	vector<const Employee*>::const_iterator itr = allEmployees.begin();
+	vector<const Employee*>::const_iterator itrEnd = allEmployees.end();
+	for (; itr != itrEnd; itr++)
+		if ((*itr)->getEmployeeId() == employeeId)
+			return *itr;
 	return nullptr;
 }
 
@@ -91,28 +95,33 @@ void Department::addPatient(const Patient* newPatient)
 	// check if we have pointer to this employee already (by Id)
 	if (getPatientById(newPatient->getId()) != nullptr)
 		return;
-	if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS) return; // TODO: throw exception
-	allPatients[currentNumOfPatients] = newPatient;
+
+	allPatients.push_back(newPatient);
 	++currentNumOfPatients;
+	/*if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS) return; // TODO: throw exception
+	allPatients[currentNumOfPatients] = newPatient;*/
+	
 }
 void Department::addEmployee(const Employee* newEmployee)
 {
 	// check if we have pointer to this employee already (by Id)
 	if (getEmployeeById(newEmployee->getId()) != nullptr)
 		return;
-	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES) return; // TODO: throw exception
-	allEmployees[currentNumOfEmployees] = newEmployee;
+	allEmployees.push_back(newEmployee);
 	++currentNumOfEmployees;
 }
 void Department::removePatientById(int id)
 {
 	int pos = -1;
-	for (int i = 0; i < currentNumOfPatients; i++)
-		if (allPatients[i]->getId() == id)
+	vector<const Patient*>::const_iterator itr = allPatients.begin();
+	vector<const Patient*>::const_iterator itrEnd = allPatients.end();
+	for (int i=0 ; itr != itrEnd ; itr++, i++)
+		if ((*itr)->getId() == id)
 		{
 			pos = i;
 			break;
 		}
+	
 	if (pos < 0) return;
 	if (pos == currentNumOfPatients - 1)
 	{
@@ -120,19 +129,24 @@ void Department::removePatientById(int id)
 		--currentNumOfPatients;
 		return;
 	}
-	for (int i = pos; i < currentNumOfPatients && i < MAX_NUMBER_OF_PATIENTS - 1; i++)
+	if (allPatients.capacity() <= currentNumOfPatients)
+		allPatients.resize(currentNumOfPatients * 2);
+	for (int i = pos; i < currentNumOfPatients ; i++)
 		allPatients[i] = allPatients[i + 1];
 	--currentNumOfPatients;
 }
 void Department::removeEmployeeById(int employeeId)
 {
 	int pos = -1;
-	for (int i = 0; i < currentNumOfEmployees; i++)
-		if (allEmployees[i]->getEmployeeId() == employeeId)
+	vector<const Employee*>::const_iterator itr = allEmployees.begin();
+	vector<const Employee*>::const_iterator itrEnd = allEmployees.end();
+	for (int i = 0; itr != itrEnd; itr++, i++)
+		if ((*itr)->getEmployeeId() == employeeId)
 		{
 			pos = i;
 			break;
 		}
+		
 	if (pos < 0) return;
 	if (pos == currentNumOfEmployees - 1)
 	{
@@ -140,7 +154,9 @@ void Department::removeEmployeeById(int employeeId)
 		--currentNumOfEmployees;
 		return;
 	}
-	for (int i = pos; i < currentNumOfEmployees && i < MAX_NUMBER_OF_EMPLOYEES - 1; i++)
+	if (allEmployees.capacity() <= currentNumOfEmployees)
+		allEmployees.resize(currentNumOfEmployees * 2);
+	for (int i = pos; i < currentNumOfEmployees ; i++) 
 		allEmployees[i] = allEmployees[i + 1];
 	--currentNumOfEmployees;
 }
@@ -149,19 +165,22 @@ void Department::addVisit(const Visit* visit)
 	// check if we have pointer to this employee already (by Id)
 	if (getVisitById(visit->getVisitId()) != nullptr)
 		return;
-	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS) return; // TODO: throw exception
-	allVisits[currentNumOfVisits] = visit;
+	allVisits.push_back(visit);
 	++currentNumOfVisits;
 }
 void Department::removeVisitById(int visitId)
 {
 	int pos = -1;
-	for (int i = 0; i < this->currentNumOfVisits; i++)
-		if (visitId == allVisits[i]->getVisitId())
+	vector<const Visit*>::const_iterator itr = allVisits.begin();
+	vector<const Visit*>::const_iterator itrEnd = allVisits.end();
+	for (int i = 0; itr != itrEnd; itr++, i++)
+		if ((*itr)->getVisitId() == visitId)
 		{
 			pos = i;
 			break;
 		}
+
+	
 	if (pos < 0) return;
 	if (pos == MAX_NUMBER_OF_VISITS - 1)
 	{
@@ -169,7 +188,9 @@ void Department::removeVisitById(int visitId)
 		--currentNumOfVisits;
 		return;
 	}
-	for (int i = pos; i < this->currentNumOfVisits && i < MAX_NUMBER_OF_VISITS - 1; i++)
+	if (allVisits.capacity() <= currentNumOfVisits)
+		allVisits.resize(currentNumOfVisits * 2);
+	for (int i = pos; i < this->currentNumOfVisits ; i++)
 		allVisits[i] = allVisits[i + 1];
 
 	--currentNumOfVisits;

@@ -104,10 +104,10 @@ Patient* HospitalManager::getPatientById(int patientId) const
 }
 
 /*Department functions*/
-const Department& HospitalManager::createDepartment(const string& departmentName) throw(char*)
+const Department& HospitalManager::createDepartment(const string& departmentName) throw(const char*)
 {
 	if (currectNumOfDepartments == MAX_NUMBER_OF_DEPARTMENTS)
-		throw "";
+		throw ARRAY_MAX_SIZE;
 
 	Department* department = new Department(departmentName);
 	departments[currectNumOfDepartments] = department;
@@ -153,10 +153,10 @@ void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, con
 }
 
 /*Patient functions*/
-const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender)
+const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*)
 {
 	if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS)
-		return;
+		throw ARRAY_MAX_SIZE;
 	patients[currentNumOfPatients] = new Patient(id, name, dateOfBirth, gender);
 	++currentNumOfPatients;
 	return *patients[currentNumOfPatients - 1];
@@ -195,10 +195,10 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 	return getEmployeeById(employeeId);
 }
 /*Doctor functions*/
-const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas)
+const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		return;
+		throw ARRAY_MAX_SIZE;
 	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
@@ -227,10 +227,10 @@ int HospitalManager::getCurrentNumOfDoctors() const
 	return currentNumOfDoctors;
 }
 /*Nurse functions*/
-const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties)
+const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		return;
+		throw ARRAY_MAX_SIZE;
 	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
@@ -266,10 +266,10 @@ int HospitalManager::getCurrentNumOfNurses() const
 	return currentNumOfNurses;
 }
 /*Researcher functions*/
-const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch)
+const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		return;
+		throw ARRAY_MAX_SIZE;
 	Researcher* researcher = new Researcher(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
 		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
 		employeeInfo.areaOfTraining, employeeInfo.seniorityYears, areaOfResearch);
@@ -340,10 +340,10 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 	return currentNumOfSurgeons;
 }
 /*Researching Doctor functions*/
-const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects)
+const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		return;
+		throw ARRAY_MAX_SIZE;
 
 	int doctorIndx;
 
@@ -433,10 +433,10 @@ int HospitalManager::getCurrectNumOfVisits() const
 	return currentNumOfVisits;
 }
 /*Surgery functions*/
-const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons)
+const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons) throw(const char*)
 {
 	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
-		return;
+		throw ARRAY_MAX_SIZE;
 	Surgery* surgery = new Surgery(visitInfo, *type, numOfSurgeons);
 	visits[currentNumOfVisits] = surgery;
 	addEmployeeListener(surgery);
@@ -449,10 +449,10 @@ const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo,
 	return *(Surgery*)visits[currentNumOfVisits - 1];
 }
 /*Inspection functions*/
-const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection)
+const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*)
 {
 	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
-		return;
+		throw ARRAY_MAX_SIZE;
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
 	visits[currentNumOfVisits] = inspection;
 	addEmployeeListener(inspection);
@@ -494,4 +494,5 @@ void HospitalManager::removeEmployeeListener(EmployeeListener * employeeListener
 	--currentNumOfEmployeeListeners;
 }
 
+const char* HospitalManager::ARRAY_MAX_SIZE = "Error: Maximum array size exceeded.";
 HospitalManager* HospitalManager::instance = nullptr;

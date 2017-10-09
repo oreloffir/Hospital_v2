@@ -568,9 +568,9 @@ void HospitalController::selectDepartment(const string departmentName) const
 
 	const Patient* patient;
 	const Employee* employee;
-	const Patient* const* patients;
-	const Employee* const* employees;
-	const Visit* const* visits;
+	vector<Patient const*> patients;
+	vector<Employee const*> employees;
+	vector<Visit const*> visits;
 	int amount;
 
 	while (true)
@@ -612,7 +612,7 @@ void HospitalController::selectDepartment(const string departmentName) const
 				cout << "No patients found." << endl;
 			else
 				for (int i = 0; i < amount; i++)
-					cout << *patients[i] << endl;
+					cout << *(patients[i]) << endl;
 			break;
 
 		case DEPARTMENT_PRINT_ALL_EMPLOYEES:

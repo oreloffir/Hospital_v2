@@ -2,6 +2,7 @@
 #define _DEPARTMENT_H
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 #include "EmployeeListener.h"
 
@@ -16,9 +17,9 @@ private:
     int currentNumOfPatients;
     int currentNumOfEmployees;
 	int currentNumOfVisits;
-    Patient const* * allPatients;
-    Employee const* * allEmployees;
-    Visit const* * allVisits;
+    vector<Patient const*> allPatients;
+	vector<Employee const*> allEmployees;
+	vector<Visit const*> allVisits;
 public:
 	static constexpr int MAX_NUMBER_OF_PATIENTS		= 200;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
@@ -41,9 +42,9 @@ public:
     int getCurrentNumOfPatients()							const;
     int getCurrentNumOfEmployees()							const;
 	int getCurrentNumOfVisits()								const;
-    const Employee* const* getAllEmployees()				const;
-	const Patient* const* getAllPatients()					const;
-	const Visit* const* getAllVisits()						const;
+	const vector<const Employee*> getAllEmployees()			const;
+	const vector<const Patient*> getAllPatients()			const;
+	const vector<const Visit*> getAllVisits()				const;
     const Patient* getPatientById(int id)					const;
     const Employee* getEmployeeByEmployeeId(int employeeId) const; // employee id
 	const Employee* getEmployeeById(int id)					const; // person id
