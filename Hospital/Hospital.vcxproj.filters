@@ -87,10 +87,10 @@
     <ClCompile Include="main.cpp">
       <Filter>App</Filter>
     </ClCompile>
-    <ClCompile Include="IEmployeeBuilder.cpp">
+    <ClCompile Include="DoctorBuilder.cpp">
       <Filter>Builders</Filter>
     </ClCompile>
-    <ClCompile Include="DoctorBuilder.cpp">
+    <ClCompile Include="IEmployeeBuilder.cpp">
       <Filter>Builders</Filter>
     </ClCompile>
     <ClCompile Include="NurseBuilder.cpp">
@@ -155,10 +155,10 @@
     <ClInclude Include="LinkedList.h">
       <Filter>Datasets</Filter>
     </ClInclude>
-    <ClInclude Include="IEmployeeBuilder.h">
+    <ClInclude Include="DoctorBuilder.h">
       <Filter>Builders</Filter>
     </ClInclude>
-    <ClInclude Include="DoctorBuilder.h">
+    <ClInclude Include="IEmployeeBuilder.h">
       <Filter>Builders</Filter>
     </ClInclude>
     <ClInclude Include="NurseBuilder.h">

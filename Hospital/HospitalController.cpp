@@ -1006,7 +1006,7 @@ void HospitalController::printAllPatients() const
 			cout << *allPatients[i] << endl;
 		}
 }
-void HospitalController::printAllEmployees(const string employeeType) const
+void HospitalController::printAllEmployees(const string employeeClass) const
 {
 	const Employee* const* allEmployees = HospitalManager::getInstance()->getAllEmployees();
 	int numberOfEmployees = HospitalManager::getInstance()->getCurrectNumOfEmployees();
@@ -1016,9 +1016,9 @@ void HospitalController::printAllEmployees(const string employeeType) const
 	else
 		for (int i = 0; i < numberOfEmployees; i++)
 		{
-			if(employeeClass != nullptr && strcmp(employeeClass, typeid(*allEmployees[i]).name()) == 0)
+			if(!employeeClass.empty() && employeeClass.compare(typeid(*allEmployees[i]).name()) == 0)
 				cout << *allEmployees[i] << endl;
-			else if(employeeClass == nullptr)
+			else if(employeeClass.empty())
 				cout << *allEmployees[i] << endl;
 		}
 }
