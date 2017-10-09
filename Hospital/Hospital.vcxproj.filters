@@ -28,6 +28,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{725b0bc5-7e73-4647-b08b-55b588da16d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Datasets">
+      <UniqueIdentifier>{72bbc6eb-5904-495b-928c-b8aeb6dc0187}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HospitalManager.cpp">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="EmployeeListener.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Datasets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
