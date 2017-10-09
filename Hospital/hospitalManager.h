@@ -55,11 +55,7 @@ public:
 	static constexpr int MAX_NUMBER_OF_PATIENTS = 1000;
 	static constexpr int MAX_NUMBER_OF_VISITS = 4000;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES = 500;
-	static constexpr int MAX_NUMBER_OF_DOCTORS = 150;
-	static constexpr int MAX_NUMBER_OF_NURSES = 350;
-	static constexpr int MAX_NUMBER_OF_RESEARCHERS = 300;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS = 1000;
-
 	
 	/* Department managment */
 	const Department& createDepartment(const string& departmentName);
