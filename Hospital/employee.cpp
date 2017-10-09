@@ -1,22 +1,21 @@
 #include "employee.h"
-#include <string.h>
-#include <iostream>
+
 
 int Employee::employeeIdGenerator = 1;
 
-Employee::Employee(int id, const char* name, const char* dateOfBirth, eGender gender,
-	const char* startWorkingDate, eRank employeeRank, double salary,
-	const char* areaOfTraining, float seniorityYears = 0)
+Employee::Employee(int id, const string name, const string dateOfBirth, eGender gender,
+	const string startWorkingDate, eRank employeeRank, double salary,
+	const string areaOfTraining, float seniorityYears = 0)
 	:Person(id, name, dateOfBirth, gender)
 {
 	std::cout << "In Employee::Employee" << "---->" << this->name << std::endl;
 	this->employeeId = Employee::employeeIdGenerator;
 	++Employee::employeeIdGenerator;
 	this->departments = new const Department*[Employee::MAX_NUMBER_OF_DEPATRMENTS];
-	this->startWorkingDate = _strdup(startWorkingDate);
+	this->startWorkingDate = startWorkingDate;
 	this->employeeRank = employeeRank;
 	this->salary = salary;
-	this->areaOfTraining = _strdup(areaOfTraining);
+	this->areaOfTraining = areaOfTraining;
 	this->seniorityYears = seniorityYears;
 	this->numberOfDepatments = 0;
 }
@@ -32,18 +31,18 @@ const Employee& Employee::operator=(const Employee& other)
 	std::cout << "In Employee::operator=" << std::endl;
 	if (this != &other)
 	{
-		delete[] areaOfTraining;
-		delete[] startWorkingDate;
+		//delete[] areaOfTraining; // TODO
+		//delete[] startWorkingDate;
 		delete[] departments;
 
 		employeeId = other.employeeId;
 		departments = new const Department*[MAX_NUMBER_OF_DEPATRMENTS];
 		for (int i = 0; i < numberOfDepatments; i++)
 			departments[i] = other.departments[i];
-		startWorkingDate = _strdup(other.startWorkingDate);
+		startWorkingDate = other.startWorkingDate;
 		employeeRank = other.employeeRank;
 		salary = other.salary;
-		areaOfTraining = _strdup(other.areaOfTraining);
+		areaOfTraining = other.areaOfTraining;
 		seniorityYears = other.seniorityYears;
 	}
 	return *this;
@@ -52,8 +51,8 @@ const Employee& Employee::operator=(const Employee& other)
 Employee::~Employee()
 {
 	std::cout << "In Employee::~Employee" << "---->" << this->name << std::endl;
-	delete[] areaOfTraining;
-	delete[] startWorkingDate;
+	//delete[] areaOfTraining; //TODO
+	//delete[] startWorkingDate;
 	delete[] departments;
 }
 
@@ -67,7 +66,7 @@ const Department* const* Employee::getDepartments() const
 	return this->departments;
 }
 
-const char* Employee::getStartWorkingDate() const
+const string Employee::getStartWorkingDate() const
 {
 	return this->startWorkingDate;
 }
@@ -103,7 +102,7 @@ void Employee::updateSenorityYear(float senorityYears)
 	this->seniorityYears = senorityYears;
 }
 
-const char* Employee::getAreaOfTraining() const
+const string Employee::getAreaOfTraining() const
 {
 	return areaOfTraining;
 }
@@ -119,11 +118,11 @@ void Employee::addDepartment(const Department* department)
 	++numberOfDepatments;
 }
 
-void Employee::removeDepartment(const char* departmentName)
+void Employee::removeDepartment(const string departmentName)
 {
 	int pos = -1;
 	for (int i = 0; i < this->numberOfDepatments; i++)
-		if (strcmp(departments[i]->getName(), departmentName) == 0)
+		if (departments[i]->getName().compare(departmentName) == 0)
 		{
 			pos = i;
 			break;

@@ -1,17 +1,15 @@
-#pragma once
 #include "visit.h"
-#include "careGivingEmployee.h"
 #include <iostream>
 using namespace std;
 
-Visit::Visit(const char* date, const char* cause, const Department* department, const Patient* patient, eCare typeOfCare)
+Visit::Visit(const string date, const string cause, const Department* department, const Patient* patient, eCare typeOfCare)
 	: department(department), patient(patient), typeOfCare(typeOfCare)
 {
 	cout << "In Visit::Visit (cause=" << cause << ")" << endl;
 	visitId = visitIdGenerator;
 	++visitIdGenerator;
-	this->date = _strdup(date);
-	this->cause = _strdup(cause);
+	this->date = date;
+	this->cause = cause;
 	seeingStaff = new const CareGivingEmployee*[MAX_NUM_OF_SEEING_STAFF];
 }
 
@@ -33,8 +31,8 @@ const Visit& Visit::operator=(const Visit& other)
 	{
 		this->free();
 		this->seeingStaff = new const CareGivingEmployee*[MAX_NUM_OF_SEEING_STAFF];
-		this->date = _strdup(other.date);
-		this->cause = _strdup(other.cause);
+		this->date = other.date;
+		this->cause = other.cause;
 		this->department = other.department;
 		this->patient = other.patient;
 		this->currentNumOfSeeingStaff = other.currentNumOfSeeingStaff;
@@ -47,12 +45,12 @@ const Visit& Visit::operator=(const Visit& other)
 	return *this;
 }
 
-const char* Visit::getDate() const
+const string Visit::getDate() const
 {
 	return date;
 }
 
-const char* Visit::getCause() const
+const string Visit::getCause() const
 {
 	return cause;
 }
@@ -92,7 +90,7 @@ int Visit::getVisitId() const
 	return visitId;
 }
 
-const char* Visit::getTypeOfCareName() const
+const string Visit::getTypeOfCareName() const
 {
 	return Visit::cares[typeOfCare];
 }
@@ -105,10 +103,10 @@ const CareGivingEmployee* Visit::getCareGivingEmployeeById(int careGivingEmploye
 	return nullptr;
 }
 
-void Visit::setCause(const char* cause)
+void Visit::setCause(const string cause)
 {
 
-	this->cause = _strdup(cause);
+	this->cause = cause;
 }
 
 void Visit::setTypeOfCare(eCare typeOfCare)
@@ -157,9 +155,9 @@ void Visit::operator-=(const CareGivingEmployee& cgEmployee)
 	removeSeeingStaff(cgEmployee.getEmployeeId());
 }
 
-void Visit::rescheduleVisit(const char* newDate)
+void Visit::rescheduleVisit(const string newDate)
 {
-	date = _strdup(newDate);
+	date = newDate;
 }
 
 void Visit::changeDepartment(const Department &other)
@@ -181,13 +179,12 @@ void Visit::onEmployeeReplaced(const Employee* newPointer)
 	}
 }
 
-const char* Visit::cares[] = { "FIRST_AID", "TESTS", "SURGERY_PREP", "SURGERY" };
+const string Visit::cares[] = { "FIRST_AID", "TESTS", "SURGERY_PREP", "SURGERY" };
 
 void Visit::free()
 {
-	delete[]date;
-	delete[]cause;
-	// TODO delete each pointer
+	//delete[]date;
+	//delete[]cause;
 	delete[]seeingStaff;
 }
 

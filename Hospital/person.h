@@ -1,24 +1,26 @@
 #ifndef PERSON_H_INCLUDED
 #define PERSON_H_INCLUDED
+#include <string>
 #include <iostream>
+using namespace std;
 
 class Person
 {
 public:
 	enum eGender { MALE, FEMALE };
-	static const char* genders[];
+	static const string genders[];
 
-	Person(int id, const char* name, const char* dateOfBirth, eGender gender);
+	Person(int id, const string name, const string dateOfBirth, eGender gender);
 	Person(const Person& person);
 	const Person& operator=(const Person& other);
 
 	virtual ~Person();
 
 	int getId()						const;
-	const char* getName()			const;
-	const char* getDateOfBirth()	const;
+	const string getName()			const;
+	const string getDateOfBirth()	const;
 	eGender getGender()				const;
-	const char* getGenderName()		const;
+	const string getGenderName()	const;
 
 	virtual void toOs(std::ostream& os) const = 0;
 
@@ -26,8 +28,8 @@ public:
 
 protected:
 	int id;
-	char* name;
-	char* dateOfBirth;
+	string name;
+	string dateOfBirth;
 	eGender gender;
 };
 #endif // PERSON_H_INCLUDED

@@ -1,23 +1,23 @@
 #include "researcher.h"
 
 
-Researcher::Researcher(int id, const char* name, const char* dateOfBirth, eGender gender,
-	const char* startWorkingDate, eRank employeeRank, double salary,
-	const char* areaOfTraining, float seniorityYears, const char* areaOfResearch)
+Researcher::Researcher(int id, const string name, const string dateOfBirth, eGender gender,
+	const string startWorkingDate, eRank employeeRank, double salary,
+	const string areaOfTraining, float seniorityYears, const string areaOfResearch)
 	:Employee(id, name, dateOfBirth, gender, startWorkingDate, employeeRank, salary, areaOfTraining, seniorityYears)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
 	this->numOfPublications = 0;
-	this->areaOfResearch = _strdup(areaOfResearch);
-	this->publicationsNames = new char*[MAX_NUMBER_OF_PUBLICATIONS];
+	this->areaOfResearch = areaOfResearch;
+	this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 }
-Researcher::Researcher(const Employee& employee, const char* areaOfResearch)
+Researcher::Researcher(const Employee& employee, const string areaOfResearch)
 	:Employee(employee)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
 	this->numOfPublications = 0;
-	this->areaOfResearch = _strdup(areaOfResearch);
-	this->publicationsNames = new char*[MAX_NUMBER_OF_PUBLICATIONS];
+	this->areaOfResearch = areaOfResearch;
+	this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 }
 Researcher::Researcher(const Researcher& other)
 	: Employee(other)
@@ -32,10 +32,10 @@ const Researcher& Researcher::operator=(const Researcher& other)
 	{
 		this->free();
 		this->numOfPublications = other.numOfPublications;
-		this->areaOfResearch = _strdup(other.areaOfResearch);
-		this->publicationsNames = new char*[MAX_NUMBER_OF_PUBLICATIONS];
+		this->areaOfResearch = other.areaOfResearch;
+		this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 		for (int i = 0; i < other.numOfPublications; i++)
-			publicationsNames[i] = _strdup(other.publicationsNames[i]);
+			publicationsNames[i] = other.publicationsNames[i];
 	}
 	return *this;
 }
@@ -47,9 +47,11 @@ Researcher::~Researcher()
 
 void Researcher::free()
 {
+	/* TODO
 	delete[] areaOfResearch;
 	for (int i = 0; i < numOfPublications; i++)
 		delete[] publicationsNames[i];
+	*/
 	delete[] publicationsNames;
 }
 
@@ -57,22 +59,24 @@ int Researcher::getNumOfPublications() const
 {
 	return numOfPublications;
 }
-const char* const Researcher::getAreaOfResearch() const
+const string const Researcher::getAreaOfResearch() const
 {
 	return areaOfResearch;
 }
-const char* const* Researcher::getPublicationsNames() const {
+const string const* Researcher::getPublicationsNames() const 
+{
 	return publicationsNames;
 }
-bool Researcher::addPublicationName(const char * publicationName)
+bool Researcher::addPublicationName(const string publicationName)
 {
 	if (numOfPublications == MAX_NUMBER_OF_PUBLICATIONS) return false;
-	this->publicationsNames[numOfPublications] = _strdup(publicationName);
+	this->publicationsNames[numOfPublications] = publicationName;
 	++numOfPublications;
 	return true;
 }
-void Researcher::operator+=(const char* publication) {
-	publicationsNames[numOfPublications] = _strdup(publication);
+void Researcher::operator+=(const string publication) 
+{
+	publicationsNames[numOfPublications] = publication;
 	++numOfPublications;
 }
 void Researcher::work() const

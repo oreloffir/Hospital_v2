@@ -3,16 +3,16 @@
 #include <iostream>
 using namespace std;
 
-SurgeryType::SurgeryType(const char *name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons = 1)
+SurgeryType::SurgeryType(const string name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons = 1)
 	: durationMin(durationMin), precentageOfSuccess(precentageOfSuccess), maxNumOfSurgeons(maxNumOfSurgeons)
 {
-	this->name = _strdup(name);
+	this->name = name;
 	cout << "In SurgeryType::SurgeryType (name=" << this->name << ")" << endl;
 }
 
 SurgeryType::SurgeryType(const SurgeryType & surgeryType)
 {
-	name = _strdup(surgeryType.name);
+	name = surgeryType.name;
 	durationMin = surgeryType.durationMin;
 	precentageOfSuccess = surgeryType.precentageOfSuccess;
 	maxNumOfSurgeons = surgeryType.maxNumOfSurgeons;
@@ -22,18 +22,17 @@ SurgeryType::SurgeryType(const SurgeryType & surgeryType)
 SurgeryType::~SurgeryType()
 {
 	cout << "In SurgeryType::~SurgeryType (name=" << name << ")" << endl;
-	delete[]name;
 }
 
-const char* SurgeryType::getName() const
+const string SurgeryType::getName() const
 {
 	return name;
 }
 
-void  SurgeryType::setName(const char *name)
+void  SurgeryType::setName(const string name)
 {
-	delete[] name;
-	name = _strdup(name);
+	//delete[] name;
+	this->name = name;
 }
 
 int  SurgeryType::getDurationMin() const

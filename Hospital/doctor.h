@@ -2,17 +2,21 @@
 #define DOCTOR_H_INCLUDED
 
 #include "careGivingEmployee.h"
+#include <iostream>
+#include <string>
+using namespace std;
+
 
 class Doctor : public CareGivingEmployee
 {
 public:
-	Doctor(CareGivingEmployee& CGEmployee, const char* fieldOfExpertise, int numOfDiplomas = 0);
+	Doctor(CareGivingEmployee& CGEmployee, const string fieldOfExpertise, int numOfDiplomas = 0);
 	Doctor(const Doctor& other);
 	const Doctor& operator=(const Doctor& other);
 	virtual ~Doctor();
 
 	int getNumOfDiplomas()              const;
-	const char* getFieldOfExpertise()   const;
+	const string getFieldOfExpertise()   const;
 
 	void setNumOfDiplomas(int numOfDiplomas);
 	void addDiploma();
@@ -21,7 +25,7 @@ public:
 	virtual void toOs(std::ostream& os) const override;
 protected:
 	int numOfDiplomas;
-	char* fieldOfExpertise;
+	string fieldOfExpertise;
 
 	void free();
 };

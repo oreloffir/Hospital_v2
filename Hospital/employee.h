@@ -2,6 +2,10 @@
 #define EMPLOYEE_H_INCLUDED
 #include "person.h"
 #include "department.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
 
 class Employee : public Person
 {
@@ -12,19 +16,19 @@ public:
 	struct employeeInfo
 	{
 		int id;
-		char* name;
-		char* dateOfBirth;
+		string name;
+		string dateOfBirth;
 		eGender gender;
-		char* startWorkingDate;
+		string startWorkingDate;
 		eRank employeeRank;
 		double salary;
-		char* areaOfTraining;
+		string areaOfTraining;
 		float seniorityYears;
 	};
 
-	Employee(int id, const char* name, const char* dateOfBirth, eGender gender,
-		const char* startWorkingDate, eRank employeeRank, double salary,
-		const char* areaOfTraining, float seniorityYears);
+	Employee(int id, const string name, const string dateOfBirth, eGender gender,
+		const string startWorkingDate, eRank employeeRank, double salary,
+		const string areaOfTraining, float seniorityYears);
 	Employee(const Employee& other);
 
 	const Employee& operator=(const Employee& other);
@@ -33,28 +37,28 @@ public:
 
 	int getEmployeeId()							const;
 	const Department* const* getDepartments()	const;
-	const char* getStartWorkingDate()			const;
+	const string getStartWorkingDate()			const;
 	eRank getEmployeeRank()						const;
 	float getSeniorityYears()					const;
 	double getSalary()							const;
-	const char* getAreaOfTraining()				const;
+	const string getAreaOfTraining()				const;
 
 	virtual void toOs(std::ostream& os) const override;
 
 	void setSalary(double salary);
 	void updateSenorityYear(float senorityYears);
 	void addDepartment(const Department* department);
-	void removeDepartment(const char* departmentName);
+	void removeDepartment(const string departmentName);
 	virtual void work() const = 0;
 
 protected:
 	int employeeId;
 	const Department** departments;
 	int numberOfDepatments;
-	char* startWorkingDate;
+	string startWorkingDate;
 	eRank employeeRank;
 	float seniorityYears;
 	double salary;
-	char* areaOfTraining;
+	string areaOfTraining;
 };
 #endif // EMPLOYEE_H_INCLUDED

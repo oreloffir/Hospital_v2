@@ -5,6 +5,10 @@
 #include "patient.h"
 #include "careGivingEmployee.h"
 #include "EmployeeListener.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
 
 class Department;
 
@@ -14,7 +18,7 @@ public:
 	static int visitIdGenerator; // starting from 1
     enum eCare {FIRST_AID, TESTS, SURGERY_PREP, SURGERY};
 	static constexpr int MAX_NUM_OF_SEEING_STAFF = 20;
-	static const char* cares[];
+	static const string cares[];
 
     virtual ~Visit();
 
@@ -22,26 +26,26 @@ public:
     void operator-=(const CareGivingEmployee& cgEmployee);
 
     //getters
-    const char* getDate()							const;
-    const char* getCause()							const;
+    const string getDate()							const;
+    const string getCause()							const;
     const Department* getDepratment()				const;
     const Patient* getPatient()						const;
     const CareGivingEmployee** getSeeingStaff()		const;
 	eCare getTypeOfCare()							const;
-	const char* getTypeOfCareName()					const;
+	const string getTypeOfCareName()					const;
     int getMaxNumOfSeeingStaff()					const;
     int getCurrentNumOfSeeingStaff()				const;
 	int getVisitId()								const;
 	const CareGivingEmployee* getCareGivingEmployeeById(int careGivingEmployeeId) const;
     
     //setters
-    void setCause(const char* cause);
+    void setCause(const string cause);
     void setTypeOfCare(eCare typeOfCare);
     
     //methods
     void addSeeingStaff(const CareGivingEmployee& employee);
     void removeSeeingStaff(int employeeId);
-    void rescheduleVisit(const char* newDate);
+    void rescheduleVisit(const string newDate);
     void changeDepartment(const Department &other);
 
 	virtual void toOs(std::ostream& os) const = 0;
@@ -52,16 +56,16 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Visit& visit);
 
 	struct VisitInfo {
-		char* date;
-		char* cause;
+		string date;
+		string cause;
 		const Department* department;
 		const Patient* patient;
 		Visit::eCare typeOfCare;
 	};
 
 protected:
-    char* date;
-    char* cause;
+    string date;
+    string cause;
     const Department* department;
     const Patient* patient;
 	int visitId;
@@ -70,7 +74,7 @@ protected:
     eCare typeOfCare;
 
     //ctors
-    Visit(const char* date, const char* cause, const Department* department, const Patient* patient, eCare typeOfCare);
+    Visit(const string date, const string cause, const Department* department, const Patient* patient, eCare typeOfCare);
 	Visit(const Visit& other);
 	const Visit& operator=(const Visit& other);
 	void free();

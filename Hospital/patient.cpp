@@ -1,13 +1,12 @@
 #include "patient.h"
-#include <iostream>
-using namespace std;
 
-Patient::Patient(int id, const char* name, const char* dateOfBirth, eGender gender)
+
+Patient::Patient(int id, const string name, const string dateOfBirth, eGender gender)
 	: Person(id, name, dateOfBirth, gender)
 {
-	lastDateAnesthetized	= nullptr;
-	lastDateVisited			= nullptr;
-	allergies				= new char*[Patient::MAX_NUMBER_OF_ALLERGIES];
+	//lastDateAnesthetized; TODO 
+	//lastDateVisited;
+	allergies				= new string[Patient::MAX_NUMBER_OF_ALLERGIES];
 	visits					= new const Visit*[Patient::MAX_NUMBER_OF_VISITS];
 	numOfAllergies			= 0;
 	numOfVisits				= 0;
@@ -18,17 +17,17 @@ Patient::~Patient()
 {
 	cout << "In Patient::~Patient (name=" << name << ")" << endl;
 	for (int i = 0; i < numOfAllergies; i++)
-		delete allergies[i];
+		//delete allergies[i];
 	delete[] allergies;
 	delete[] visits;
 }
 
-void Patient::visitHospital(const char* date)
+void Patient::visitHospital(const string date)
 {
 	// Dont know what TODO
 }
 
-bool Patient::anesthetize(const char* date)
+bool Patient::anesthetize(const string date)
 {
 	// Dont know what TODO
 	return false;
@@ -42,20 +41,20 @@ void Patient::addVisit(const Visit* visit)
 	++numOfVisits;
 }
 
-void Patient::setLastDateVisited(const char* lastDateVisited)
+void Patient::setLastDateVisited(const string lastDateVisited)
 {
 	this->lastDateVisited = lastDateVisited;
 }
 
-void Patient::setLastDateAnesthetized(const char* lastDateAnesthetized)
+void Patient::setLastDateAnesthetized(const string lastDateAnesthetized)
 {
 	this->lastDateAnesthetized = lastDateAnesthetized;
 }
 
-bool Patient::addAllergie(const char* nameOfAllergie)
+bool Patient::addAllergie(const string nameOfAllergie)
 {
 	if (numOfAllergies == MAX_NUMBER_OF_ALLERGIES) return false;
-	this->allergies[numOfAllergies] = _strdup(nameOfAllergie);
+	this->allergies[numOfAllergies] = nameOfAllergie;
 	++numOfAllergies;
 	return true;
 }
@@ -75,12 +74,12 @@ const Visit* const* Patient::getVisits() const
 	return visits;
 }
 
-const char* Patient::getLastDateVisited() const
+const string Patient::getLastDateVisited() const
 {
 	return lastDateVisited;
 }
 
-const char* Patient::getLastDateAnesthetized() const
+const string Patient::getLastDateAnesthetized() const
 {
 	return lastDateAnesthetized;
 }
@@ -92,7 +91,7 @@ void Patient::toOs(ostream& os) const
 	os << "Number Of Visits: " << "\t" << this->getNumOfVisits() << endl;
 	if (this->getNumOfVisits() != 0)
 		os << "Last Date Visited: " << "\t" << this->getLastDateVisited() << endl;
-	if(this->getLastDateAnesthetized() != nullptr)
+	if(!(this->getLastDateAnesthetized().empty()))
 		os << "Last Date Anesthetized: " << "\t" << this->getLastDateAnesthetized() << endl;
 	else
 	{

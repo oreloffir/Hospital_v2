@@ -339,12 +339,10 @@ const Department* HospitalController::createDepartment(bool showSelectMenu) cons
 	cout << "Welcome to creating new department wizard." << endl;
 	cout << "Please enter department name: ";
 
-	char* departmentName = getStringFromUser();
+	string departmentName = getStringFromUser();
 	const Department& deprtment = HospitalManager::getInstance()->createDepartment(departmentName);
 
 	cout << "New department was created" << endl;
-
-	delete[] departmentName;
 
 	if (showSelectMenu)
 		selectDepartment(deprtment.getName());
@@ -359,16 +357,13 @@ const Patient* HospitalController::createPatient(bool showSelectMenu) const
 	cout << "Please enter patient id: ";
 	int patientId = getIntegerFromUser(1);
 	cout << "Please enter patient name: ";
-	char* parientName = getStringFromUser();
+	string parientName = getStringFromUser();
 	cout << "Please enter patient date of birth: ";
-	char* patientDateOfBirth = getStringFromUser();
+	string patientDateOfBirth = getStringFromUser();
 	cout << "Please enter patient gender 0 - male , 1 - female (default 0): ";
 	Person::eGender patientGender = (Person::eGender)getIntegerFromUser(Person::MALE, Person::FEMALE);
 
 	const Patient& patient = HospitalManager::getInstance()->createPatient(patientId, parientName, patientDateOfBirth, patientGender);
-
-	delete[] parientName;
-	delete[] patientDateOfBirth;
 
 	cout << "New patient was created" << endl;
 
@@ -385,7 +380,7 @@ const Doctor* HospitalController::createDoctor(bool showSelectMenu) const
 	Employee::employeeInfo employeeInfo = createEmployeeInfo();
 
 	cout << "Please enter doctor field of expertise: ";
-	char* fieldOfExpertise = getStringFromUser();
+	string fieldOfExpertise = getStringFromUser();
 	cout << "Please enter doctor num of diplomas: ";
 	int numOfDiplomas = getIntegerFromUser(0);
 
@@ -393,7 +388,6 @@ const Doctor* HospitalController::createDoctor(bool showSelectMenu) const
 
 	cout << "New doctor was created" << endl;
 	deleteEmployeeInfo(&employeeInfo);
-	delete[] fieldOfExpertise;
 
 	if(showSelectMenu)
 		selectDoctor(doctor.getEmployeeId());
@@ -428,13 +422,12 @@ const Researcher* HospitalController::createResearcher(bool showSelectMenu) cons
 	Employee::employeeInfo employeeInfo = createEmployeeInfo();
 
 	cout << "Please enter researcher area of research: ";
-	char* areaOfResearch = getStringFromUser();
+	string areaOfResearch = getStringFromUser();
 
 	const Researcher& researcher = HospitalManager::getInstance()->createResearcher(employeeInfo, areaOfResearch);
 
 	cout << "New researcher was created" << endl;
 	deleteEmployeeInfo(&employeeInfo);
-	delete[] areaOfResearch;
 
 	if(showSelectMenu)
 		selectResearcher(researcher.getEmployeeId());
@@ -478,13 +471,11 @@ const ResearchingDoctor* HospitalController::createResearchingDoctor(int theDoct
 	const Doctor* doctor = HospitalManager::getInstance()->getConstDoctorById(doctorId);
 
 	cout << "Please enter researcher area of research: ";
-	char* areaOfResearch = getStringFromUser();
+	string areaOfResearch = getStringFromUser();
 	cout << "Please enter the max number of test subjects: ";
 	int maxNumOfTestSubjects = getIntegerFromUser(0);
 	
 	const ResearchingDoctor& researchingDoctor = HospitalManager::getInstance()->createResearchingDoctor(doctor, areaOfResearch, maxNumOfTestSubjects);
-	
-	delete[] areaOfResearch;
 
 	if(showSelectMenu)
 		selectResearchingDoctor(researchingDoctor.getEmployeeId());
@@ -497,7 +488,7 @@ const Surgery* HospitalController::createSurgery(const Patient& patient, bool sh
 	SurgeryType* type;
 
 	cout << "Please enter surgery type name: ";
-	char *name = getStringFromUser();
+	string name = getStringFromUser();
 	cout << "Please enter surgery duration in minutes: ";
 	int durationMin = getIntegerFromUser(1);
 	cout << "Please enter approximate precentage of success: ";
@@ -509,7 +500,6 @@ const Surgery* HospitalController::createSurgery(const Patient& patient, bool sh
 	const Surgery& surgery = HospitalManager::getInstance()->createSurgery(visitInfo, type, numOfSurgeons);
 
 	delete type;
-	delete[] name;
 	deleteVisitInfo(visitInfo);
 
 	if (showSelectMenu)
@@ -521,12 +511,11 @@ const Inspection* HospitalController::createInspection(const Patient& patient, b
 {
 	Visit::VisitInfo visitInfo = createVisitInfo(patient);
 	cout << "Please enter type of Inspection: ";
-	char* typeOfInspection = getStringFromUser();
+	string typeOfInspection = getStringFromUser();
 
 	const Inspection& inspection = HospitalManager::getInstance()->createInspection(visitInfo, typeOfInspection);
 
 	deleteVisitInfo(visitInfo);
-	delete[] typeOfInspection;
 
 	if (showSelectMenu)
 		selectVisit(inspection.getVisitId());
@@ -560,11 +549,11 @@ Employee::employeeInfo HospitalController::createEmployeeInfo() const
 Visit::VisitInfo& HospitalController::createVisitInfo(const Patient& patient) const
 {
 	const Department* department = nullptr;
-
+	
 	cout << "Please enter visit date: ";
-	char* date = getStringFromUser();
+	string date = getStringFromUser();
 	cout << "Please enter visit cause: ";
-	char* cause = getStringFromUser();
+	string cause = getStringFromUser();
 	department = getDepartmentFromUser();
 	cout << "Please enter type of care 0-First Aid  1-Tests  2-Surgery prep  3-Surgery: ";
 	Visit::eCare typeOfCare = (Visit::eCare)getIntegerFromUser(Visit::FIRST_AID, Visit::SURGERY);
@@ -580,19 +569,21 @@ Visit::VisitInfo& HospitalController::createVisitInfo(const Patient& patient) co
 }
 void HospitalController::deleteEmployeeInfo(Employee::employeeInfo* employeeInfo) const
 {
+	/* TODO
 	delete[] employeeInfo->name;
 	delete[] employeeInfo->dateOfBirth;
 	delete[] employeeInfo->startWorkingDate;
 	delete[] employeeInfo->areaOfTraining;
+	*/
 }
 void HospitalController::deleteVisitInfo(Visit::VisitInfo visitInfo) const
 {
-	delete[] visitInfo.cause;
-	delete[] visitInfo.date;
+	//delete[] visitInfo.cause;
+	//delete[] visitInfo.date;
 }
 
 /* Selectors */
-void HospitalController::selectDepartment(const char* departmentName) const
+void HospitalController::selectDepartment(const string departmentName) const
 {
 	if (HospitalManager::getInstance()->getCurrectNumOfDepartments() == 0)
 	{
@@ -687,7 +678,7 @@ void HospitalController::selectPatient(int patientId) const
 
 	cout << (Person&)*patient << endl;
 
-	char* alergie;
+	string alergie;
 
 	while (true)
 	{
@@ -697,7 +688,6 @@ void HospitalController::selectPatient(int patientId) const
 			cout << "Please insert an alergie name: ";
 			alergie = getStringFromUser();
 			HospitalManager::getInstance()->addAllergieToPatient(patient->getId(), alergie);
-			delete alergie;
 			break;
 		case PATIENT_CREATE_VISIT:
 			createVisitSelection(*patient);
@@ -758,11 +748,11 @@ void HospitalController::selectNurse(int nurseId) const
 			break;
 		case NURSE_ADD_DUTY:
 			cout << "Enter a new duty name: ";
-			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), string(getStringFromUser()));
+			HospitalManager::getInstance()->addDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		case NURSE_REMOVE_DUTY:
 			cout << "Enter a duty name to remove: ";
-			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), string(getStringFromUser()));
+			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), getStringFromUser());
 			break;
 		default:
 			return;
@@ -773,10 +763,10 @@ void HospitalController::selectNurse(int nurseId) const
 void HospitalController::selectResearcher(int researcherId) const
 {
 	const Researcher* researcher = getResearcherFromUser(researcherId);
-	const char* const* names;
+	const string const* names;
 	cout << (Person&)*researcher << endl;
 
-	char* publicationName;
+	string publicationName;
 
 	while (true)
 	{
@@ -809,7 +799,6 @@ void HospitalController::selectResearcher(int researcherId) const
 			cout << "Please insert a publication name: ";
 			publicationName = getStringFromUser();
 			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), publicationName);
-			delete publicationName;
 			break;
 		default:
 			return;
@@ -878,7 +867,7 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 	const Patient* const* testSubjects;
 	cout << (Person&)*researchingDoctor << endl;
 
-	char* publicationName = nullptr;
+	string publicationName = nullptr;
 
 	while (true)
 	{
@@ -1040,7 +1029,7 @@ void HospitalController::printAllPatients() const
 			cout << *allPatients[i] << endl;
 		}
 }
-void HospitalController::printAllEmployees(const char* employeeType) const
+void HospitalController::printAllEmployees(const string employeeType) const
 {
 	const Employee* const* allEmployees = HospitalManager::getInstance()->getAllEmployees();
 	int numberOfEmployees = HospitalManager::getInstance()->getCurrectNumOfEmployees();
@@ -1219,7 +1208,7 @@ const CareGivingEmployee* HospitalController::getCareGivingEmployeeFromUser(int 
 		break;
 	}
 }
-const Department* HospitalController::getDepartmentFromUser(const char* departmentName) const
+const Department* HospitalController::getDepartmentFromUser(const string departmentName) const
 {
 	if (HospitalManager::getInstance()->getCurrectNumOfDepartments() == 0)
 	{
@@ -1230,14 +1219,14 @@ const Department* HospitalController::getDepartmentFromUser(const char* departme
 	bool invalidDepartmentName = true;
 	const Department* department = nullptr;
 
-	if (departmentName == nullptr)
+	if (departmentName.empty())
 	{
-		char* inputDepartmentName = new char[MAX_STRING_SIZE];
+		string inputDepartmentName;// TODO = new char[MAX_STRING_SIZE];
 		while (invalidDepartmentName)
 		{
 			cout << "Please enter department name (or " << HELP << " to print all departments): ";
 			getStringFromUser(inputDepartmentName);
-			if (strcmp(inputDepartmentName, "-999") == 0)
+			if (inputDepartmentName.compare("-999") == 0)
 				printAllDepartments();
 			department = HospitalManager::getInstance()->getConstDepartmentByName(inputDepartmentName);
 			if (department == nullptr) 
@@ -1248,7 +1237,6 @@ const Department* HospitalController::getDepartmentFromUser(const char* departme
 			else
 				invalidDepartmentName = false;
 		}
-		delete[] inputDepartmentName;
 	}
 	else {
 		department = HospitalManager::getInstance()->getConstDepartmentByName(departmentName);
@@ -1320,23 +1308,25 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 * A general function to get a string input from user
 * @return char*
 */
-char* HospitalController::getStringFromUser(char* outputBuffer) const
+string HospitalController::getStringFromUser(string& outputBuffer) const
 {
-	char* buffer = outputBuffer;
+	string& buffer = outputBuffer;
 	bool validString = true;
-	// allocate new inputBuffer
-	if(buffer == nullptr)
-		buffer = new char[MAX_STRING_SIZE];
+	
+	/*// allocate new inputBuffer
+	if(buffer.empty())
+		string buffer;
+		*/
 
 	do
 	{
-		cin.getline(buffer, MAX_STRING_SIZE);
+		getline(cin, buffer);
 		validString = validateString(buffer);
 		if (!validString)
 			cout << HospitalController::INVALID_INPUT << endl;
 	} while (!validString);
 		
-	return buffer;
+	return string(buffer);
 }
 int HospitalController::getIntegerFromUser(int minVal, int maxVal) const
 {
@@ -1368,33 +1358,35 @@ double HospitalController::getDoubleFromUser(double minVal, double maxVal) const
 
 	return result;
 }
-bool HospitalController::validateString(const char* str) const 
+bool HospitalController::validateString(const string& str) const 
 {
-	if (!*str)
+	if (str.empty())
 		return false;
-
-	int size = static_cast<int>(strlen(str));
-	char* temp = new char[size+1];
-	char* cpy = temp;
-
-	while (*str) 
-	{
-		if (*str == ' ') 
-			str++;
-		else 
-			*cpy++ = *str++;
-	}
-	*cpy = '\0';
-
-	if (strlen(temp) == 0)
-	{
-		delete[] temp;
-		return false;
-	}
-
-	delete[] temp;
 	return true;
+
+	/*
+	int size = static_cast<int>(str.size());
+	string temp; // TODO = new char[size + 1];
+	string cpy = temp;
+
+	int i = 0;
+	while (str.at[i]) 
+	{
+		if (str.at[i] == ' ')
+			i++;
+		else 
+			cpy.at[i] = str.at[i];
+
+		i++;
+	}
+	cpy.at[i] = '\0';
+
+	if (temp.size() == 0)
+		return false;
+
+	return true;
+	*/
 }
 
-const char* HospitalController::PRESS_TO_GO_BACK	= "Press any other key to go back to previous menu.";
-const char* HospitalController::INVALID_INPUT		= "Invalid Input.";
+const string HospitalController::PRESS_TO_GO_BACK	= "Press any other key to go back to previous menu.";
+const string HospitalController::INVALID_INPUT		= "Invalid Input.";

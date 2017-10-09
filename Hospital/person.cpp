@@ -1,14 +1,11 @@
-#pragma once
-#include <iostream>
-using namespace std;
 #include "person.h"
 
-Person::Person(int id, const char* name, const char* dateOfBirth, eGender gender)
+Person::Person(int id, const string name, const string dateOfBirth, eGender gender)
 	: id(id), gender(gender)
 {
 	cout << "In Person::Person (name=" << name << ")" << endl;
-	this->name			= _strdup(name);
-	this->dateOfBirth	= _strdup(dateOfBirth);
+	this->name			= name;
+	this->dateOfBirth	= dateOfBirth;
 }
 
 
@@ -23,12 +20,12 @@ const Person& Person::operator=(const Person& other)
 	cout << "In Person::operator= (name=" << other.name << ")" << endl;
 	if (this != &other)
 	{
-		delete[]	name;
-		delete[]	dateOfBirth;
+		//delete[]	name;
+		//delete[]	dateOfBirth;
 		id			= other.id;
 		gender		= other.gender;
-		name		= _strdup(other.name);
-		dateOfBirth	= _strdup(other.dateOfBirth);
+		name		= other.name;
+		dateOfBirth	= other.dateOfBirth;
 	}
 	return *this;
 }
@@ -36,8 +33,8 @@ const Person& Person::operator=(const Person& other)
 Person::~Person()
 {
 	cout << "In Person::~Person (name=" << name << ")" << endl;
-	delete[] name;
-	delete[] dateOfBirth;
+	//delete[] name;
+	//delete[] dateOfBirth;
 }
 
 int Person::getId() const
@@ -45,12 +42,12 @@ int Person::getId() const
 	return id;
 }
 
-const char* Person::getName() const
+const string Person::getName() const
 {
 	return name;
 }
 
-const char* Person::getDateOfBirth() const
+const string Person::getDateOfBirth() const
 {
 	return dateOfBirth;
 }
@@ -60,7 +57,7 @@ Person::eGender Person::getGender() const
 	return gender;
 }
 
-const char* Person::getGenderName() const
+const string Person::getGenderName() const
 {
 	return Person::genders[gender];
 }
@@ -76,4 +73,4 @@ std::ostream& operator<<(std::ostream& os, const Person& person)
 	return os;
 }
 
-const char* Person::genders[] = { "MALE", "FEMALE" };
+const string Person::genders[] = { "MALE", "FEMALE" };

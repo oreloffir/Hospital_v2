@@ -2,6 +2,7 @@
 #define CAREGIVINGEMPLOYEE_H_INCLUDED
 #include "employee.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 // Concrete class to distinguish between an employee that
@@ -9,9 +10,9 @@ using namespace std;
 class CareGivingEmployee : virtual public Employee
 {
 public:
-	CareGivingEmployee(int id, const char* name, const char* dateOfBirth, eGender gender,
-		const char* startWorkingDate, eRank employeeRank, double salary,
-		const char* areaOfTraining, float seniorityYears);
+	CareGivingEmployee(int id, const string name, const string dateOfBirth, eGender gender,
+		const string startWorkingDate, eRank employeeRank, double salary,
+		const string areaOfTraining, float seniorityYears);
 	CareGivingEmployee(const CareGivingEmployee& other) : Employee(other) {
 		std::cout << "In CareGivingEmployee::CareGivingEmployee(copy)" << "---->" << this->name << std::endl;
 	};
