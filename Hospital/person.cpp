@@ -1,14 +1,14 @@
 #include "person.h"
 
-Person::Person(int id, const string name, const string dateOfBirth, eGender gender)
-	: id(id), gender(gender)
+Person::Person(int id, const string& name, const string& dateOfBirth, eGender gender)
+	: id(id), gender(gender), name(name), dateOfBirth(dateOfBirth)
 {
 	cout << "In Person::Person (name=" << name << ")" << endl;
-	this->name			= name;
-	this->dateOfBirth	= dateOfBirth;
 }
-
-
+Person::~Person()
+{
+	cout << "In Person::~Person (name=" << name << ")" << endl;
+}
 Person::Person(const Person& other)
 {
 	cout << "In Person::Person(copy) (name=" << other.name << ")" << endl;
@@ -20,8 +20,6 @@ const Person& Person::operator=(const Person& other)
 	cout << "In Person::operator= (name=" << other.name << ")" << endl;
 	if (this != &other)
 	{
-		//delete[]	name;
-		//delete[]	dateOfBirth;
 		id			= other.id;
 		gender		= other.gender;
 		name		= other.name;
@@ -30,34 +28,23 @@ const Person& Person::operator=(const Person& other)
 	return *this;
 }
 
-Person::~Person()
-{
-	cout << "In Person::~Person (name=" << name << ")" << endl;
-	//delete[] name;
-	//delete[] dateOfBirth;
-}
-
 int Person::getId() const
 {
 	return id;
 }
-
-const string Person::getName() const
+const string& Person::getName() const
 {
 	return name;
 }
-
-const string Person::getDateOfBirth() const
+const string& Person::getDateOfBirth() const
 {
 	return dateOfBirth;
 }
-
 Person::eGender Person::getGender() const
 {
 	return gender;
 }
-
-const string Person::getGenderName() const
+const string& Person::getGenderName() const
 {
 	return Person::genders[gender];
 }

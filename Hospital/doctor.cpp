@@ -5,13 +5,13 @@ using namespace std;
 
 
 
-Doctor::Doctor(CareGivingEmployee& CGEmployee, const string fieldOfExpertise, int numOfDiplomas)
+Doctor::Doctor(CareGivingEmployee& CGEmployee, const string& fieldOfExpertise, int numOfDiplomas)
 	: Employee(CGEmployee),
-	CareGivingEmployee(CGEmployee)
+	CareGivingEmployee(CGEmployee),
+	fieldOfExpertise(fieldOfExpertise)
 {
 	std::cout << "In Doctor::Doctor()" << "---->" << this->name << std::endl;
 	this->numOfDiplomas = numOfDiplomas;
-	this->fieldOfExpertise = fieldOfExpertise;
 }
 Doctor::Doctor(const Doctor& other)
 	:Employee(other), CareGivingEmployee(other)
@@ -24,7 +24,6 @@ const Doctor& Doctor::operator=(const Doctor& other)
 {
 	if (this != &other)
 	{
-		this->free();
 		this->fieldOfExpertise = other.fieldOfExpertise;
 		this->numOfDiplomas = other.numOfDiplomas;
 	}
@@ -33,13 +32,12 @@ const Doctor& Doctor::operator=(const Doctor& other)
 Doctor::~Doctor()
 {
 	std::cout << "In Doctor::~Doctor()" << "---->" << this->name << std::endl;
-	this->free();
 }
 int Doctor::getNumOfDiplomas() const
 {
 	return numOfDiplomas;
 }
-const string Doctor::getFieldOfExpertise() const
+const string& Doctor::getFieldOfExpertise() const
 {
 	return fieldOfExpertise;
 }
@@ -50,10 +48,6 @@ void Doctor::setNumOfDiplomas(int numOfDiplomas)
 void Doctor::addDiploma()
 {
 	this->setNumOfDiplomas(++numOfDiplomas);
-}
-void Doctor::free()
-{
-	//delete[] fieldOfExpertise; // TODO
 }
 void Doctor::work() const
 {

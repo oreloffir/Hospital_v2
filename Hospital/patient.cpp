@@ -1,11 +1,9 @@
 #include "patient.h"
 
 
-Patient::Patient(int id, const string name, const string dateOfBirth, eGender gender)
+Patient::Patient(int id, const string& name, const string& dateOfBirth, eGender gender)
 	: Person(id, name, dateOfBirth, gender)
 {
-	//lastDateAnesthetized; TODO 
-	//lastDateVisited;
 	allergies				= new string[Patient::MAX_NUMBER_OF_ALLERGIES];
 	visits					= new const Visit*[Patient::MAX_NUMBER_OF_VISITS];
 	numOfAllergies			= 0;
@@ -16,21 +14,19 @@ Patient::Patient(int id, const string name, const string dateOfBirth, eGender ge
 Patient::~Patient()
 {
 	cout << "In Patient::~Patient (name=" << name << ")" << endl;
-	for (int i = 0; i < numOfAllergies; i++)
-		//delete allergies[i];
 	delete[] allergies;
 	delete[] visits;
 }
 
-void Patient::visitHospital(const string date)
+void Patient::visitHospital(const string& date)
 {
-	// Dont know what TODO
+	lastDateVisited = date;
 }
 
-bool Patient::anesthetize(const string date)
+bool Patient::anesthetize(const string& date)
 {
-	// Dont know what TODO
-	return false;
+	lastDateAnesthetized = date;
+	return true;
 }
 
 void Patient::addVisit(const Visit* visit)
@@ -41,17 +37,17 @@ void Patient::addVisit(const Visit* visit)
 	++numOfVisits;
 }
 
-void Patient::setLastDateVisited(const string lastDateVisited)
+void Patient::setLastDateVisited(const string& lastDateVisited)
 {
 	this->lastDateVisited = lastDateVisited;
 }
 
-void Patient::setLastDateAnesthetized(const string lastDateAnesthetized)
+void Patient::setLastDateAnesthetized(const string& lastDateAnesthetized)
 {
 	this->lastDateAnesthetized = lastDateAnesthetized;
 }
 
-bool Patient::addAllergie(const string nameOfAllergie)
+bool Patient::addAllergie(const string& nameOfAllergie)
 {
 	if (numOfAllergies == MAX_NUMBER_OF_ALLERGIES) return false;
 	this->allergies[numOfAllergies] = nameOfAllergie;
@@ -74,12 +70,12 @@ const Visit* const* Patient::getVisits() const
 	return visits;
 }
 
-const string Patient::getLastDateVisited() const
+const string& Patient::getLastDateVisited() const
 {
 	return lastDateVisited;
 }
 
-const string Patient::getLastDateAnesthetized() const
+const string& Patient::getLastDateAnesthetized() const
 {
 	return lastDateAnesthetized;
 }

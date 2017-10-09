@@ -10,17 +10,17 @@ public:
 	enum eGender { MALE, FEMALE };
 	static const string genders[];
 
-	Person(int id, const string name, const string dateOfBirth, eGender gender);
+	Person(int id, const string& name, const string& dateOfBirth, eGender gender);
 	Person(const Person& person);
 	const Person& operator=(const Person& other);
 
 	virtual ~Person();
 
 	int getId()						const;
-	const string getName()			const;
-	const string getDateOfBirth()	const;
+	const string& getName()			const;
+	const string& getDateOfBirth()	const;
 	eGender getGender()				const;
-	const string getGenderName()	const;
+	const string& getGenderName()	const;
 
 	virtual void toOs(std::ostream& os) const = 0;
 

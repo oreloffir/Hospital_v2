@@ -1,9 +1,9 @@
 #include "researcher.h"
 
 
-Researcher::Researcher(int id, const string name, const string dateOfBirth, eGender gender,
-	const string startWorkingDate, eRank employeeRank, double salary,
-	const string areaOfTraining, float seniorityYears, const string areaOfResearch)
+Researcher::Researcher(int id, const string& name, const string& dateOfBirth, eGender gender,
+	const string& startWorkingDate, eRank employeeRank, double salary,
+	const string& areaOfTraining, float seniorityYears, const string& areaOfResearch)
 	:Employee(id, name, dateOfBirth, gender, startWorkingDate, employeeRank, salary, areaOfTraining, seniorityYears)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
@@ -11,7 +11,7 @@ Researcher::Researcher(int id, const string name, const string dateOfBirth, eGen
 	this->areaOfResearch = areaOfResearch;
 	this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 }
-Researcher::Researcher(const Employee& employee, const string areaOfResearch)
+Researcher::Researcher(const Employee& employee, const string& areaOfResearch)
 	:Employee(employee)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
@@ -47,11 +47,6 @@ Researcher::~Researcher()
 
 void Researcher::free()
 {
-	/* TODO
-	delete[] areaOfResearch;
-	for (int i = 0; i < numOfPublications; i++)
-		delete[] publicationsNames[i];
-	*/
 	delete[] publicationsNames;
 }
 
@@ -59,11 +54,11 @@ int Researcher::getNumOfPublications() const
 {
 	return numOfPublications;
 }
-const string const Researcher::getAreaOfResearch() const
+const string& const Researcher::getAreaOfResearch() const
 {
 	return areaOfResearch;
 }
-const string const* Researcher::getPublicationsNames() const 
+const string* Researcher::getPublicationsNames() const 
 {
 	return publicationsNames;
 }

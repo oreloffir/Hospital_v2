@@ -20,22 +20,22 @@ int Nurse::getCurrentNumOfDuties() const
 	return dutiesList.getSize();
 }
 
-void Nurse::addDuty(const string duty)
+void Nurse::addDuty(const string& duty)
 {
-	dutiesList.insertToTail(string(duty));
+	dutiesList.insertToTail(duty);
 }
 
-void Nurse::removeDuty(const string duty)
+void Nurse::removeDuty(const string& duty)
 {
 	dutiesList.remove(duty);
 }
 
-void Nurse::operator+=(const string duty)
+void Nurse::operator+=(const string& duty)
 {
 	this->addDuty(duty);
 }
 
-void Nurse::operator-=(const string duty)
+void Nurse::operator-=(const string& duty)
 {
 	this->removeDuty(duty);
 }

@@ -26,9 +26,9 @@ public:
 		float seniorityYears;
 	};
 
-	Employee(int id, const string name, const string dateOfBirth, eGender gender,
-		const string startWorkingDate, eRank employeeRank, double salary,
-		const string areaOfTraining, float seniorityYears);
+	Employee(int id, const string& name, const string& dateOfBirth, eGender gender,
+		const string& startWorkingDate, eRank employeeRank, double salary,
+		const string& areaOfTraining, float seniorityYears);
 	Employee(const Employee& other);
 
 	const Employee& operator=(const Employee& other);
@@ -37,18 +37,18 @@ public:
 
 	int getEmployeeId()							const;
 	const Department* const* getDepartments()	const;
-	const string getStartWorkingDate()			const;
+	const string& getStartWorkingDate()			const;
 	eRank getEmployeeRank()						const;
 	float getSeniorityYears()					const;
 	double getSalary()							const;
-	const string getAreaOfTraining()				const;
+	const string& getAreaOfTraining()				const;
 
 	virtual void toOs(std::ostream& os) const override;
 
 	void setSalary(double salary);
 	void updateSenorityYear(float senorityYears);
 	void addDepartment(const Department* department);
-	void removeDepartment(const string departmentName);
+	void removeDepartment(const string& departmentName);
 	virtual void work() const = 0;
 
 protected:

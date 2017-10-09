@@ -9,18 +9,18 @@ class Researcher : virtual public Employee
 {
 public:
 	static int constexpr MAX_NUMBER_OF_PUBLICATIONS = 20;
-	Researcher(int id, const string name, const string dateOfBirth, eGender gender,
-		const string startWorkingDate, eRank employeeRank, double salary,
-		const string areaOfTraining, float seniorityYears, const string areaOfResearch);
-	Researcher(const Employee& employee, const string areaOfResearch);
+	Researcher(int id, const string& name, const string& dateOfBirth, eGender gender,
+		const string& startWorkingDate, eRank employeeRank, double salary,
+		const string& areaOfTraining, float seniorityYears, const string& areaOfResearch);
+	Researcher(const Employee& employee, const string& areaOfResearch);
 	Researcher(const Researcher& other);
 	virtual ~Researcher();
 
 	const Researcher& operator=(const Researcher& other);
 
 	int getNumOfPublications()					const;
-	const string getAreaOfResearch()			const;
-	const string const* getPublicationsNames()	const;
+	const string& getAreaOfResearch()			const;
+	const string* getPublicationsNames()		const;
 
 	bool addPublicationName(const string publicationName);
 	void operator+=(const string publication);

@@ -23,7 +23,7 @@ public:
 	static constexpr int MAX_NUMBER_OF_PATIENTS		= 200;
 	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
 	static constexpr int MAX_NUMBER_OF_VISITS		= 500;
-    Department(const string name);
+    Department(const string& name);
 
     ~Department();
 
@@ -37,7 +37,7 @@ public:
 	void operator-=(const Visit& existingVisit);
 
 
-    const string getName()									const;
+    const string& getName()									const;
     int getCurrentNumOfPatients()							const;
     int getCurrentNumOfEmployees()							const;
 	int getCurrentNumOfVisits()								const;
@@ -49,7 +49,7 @@ public:
 	const Employee* getEmployeeById(int id)					const; // person id
 	const Visit* getVisitById(int id)						const;
 
-    void setName(const string name);
+    void setName(const string& name);
 
     void addPatient(const Patient* newPatient);
     void removePatientById(int Id);

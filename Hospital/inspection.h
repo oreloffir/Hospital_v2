@@ -13,7 +13,7 @@ public:
     enum eLabResult {POSITIVE, NEGETIVE};
     
     //ctors
-    Inspection(const Visit::VisitInfo visitInfo, const string typeOfInspection);
+    Inspection(const Visit::VisitInfo visitInfo, const string& typeOfInspection);
 	Inspection(const Inspection& other) = delete;
     ~Inspection();
 
