@@ -6,19 +6,19 @@ using namespace std;
 HospitalManager::HospitalManager()
 {
 	currectNumOfDepartments = 0;
-	currentNumOfPatients	= 0;
-	currentNumOfVisits		= 0;
-	currentNumOfSurgeries	= 0;
-	currentNumOfEmployees	= 0;
-	currentNumOfDoctors		= 0;
-	currentNumOfNurses		= 0;
-	currentNumOfResearchers	= 0;
-	currentNumOfSurgeons	= 0;
-	departments			= new Department*[MAX_NUMBER_OF_DEPARTMENTS];
-	patients			= new Patient*[MAX_NUMBER_OF_PATIENTS];
-	visits				= new Visit*[MAX_NUMBER_OF_VISITS];
-	employees			= new Employee*[MAX_NUMBER_OF_EMPLOYEES];
-	employeeListeners	= new EmployeeListener*[MAX_NUMBER_OF_EMPLOYEE_LISTENERS];
+	currentNumOfPatients = 0;
+	currentNumOfVisits = 0;
+	currentNumOfSurgeries = 0;
+	currentNumOfEmployees = 0;
+	currentNumOfDoctors = 0;
+	currentNumOfNurses = 0;
+	currentNumOfResearchers = 0;
+	currentNumOfSurgeons = 0;
+	departments = new Department*[MAX_NUMBER_OF_DEPARTMENTS];
+	patients = new Patient*[MAX_NUMBER_OF_PATIENTS];
+	visits = new Visit*[MAX_NUMBER_OF_VISITS];
+	employees = new Employee*[MAX_NUMBER_OF_EMPLOYEES];
+	employeeListeners = new EmployeeListener*[MAX_NUMBER_OF_EMPLOYEE_LISTENERS];
 }
 HospitalManager::~HospitalManager()
 {
@@ -139,15 +139,15 @@ void HospitalManager::removePatientFromDepartment(const Patient* patient, const 
 }
 void HospitalManager::addEmployeeToDepartment(const Employee* employee, const Department* department)
 {
-	Department* myDepartment	= getDepartmentByName(department->getName());
-	Employee* myEmployee		= getEmployeeById(employee->getEmployeeId());
+	Department* myDepartment = getDepartmentByName(department->getName());
+	Employee* myEmployee = getEmployeeById(employee->getEmployeeId());
 	*myDepartment += *employee;
 	myEmployee->addDepartment(myDepartment);
 }
 void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, const Department* department)
 {
-	Department* myDepartment	= getDepartmentByName(department->getName());
-	Employee* myEmployee		= getEmployeeById(employee->getEmployeeId());
+	Department* myDepartment = getDepartmentByName(department->getName());
+	Employee* myEmployee = getEmployeeById(employee->getEmployeeId());
 	*myDepartment -= *employee;
 	myEmployee->removeDepartment(myDepartment->getName());
 }
@@ -199,12 +199,24 @@ const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employe
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
 		throw ARRAY_MAX_SIZE;
-	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
-		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
-		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
-
-	Doctor* doctor = new Doctor(careGivingEmployee, fieldOfExpertise, numOfDiplomas);
 	
+	DoctorBuilder doctorBuilder;
+
+	doctorBuilder.setId(employeeInfo.id)
+		.setName(employeeInfo.name)
+		.setDateOfBirth(employeeInfo.dateOfBirth)
+		.setGender(employeeInfo.gender)
+		.setStartWorkingDate(employeeInfo.startWorkingDate)
+		.setEmployeeRank(employeeInfo.employeeRank)
+		.setSalary(employeeInfo.salary)
+		.setAreaOfTraining(employeeInfo.areaOfTraining)
+		.setSeniorityYears(employeeInfo.seniorityYears);
+
+	doctorBuilder.setFieldOfExpertise(fieldOfExpertise)
+		.setNumOfDiplomas(numOfDiplomas);
+
+	Doctor* doctor = doctorBuilder.build();
+
 	employees[currentNumOfEmployees] = doctor;
 	++currentNumOfEmployees;
 	++currentNumOfDoctors;
@@ -227,15 +239,25 @@ int HospitalManager::getCurrentNumOfDoctors() const
 	return currentNumOfDoctors;
 }
 /*Nurse functions*/
-const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties) throw(const char*)
+
+const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo) throw(const char*)
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
 		throw ARRAY_MAX_SIZE;
-	CareGivingEmployee careGivingEmployee(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
-		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
-		employeeInfo.areaOfTraining, employeeInfo.seniorityYears);
+  
+	NurseBuilder nurseBuilder;
+  
+	nurseBuilder.setId(employeeInfo.id)
+		.setName(employeeInfo.name)
+		.setDateOfBirth(employeeInfo.dateOfBirth)
+		.setGender(employeeInfo.gender)
+		.setStartWorkingDate(employeeInfo.startWorkingDate)
+		.setEmployeeRank(employeeInfo.employeeRank)
+		.setSalary(employeeInfo.salary)
+		.setAreaOfTraining(employeeInfo.areaOfTraining)
+		.setSeniorityYears(employeeInfo.seniorityYears);
 
-	Nurse* nurse = new Nurse(careGivingEmployee, maxNumOfDuties);
+	Nurse* nurse = nurseBuilder.build();
 
 	employees[currentNumOfEmployees] = nurse;
 	++currentNumOfEmployees;
@@ -270,10 +292,21 @@ const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo
 {
 	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
 		throw ARRAY_MAX_SIZE;
-	Researcher* researcher = new Researcher(employeeInfo.id, employeeInfo.name, employeeInfo.dateOfBirth,
-		employeeInfo.gender, employeeInfo.startWorkingDate, employeeInfo.employeeRank, employeeInfo.salary,
-		employeeInfo.areaOfTraining, employeeInfo.seniorityYears, areaOfResearch);
 
+	ResearcherBuilder researcherBuilder;
+	researcherBuilder.setId(employeeInfo.id)
+		.setName(employeeInfo.name)
+		.setDateOfBirth(employeeInfo.dateOfBirth)
+		.setGender(employeeInfo.gender)
+		.setStartWorkingDate(employeeInfo.startWorkingDate)
+		.setEmployeeRank(employeeInfo.employeeRank)
+		.setSalary(employeeInfo.salary)
+		.setAreaOfTraining(employeeInfo.areaOfTraining)
+		.setSeniorityYears(employeeInfo.seniorityYears);
+	researcherBuilder.setAreaOfResearch(areaOfResearch);
+
+	Researcher* researcher = researcherBuilder.build();
+  
 	employees[currentNumOfEmployees] = researcher;
 	++currentNumOfEmployees;
 	++currentNumOfResearchers;
@@ -300,7 +333,7 @@ const Surgeon& HospitalManager::createSurgeon(const Doctor* doctor, bool hasSecu
 {
 	int doctorIndx = -1;
 	for (int i = 0; i < currentNumOfEmployees; i++)
-		if (employees[i]->getEmployeeId() == doctor->getEmployeeId() && strcmp(typeid(Doctor).name(), typeid(*employees[i]).name()) == 0 )
+		if (employees[i]->getEmployeeId() == doctor->getEmployeeId() && strcmp(typeid(Doctor).name(), typeid(*employees[i]).name()) == 0)
 		{
 			doctorIndx = i;
 			break;
@@ -331,7 +364,7 @@ bool HospitalManager::performSurgery(const Surgeon* surgeon, const Surgery* surg
 	{
 		Surgery* mySurgery = dynamic_cast<Surgery*>(getVisitById(surgery->getVisitId()));
 		Surgeon* mySurgeon = dynamic_cast<Surgeon*>(getEmployeeById(surgeon->getEmployeeId()));
-		mySurgery->surgeryDone(mySurgeon->performSurgery(mySurgery));	
+		mySurgery->surgeryDone(mySurgeon->performSurgery(mySurgery));
 	}
 	return false;
 }

@@ -65,10 +65,10 @@ public:
 	void selectVisit(int visitId = 0)							const;
 
 	/* Print all */
-	void printAllDepartments()									const;
-	void printAllPatients()										const;
-	void printAllEmployees(const string employeeType = string())	const;
-	void printAllVisits()										const;
+	void printAllDepartments()										const;
+	void printAllPatients()											const;
+	void printAllEmployees(const string employeeClass = string())	const;
+	void printAllVisits()											const;
 
 	/* Get Object by user id*/
 	const Employee* getEmployeeFromUser(int employeeId, const char* employeeClass)									const;

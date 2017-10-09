@@ -1,8 +1,9 @@
 #pragma once
 #ifndef hospital_manager_h
 #define hospital_manager_h
-#include "doctor.h"
-#include "nurse.h"
+#include "DoctorBuilder.h"
+#include "NurseBuilder.h"
+#include "ResearcherBuilder.h"
 #include "researchingDoctor.h"
 #include "surgeon.h"
 #include "department.h"
@@ -24,8 +25,8 @@ private:
 	int currentNumOfPatients;
 	int currentNumOfVisits;
 	int currentNumOfSurgeries;		// Validation usage
-	/* Employees */
-	int currentNumOfEmployees; 
+									/* Employees */
+	int currentNumOfEmployees;
 	int currentNumOfDoctors;		// Validation usage
 	int currentNumOfNurses;			// Validation usage
 	int currentNumOfResearchers;	// Validation usage
@@ -58,7 +59,7 @@ public:
 	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS = 1000;
 
 	static const char* ARRAY_MAX_SIZE;
-	
+
 	/* Department managment */
 	const Department& createDepartment(const string& departmentName) throw(const char*);
 	const Department* getConstDepartmentByName(const string& departmentName) const;
@@ -96,7 +97,7 @@ public:
 	void addDiplomaToDoctor(int id);
 	int getCurrentNumOfDoctors() const;
 	/*Nurse*/
-	const Nurse& createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties) throw(const char*);
+	const Nurse& createNurse(const Employee::employeeInfo employeeInfo) throw(const char*);
 	const Nurse* getConstNurseById(int id) const;
 	void addDuty(int id, const string& duty);
 	void removeDuty(int id, const string& duty);
@@ -112,7 +113,7 @@ public:
 	bool performSurgery(const Surgeon* surgeon, const Surgery* surgery) const;
 	int getCurrentNumOfSurgeons() const;
 	/*Researching doctor*/
-	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor,const string& areaOfResearch, int maxNumOfTestSubjects = 0) throw(const char*);
+	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects = 0) throw(const char*);
 	const ResearchingDoctor* getConstResearchingDoctorById(int id) const;
 	void addTestSubjectToRD(int researcherId, const Patient* testSubject) const;
 	void removeTestSubjectToRD(int researcherId, const Patient* testSubject) const;
