@@ -4,8 +4,6 @@
 Patient::Patient(int id, const string& name, const string& dateOfBirth, eGender gender)
 	: Person(id, name, dateOfBirth, gender)
 {
-	allergies				= new string[Patient::MAX_NUMBER_OF_ALLERGIES];
-	visits					= new const Visit*[Patient::MAX_NUMBER_OF_VISITS];
 	numOfAllergies			= 0;
 	numOfVisits				= 0;
 	cout << "In Patient::Patient (name=" << this->name << ")" << endl;
@@ -14,67 +12,59 @@ Patient::Patient(int id, const string& name, const string& dateOfBirth, eGender 
 Patient::~Patient()
 {
 	cout << "In Patient::~Patient (name=" << name << ")" << endl;
-	delete[] allergies;
-	delete[] visits;
 }
 
 void Patient::visitHospital(const string& date)
 {
 	lastDateVisited = date;
 }
-
 bool Patient::anesthetize(const string& date)
 {
 	lastDateAnesthetized = date;
 	return true;
 }
-
 void Patient::addVisit(const Visit* visit)
 {
-	if (numOfVisits == MAX_NUMBER_OF_VISITS) return; //TODO: expection
-	visits[numOfVisits] = visit;
+	if (visit == nullptr)
+		return;
+	visits.push_back(visit);
 	setLastDateVisited(visit->getDate());
 	++numOfVisits;
 }
-
 void Patient::setLastDateVisited(const string& lastDateVisited)
 {
 	this->lastDateVisited = lastDateVisited;
 }
-
 void Patient::setLastDateAnesthetized(const string& lastDateAnesthetized)
 {
 	this->lastDateAnesthetized = lastDateAnesthetized;
 }
-
 bool Patient::addAllergie(const string& nameOfAllergie)
 {
-	if (numOfAllergies == MAX_NUMBER_OF_ALLERGIES) return false;
-	this->allergies[numOfAllergies] = nameOfAllergie;
+	if (nameOfAllergie.empty())
+		return false;
+	allergies.push_back(nameOfAllergie);
 	++numOfAllergies;
 	return true;
+
 }
 
 int Patient::getNumOfVisits() const
 {
 	return numOfVisits;
 }
-
 int Patient::getNumOfAllergies() const
 {
 	return numOfAllergies;
 }
-
-const Visit* const* Patient::getVisits() const
+const vector<const Visit*>  Patient::getVisits() const
 {
 	return visits;
 }
-
 const string& Patient::getLastDateVisited() const
 {
 	return lastDateVisited;
 }
-
 const string& Patient::getLastDateAnesthetized() const
 {
 	return lastDateAnesthetized;
@@ -99,15 +89,18 @@ void Patient::toOs(ostream& os) const
 		os << "\t" " No allergies." << endl;
 	else {
 		os << endl;
-		for (int i = 0; i < numOfAllergies; i++)
-			os << "\t" << allergies[i] << endl;
+		vector<string>::const_iterator itr = allergies.begin();
+		vector<string>::const_iterator itrEnd = allergies.end();
+		for (; itr != itrEnd; itr++)
+			os << "\t" << *itr << endl;
 	}
 	os << "---------------------------------------" << endl;
 }
-
 void Patient::printVisits() const
 {
 	cout << "================= " << getName() << " Visits History =================" << endl;
-	for (int i = 0; i < numOfVisits; i++)
-		cout << *visits[i] << endl;
+	vector<const Visit*>::const_iterator itr = visits.begin();
+	vector<const Visit*>::const_iterator itrEnd = visits.end();
+	for (; itr != itrEnd; itr++)
+		cout << *(*itr) << endl;
 }

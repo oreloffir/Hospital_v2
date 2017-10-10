@@ -20,7 +20,8 @@ public:
 
 	int getNumOfPublications()					const;
 	const string& getAreaOfResearch()			const;
-	const string* getPublicationsNames()		const;
+	const vector<string> getPublicationsNames()	const;
+	void printPublicationsNames()				const;
 
 	bool addPublicationName(const string publicationName);
 	void operator+=(const string publication);
@@ -31,9 +32,7 @@ public:
 protected:
 	int numOfPublications;
 	string areaOfResearch;
-	string* publicationsNames;
-
-	void free();
+	vector<string> publicationsNames;
 };
 
 #endif // RESEARCHER_H_INCLUDED

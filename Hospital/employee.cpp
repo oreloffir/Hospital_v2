@@ -16,7 +16,6 @@ Employee::Employee(int id, const string& name, const string& dateOfBirth, eGende
 	std::cout << "In Employee::Employee" << "---->" << this->name << std::endl;
 	this->employeeId = Employee::employeeIdGenerator;
 	++Employee::employeeIdGenerator;
-	this->departments = new const Department*[Employee::MAX_NUMBER_OF_DEPATRMENTS];
 	this->numberOfDepatments = 0;
 }
 
@@ -30,12 +29,8 @@ const Employee& Employee::operator=(const Employee& other)
 	std::cout << "In Employee::operator=" << std::endl;
 	if (this != &other)
 	{
-		//delete[] areaOfTraining; // TODO
-		//delete[] startWorkingDate;
-		delete[] departments;
-
 		employeeId = other.employeeId;
-		departments = new const Department*[MAX_NUMBER_OF_DEPATRMENTS];
+		departments = other.departments; // TODO
 		for (int i = 0; i < numberOfDepatments; i++)
 			departments[i] = other.departments[i];
 		startWorkingDate = other.startWorkingDate;
@@ -49,22 +44,23 @@ const Employee& Employee::operator=(const Employee& other)
 Employee::~Employee()
 {
 	std::cout << "In Employee::~Employee" << "---->" << this->name << std::endl;
-	//delete[] areaOfTraining; //TODO
-	//delete[] startWorkingDate;
-	delete[] departments;
 }
 
 int Employee::getEmployeeId() const
 {
 	return this->employeeId;
 }
-const Department* const* Employee::getDepartments() const
+const vector<const Department*> Employee::getDepartments() const
 {
 	return this->departments;
 }
 const string& Employee::getStartWorkingDate() const
 {
 	return this->startWorkingDate;
+}
+const string& Employee::getAreaOfTraining() const
+{
+	return areaOfTraining;
 }
 Employee::eRank Employee::getEmployeeRank() const
 {
@@ -93,37 +89,36 @@ void Employee::updateSenorityYear(float senorityYears)
 {
 	this->seniorityYears = senorityYears;
 }
-const string& Employee::getAreaOfTraining() const
-{
-	return areaOfTraining;
-}
 void Employee::addDepartment(const Department* department)
 {
 	if (department == nullptr)
 		return;
-	if (numberOfDepatments == MAX_NUMBER_OF_DEPATRMENTS)
-		return;
 	removeDepartment(department->getName());
-	departments[numberOfDepatments] = department;
+	departments.push_back(department);
 	++numberOfDepatments;
 }
 void Employee::removeDepartment(const string& departmentName)
 {
 	int pos = -1;
-	for (int i = 0; i < this->numberOfDepatments; i++)
-		if (departments[i]->getName().compare(departmentName) == 0)
+	vector<const Department*>::const_iterator itr = departments.begin();
+	vector<const Department*>::const_iterator itrEnd = departments.end();
+	for (int i = 0; itr != itrEnd; itr++, i++)
+		if ((*itr)->getName().compare(departmentName) == 0)
 		{
 			pos = i;
 			break;
 		}
+
 	if (pos < 0) return;
 	if (pos == numberOfDepatments - 1)
 	{
-		departments[pos] = nullptr;
+		departments.erase(departments.begin() + pos);
 		--numberOfDepatments;
 		return;
 	}
-	for (int i = pos; i < this->numberOfDepatments && i < MAX_NUMBER_OF_DEPATRMENTS - 1; i++)
+	if (departments.capacity() <= numberOfDepatments)
+		departments.resize(numberOfDepatments * 2);
+	for (int i = pos; i < this->numberOfDepatments; i++)
 		departments[i] = departments[i + 1];
 	--numberOfDepatments;
 }

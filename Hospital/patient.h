@@ -29,7 +29,7 @@ public:
 
 	int getNumOfVisits()					const;
 	int getNumOfAllergies()					const;
-	const Visit* const* getVisits()			const;
+	const vector<const Visit*> getVisits()	const;
 	const string& getLastDateVisited()		const;
 	const string& getLastDateAnesthetized()	const;
 
@@ -37,12 +37,12 @@ public:
 	virtual void toOs(std::ostream& os) const override;
 
 protected:
-    const Visit**	visits;
-    string			lastDateVisited; //TODO check const
-	string			lastDateAnesthetized;
-    string*			allergies;
-	int				numOfAllergies;
-	int				numOfVisits;
+    vector<const Visit*>	visits;
+	vector<string>			allergies; // TODO cant be const
+    string					lastDateVisited;
+	string					lastDateAnesthetized;
+	int						numOfAllergies;
+	int						numOfVisits;
 };
 
 #endif // PATIENT_H_INCLUDED

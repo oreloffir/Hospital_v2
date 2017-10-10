@@ -9,7 +9,6 @@ Researcher::Researcher(int id, const string& name, const string& dateOfBirth, eG
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
 	this->numOfPublications = 0;
 	this->areaOfResearch = areaOfResearch;
-	this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 }
 Researcher::Researcher(const Employee& employee, const string& areaOfResearch)
 	:Employee(employee)
@@ -17,7 +16,6 @@ Researcher::Researcher(const Employee& employee, const string& areaOfResearch)
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
 	this->numOfPublications = 0;
 	this->areaOfResearch = areaOfResearch;
-	this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
 }
 Researcher::Researcher(const Researcher& other)
 	: Employee(other)
@@ -30,24 +28,16 @@ const Researcher& Researcher::operator=(const Researcher& other)
 	cout << "In Researcher::operator=()" << "---->" << this->name << endl;
 	if (this != &other)
 	{
-		this->free();
 		this->numOfPublications = other.numOfPublications;
 		this->areaOfResearch = other.areaOfResearch;
-		this->publicationsNames = new string[MAX_NUMBER_OF_PUBLICATIONS];
-		for (int i = 0; i < other.numOfPublications; i++)
-			publicationsNames[i] = other.publicationsNames[i];
+		this->publicationsNames = other.publicationsNames;
 	}
 	return *this;
 }
 Researcher::~Researcher()
 {
 	cout << "In Researcher::~Researcher()" << "---->" << this->name << endl;
-	this->free();
-}
 
-void Researcher::free()
-{
-	delete[] publicationsNames;
 }
 
 int Researcher::getNumOfPublications() const
@@ -58,21 +48,31 @@ const string& const Researcher::getAreaOfResearch() const
 {
 	return areaOfResearch;
 }
-const string* Researcher::getPublicationsNames() const 
+const vector<string> Researcher::getPublicationsNames() const 
 {
 	return publicationsNames;
 }
+void Researcher::printPublicationsNames() const
+{
+	cout << "================= " << name << " publication names =================" << endl;
+	if (numOfPublications == 0)
+		cout << "\t - Researcher has no publications yet." << endl;
+	else {
+		vector<string>::const_iterator itr = publicationsNames.begin();
+		vector<string>::const_iterator itrEnd = publicationsNames.end();
+		for (; itr != itrEnd; itr++)
+			cout << "\t - " << *(itr) << endl;
+	}
+}
 bool Researcher::addPublicationName(const string publicationName)
 {
-	if (numOfPublications == MAX_NUMBER_OF_PUBLICATIONS) return false;
-	this->publicationsNames[numOfPublications] = publicationName;
+	this->publicationsNames.push_back(publicationName);
 	++numOfPublications;
 	return true;
 }
 void Researcher::operator+=(const string publication) 
 {
-	publicationsNames[numOfPublications] = publication;
-	++numOfPublications;
+	addPublicationName(publication);
 }
 void Researcher::work() const
 {

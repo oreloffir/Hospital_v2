@@ -92,15 +92,12 @@ void Department::setName(const string& name)
 }
 void Department::addPatient(const Patient* newPatient)
 {
-	// check if we have pointer to this employee already (by Id)
+	// check if we have pointer to this Patient already (by Id)
 	if (getPatientById(newPatient->getId()) != nullptr)
 		return;
 
 	allPatients.push_back(newPatient);
-	++currentNumOfPatients;
-	/*if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS) return; // TODO: throw exception
-	allPatients[currentNumOfPatients] = newPatient;*/
-	
+	++currentNumOfPatients;	
 }
 void Department::addEmployee(const Employee* newEmployee)
 {
@@ -110,6 +107,15 @@ void Department::addEmployee(const Employee* newEmployee)
 	allEmployees.push_back(newEmployee);
 	++currentNumOfEmployees;
 }
+void Department::addVisit(const Visit* visit)
+{
+	// check if we have pointer to this visit already (by Id)
+	if (getVisitById(visit->getVisitId()) != nullptr)
+		return;
+	allVisits.push_back(visit);
+	++currentNumOfVisits;
+}
+
 void Department::removePatientById(int id)
 {
 	int pos = -1;
@@ -125,7 +131,7 @@ void Department::removePatientById(int id)
 	if (pos < 0) return;
 	if (pos == currentNumOfPatients - 1)
 	{
-		allPatients[pos] = nullptr;
+		allPatients.erase(allPatients.begin() + pos);
 		--currentNumOfPatients;
 		return;
 	}
@@ -150,7 +156,7 @@ void Department::removeEmployeeById(int employeeId)
 	if (pos < 0) return;
 	if (pos == currentNumOfEmployees - 1)
 	{
-		allEmployees[pos] = nullptr;
+		allEmployees.erase(allEmployees.begin() + pos);
 		--currentNumOfEmployees;
 		return;
 	}
@@ -159,14 +165,6 @@ void Department::removeEmployeeById(int employeeId)
 	for (int i = pos; i < currentNumOfEmployees ; i++) 
 		allEmployees[i] = allEmployees[i + 1];
 	--currentNumOfEmployees;
-}
-void Department::addVisit(const Visit* visit)
-{
-	// check if we have pointer to this employee already (by Id)
-	if (getVisitById(visit->getVisitId()) != nullptr)
-		return;
-	allVisits.push_back(visit);
-	++currentNumOfVisits;
 }
 void Department::removeVisitById(int visitId)
 {
@@ -182,9 +180,9 @@ void Department::removeVisitById(int visitId)
 
 	
 	if (pos < 0) return;
-	if (pos == MAX_NUMBER_OF_VISITS - 1)
+	if (pos == currentNumOfVisits - 1)
 	{
-		allVisits[pos] = nullptr;
+		allVisits.erase(allVisits.begin() + pos);
 		--currentNumOfVisits;
 		return;
 	}

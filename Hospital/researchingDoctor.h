@@ -14,11 +14,10 @@ public:
 	ResearchingDoctor& operator=(const ResearchingDoctor& other) = delete;
 	virtual ~ResearchingDoctor();
 
-	int getMaxNumOfTestSubjects()		const;
-	int getCurrentNumOfTestSubjects()	const;
-	const Patient** getTestSubjects()	const;
-
-	void setMaxNumOfTestSubjects(int maxNumOfTestSubjects);
+	int getMaxNumOfTestSubjects()					const;
+	int getCurrentNumOfTestSubjects()				const;
+	const vector<const Patient*> getTestSubjects()	const;
+	void printTestSubjects()						const;
 
 	void addTestSubject(const Patient& testSubject);
 	void removeTestSubject(const Patient& testSubject);
@@ -32,9 +31,7 @@ public:
 protected:
 	int maxNumOfTestSubjects;
 	int currentNumOfTestSubjects;
-	const Patient** testSubjects;
-
-	void free();
+	vector<const Patient*> testSubjects;
 };
 
 #endif // RESEARCHING_DOCTOR_H_INCLUDED

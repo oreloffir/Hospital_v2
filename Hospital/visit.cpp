@@ -12,7 +12,6 @@ Visit::Visit(const string& date, const string& cause, const Department* departme
 	cout << "In Visit::Visit (cause=" << cause << ")" << endl;
 	visitId = visitIdGenerator;
 	++visitIdGenerator;
-	seeingStaff = new const CareGivingEmployee*[MAX_NUM_OF_SEEING_STAFF];
 }
 Visit::Visit(const Visit& other)
 {
@@ -22,25 +21,19 @@ Visit::Visit(const Visit& other)
 Visit::~Visit()
 {
 	cout << "In Visit::~Visit (cause=" << cause << ")" << endl;
-	this->free();
 }
 
 const Visit& Visit::operator=(const Visit& other)
 {
 	if (this != &other)
 	{
-		this->free();
-		this->seeingStaff = new const CareGivingEmployee*[MAX_NUM_OF_SEEING_STAFF];
+		this->seeingStaff = other.seeingStaff;
 		this->date = other.date;
 		this->cause = other.cause;
 		this->department = other.department;
 		this->patient = other.patient;
 		this->currentNumOfSeeingStaff = other.currentNumOfSeeingStaff;
 		this->typeOfCare = other.typeOfCare;
-		for (int i = 0; i < other.currentNumOfSeeingStaff; i++)
-		{
-			this->seeingStaff[i] = other.seeingStaff[i];
-		}
 	}
 	return *this;
 }
@@ -61,9 +54,20 @@ const Patient* Visit::getPatient() const
 {
 	return patient;
 }
-const CareGivingEmployee** Visit::getSeeingStaff() const
+const vector<const CareGivingEmployee*> Visit::getSeeingStaff() const
 {
 	return seeingStaff;
+}
+void Visit::printSeeingStaff() const
+{
+	if (currentNumOfSeeingStaff == 0)
+		cout << "No care giving employees set yet." << endl;
+	else {
+		vector<const CareGivingEmployee*>::const_iterator itr = seeingStaff.begin();
+		vector<const CareGivingEmployee*>::const_iterator itrEnd = seeingStaff.end();
+		for (; itr != itrEnd; itr++)
+			cout << *(*itr) << endl;
+	}
 }
 Visit::eCare Visit::getTypeOfCare() const
 {
@@ -87,9 +91,11 @@ const string& Visit::getTypeOfCareName() const
 }
 const CareGivingEmployee* Visit::getCareGivingEmployeeById(int careGivingEmployeeId) const
 {
-	for (int i = 0; i < currentNumOfSeeingStaff; i++)
-		if (seeingStaff[i]->getId() == careGivingEmployeeId)
-			return seeingStaff[i];
+	vector<const CareGivingEmployee*>::const_iterator itr = seeingStaff.begin();
+	vector<const CareGivingEmployee*>::const_iterator itrEnd = seeingStaff.end();
+	for (; itr != itrEnd && *itr != NULL; itr++)
+		if ((*itr)->getId() == careGivingEmployeeId)
+			return *itr;
 	return nullptr;
 }
 
@@ -107,27 +113,32 @@ void Visit::addSeeingStaff(const CareGivingEmployee& employee)
 	// check if we have pointer to this employee already (by Id)
 	if (getCareGivingEmployeeById(employee.getEmployeeId()) != nullptr)
 		return;
-	if (currentNumOfSeeingStaff == MAX_NUM_OF_SEEING_STAFF) return; // TODO: throw exeption!
-	seeingStaff[currentNumOfSeeingStaff] = &employee;
+	seeingStaff.push_back(&employee);
 	++currentNumOfSeeingStaff;
 }
 void Visit::removeSeeingStaff(int employeeId)
 {
 	int pos = -1;
-	for (int i = 0; i < currentNumOfSeeingStaff; i++)
-		if (seeingStaff[i]->getEmployeeId() == employeeId)
+	vector<const CareGivingEmployee*>::const_iterator itr = seeingStaff.begin();
+	vector<const CareGivingEmployee*>::const_iterator itrEnd = seeingStaff.end();
+	for (int i = 0; itr != itrEnd; itr++, i++)
+		if ((*itr)->getId() == employeeId)
 		{
 			pos = i;
 			break;
 		}
+
 	if (pos < 0) return;
-	if (pos == MAX_NUM_OF_SEEING_STAFF - 1)
+	if (pos == currentNumOfSeeingStaff - 1)
 	{
-		seeingStaff[pos] = nullptr;
+		seeingStaff.erase(seeingStaff.begin() + pos);
 		--currentNumOfSeeingStaff;
 		return;
 	}
-	for (int i = pos; i < this->currentNumOfSeeingStaff && i < MAX_NUM_OF_SEEING_STAFF - 1; i++)
+
+	if (seeingStaff.capacity() <= currentNumOfSeeingStaff)
+		seeingStaff.resize(currentNumOfSeeingStaff * 2);
+	for (int i = pos; i < currentNumOfSeeingStaff; i++)
 		seeingStaff[i] = seeingStaff[i + 1];
 
 	--currentNumOfSeeingStaff;
@@ -163,11 +174,6 @@ void Visit::onEmployeeReplaced(const Employee* newPointer)
 		*this -= *cge;
 		*this += *cge;
 	}
-}
-
-void Visit::free()
-{
-	delete[] seeingStaff;
 }
 
 std::ostream& operator<<(std::ostream& os, const Visit& visit)
