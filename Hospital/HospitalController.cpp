@@ -619,7 +619,7 @@ void HospitalController::selectDepartment(const string departmentName) const
 				cout << "No employees found." << endl;
 			else
 				for (int i = 0; i < amount; i++)
-					cout << *employees[i] << endl;
+					cout << *(employees[i]) << endl;
 			break;
 
 		case DEPARTMENT_PRINT_ALL_VISITS:
@@ -629,7 +629,7 @@ void HospitalController::selectDepartment(const string departmentName) const
 				cout << "No visits found." << endl;
 			else
 				for (int i = 0; i < amount; i++)
-					cout << *visits[i] << endl;
+					cout << *(visits[i]) << endl;
 			break;
 
 		default:
@@ -739,7 +739,7 @@ void HospitalController::selectResearcher(int researcherId) const
 	if (researcher == nullptr)
 		return;
 
-	const string* names;
+	const vector<string> names;
 	cout << (Person&)*researcher << endl;
 
 	while (true)
@@ -757,15 +757,7 @@ void HospitalController::selectResearcher(int researcherId) const
 			break;
 		case RESEARCHER_GET_PUBLICATION_NAMES:
 			if (researcher != nullptr)
-			{
-				names = researcher->getPublicationsNames();
-				int numOfPublications = researcher->getNumOfPublications();
-				cout << "================= " << researcher->getName() << " publication names =================" << endl;
-				if (numOfPublications == 0)
-					cout << "\t - Researcher has no publications yet." << endl;
-				for (int i = 0; i < numOfPublications; i++)
-					cout << "\t - " << names[i] << endl;
-			}
+				researcher->printPublicationsNames();
 			else
 				cout << "================= Invalid researcher id =================" << endl;
 			break;
@@ -843,7 +835,6 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 	if (researchingDoctor == nullptr)
 		return;
 
-	const Patient* const* testSubjects;
 	cout << (Person&)*researchingDoctor << endl;
 
 	while (true)
@@ -888,12 +879,7 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 		case RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS:
 		{
 			if (researchingDoctor != nullptr)
-			{
-				testSubjects = researchingDoctor->getTestSubjects();
-				cout << "================= " << researchingDoctor->getName() << " test subjects =================" << endl;
-				for (int i = 0; i < researchingDoctor->getCurrentNumOfTestSubjects(); i++)
-					cout << "\t - " << *testSubjects[i] << endl;
-			}
+				researchingDoctor->printTestSubjects();
 			else
 				cout << "================= Invalid nurse id =================" << endl;
 			break;
@@ -952,11 +938,7 @@ void HospitalController::selectVisit(int visitId) const
 			cout << *visit->getPatient() << endl;
 			break;
 		case PRINT_SEEING_STAFF:
-			cges = visit->getSeeingStaff();
-			for (int i = 0; i < visit->getCurrentNumOfSeeingStaff(); i++)
-				cout << *cges[i] << endl;
-			if (visit->getCurrentNumOfSeeingStaff() == 0)
-				cout << "No care giving employees set yet." << endl;
+			visit->printSeeingStaff();
 			break;
 		case ADD_CARE_GIVING_EMPLOYEE:
 			cge = getCareGivingEmployeeFromUser();

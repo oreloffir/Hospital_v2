@@ -26,16 +26,17 @@ public:
     void operator-=(const CareGivingEmployee& cgEmployee);
 
     //getters
-    const string& getDate()							const;
-    const string& getCause()							const;
-    const Department* getDepratment()				const;
-    const Patient* getPatient()						const;
-    const CareGivingEmployee** getSeeingStaff()		const;
-	eCare getTypeOfCare()							const;
-	const string& getTypeOfCareName()				const;
-    int getMaxNumOfSeeingStaff()					const;
-    int getCurrentNumOfSeeingStaff()				const;
-	int getVisitId()								const;
+    const string& getDate()									const;
+    const string& getCause()								const;
+    const Department* getDepratment()						const;
+    const Patient* getPatient()								const;
+	const vector<const CareGivingEmployee*> getSeeingStaff()const;
+	void printSeeingStaff()									const;
+	eCare getTypeOfCare()									const;
+	const string& getTypeOfCareName()						const;
+    int getMaxNumOfSeeingStaff()							const;
+    int getCurrentNumOfSeeingStaff()						const;
+	int getVisitId()										const;
 	const CareGivingEmployee* getCareGivingEmployeeById(int careGivingEmployeeId) const;
     
     //setters
@@ -70,14 +71,13 @@ protected:
     const Patient* patient;
 	int visitId;
     int currentNumOfSeeingStaff;
-	const CareGivingEmployee** seeingStaff;
+	vector<const CareGivingEmployee*> seeingStaff;
     eCare typeOfCare;
 
     //ctors
     Visit(const string& date, const string& cause, const Department* department, const Patient* patient, eCare typeOfCare);
 	Visit(const Visit& other);
 	const Visit& operator=(const Visit& other);
-	void free();
 };
 
 

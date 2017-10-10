@@ -4,6 +4,7 @@
 #include "department.h"
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -35,13 +36,13 @@ public:
 
 	virtual ~Employee();
 
-	int getEmployeeId()							const;
-	const Department* const* getDepartments()	const;
-	const string& getStartWorkingDate()			const;
-	eRank getEmployeeRank()						const;
-	float getSeniorityYears()					const;
-	double getSalary()							const;
-	const string& getAreaOfTraining()				const;
+	int getEmployeeId()									const;
+	const vector<const Department*> getDepartments()	const;
+	const string& getStartWorkingDate()					const;
+	eRank getEmployeeRank()								const;
+	float getSeniorityYears()							const;
+	double getSalary()									const;
+	const string& getAreaOfTraining()					const;
 
 	virtual void toOs(std::ostream& os) const override;
 
@@ -53,7 +54,7 @@ public:
 
 protected:
 	int employeeId;
-	const Department** departments;
+	vector<const Department*> departments;
 	int numberOfDepatments;
 	string startWorkingDate;
 	eRank employeeRank;
