@@ -49,6 +49,11 @@ void Doctor::addDiploma()
 {
 	this->setNumOfDiplomas(++numOfDiplomas);
 }
+const Doctor& Doctor::operator++()
+{
+	this->addDiploma();
+	return *this;
+}
 void Doctor::work() const
 {
 	std::cout << "I'm a Doctor " << name << " and I'm working" << std::endl;

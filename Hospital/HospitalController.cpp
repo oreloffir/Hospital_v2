@@ -713,8 +713,10 @@ void HospitalController::selectNurse(int nurseId) const
 			{
 				duties = &nurse->getDuties();
 				cout << "================= " << nurse->getName() << " Duties =================" << endl;
-				if (duties->getSize() > 0)
-					cout << duties << endl;
+				if (duties->getSize() <= 0)
+					cout << "Nurse has no duties" << endl;
+				else
+					cout << *duties << endl;
 			}
 			else
 				cout << "================= Invalid nurse id =================" << endl;

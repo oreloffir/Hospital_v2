@@ -31,7 +31,6 @@ public:
 		const string& startWorkingDate, eRank employeeRank, double salary,
 		const string& areaOfTraining, float seniorityYears);
 	Employee(const Employee& other);
-
 	const Employee& operator=(const Employee& other);
 
 	virtual ~Employee();
@@ -44,6 +43,7 @@ public:
 	double getSalary()									const;
 	const string& getAreaOfTraining()					const;
 
+	bool operator==(const Employee& other);
 	virtual void toOs(std::ostream& os) const override;
 
 	void setSalary(double salary);
