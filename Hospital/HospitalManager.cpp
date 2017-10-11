@@ -232,7 +232,7 @@ void HospitalManager::addDiplomaToDoctor(int id)
 	Doctor* doctor = getDoctorById(id);
 	if (doctor == nullptr)
 		return;
-	doctor->addDiploma();
+	++(*doctor);
 }
 int HospitalManager::getCurrentNumOfDoctors() const
 {

@@ -619,7 +619,7 @@ void HospitalController::selectDepartment(const string departmentName) const
 				cout << "No employees found." << endl;
 			else
 				for (int i = 0; i < amount; i++)
-					cout << *employees[i] << endl;
+					cout << *(employees[i]) << endl;
 			break;
 
 		case DEPARTMENT_PRINT_ALL_VISITS:
@@ -629,7 +629,7 @@ void HospitalController::selectDepartment(const string departmentName) const
 				cout << "No visits found." << endl;
 			else
 				for (int i = 0; i < amount; i++)
-					cout << *visits[i] << endl;
+					cout << *(visits[i]) << endl;
 			break;
 
 		default:
@@ -713,8 +713,10 @@ void HospitalController::selectNurse(int nurseId) const
 			{
 				duties = &nurse->getDuties();
 				cout << "================= " << nurse->getName() << " Duties =================" << endl;
-				if (duties->getSize() > 0)
-					cout << duties << endl;
+				if (duties->getSize() <= 0)
+					cout << "Nurse has no duties" << endl;
+				else
+					cout << *duties << endl;
 			}
 			else
 				cout << "================= Invalid nurse id =================" << endl;

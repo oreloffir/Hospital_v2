@@ -20,6 +20,7 @@ public:
 
 	void setNumOfDiplomas(int numOfDiplomas);
 	void addDiploma();
+	const Doctor& operator++();
 
 	virtual void work() const;
 	virtual void toOs(std::ostream& os) const override;

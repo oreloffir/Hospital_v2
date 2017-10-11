@@ -128,6 +128,14 @@ void Employee::removeDepartment(const string& departmentName)
 	--numberOfDepatments;
 }
 
+bool Employee::operator==(const Employee & other)
+{
+	if (this->getEmployeeId() == other.getEmployeeId())
+		return true;
+
+	return false;
+}
+
 void Employee::toOs(std::ostream& os) const
 {
 	os << "-----------Employee Details-----------" << std::endl;
