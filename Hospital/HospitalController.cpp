@@ -288,6 +288,7 @@ int HospitalController::nurseMenu() const
 	cout << "\t" << NURSE_GET_DUTIES << ". Get duties." << endl;
 	cout << "\t" << NURSE_ADD_DUTY << ". Add duty." << endl;
 	cout << "\t" << NURSE_REMOVE_DUTY << ". Remove duty." << endl;
+	cout << "\t" << NURSE_SET_MAX_NUMBER_OF_DUTIES << ". Set max number of duties." << endl;
 	cout << HospitalController::PRESS_TO_GO_BACK << endl;
 	return getIntegerFromUser();
 }
@@ -728,6 +729,10 @@ void HospitalController::selectNurse(int nurseId) const
 		case NURSE_REMOVE_DUTY:
 			cout << "Enter a duty name to remove: ";
 			HospitalManager::getInstance()->removeDuty(nurse->getEmployeeId(), getStringFromUser());
+			break;
+		case NURSE_SET_MAX_NUMBER_OF_DUTIES:
+			cout << "Enter max number of duties: ";
+			hospitalManager.setMaxNumOfDuties(nurse->getEmployeeId(), getIntegerFromUser());
 			break;
 		default:
 			return;
