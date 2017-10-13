@@ -340,7 +340,7 @@ const Surgeon& HospitalManager::createSurgeon(const Doctor* doctor, bool hasSecu
 		}
 
 	Doctor* removeDoctor = dynamic_cast<Doctor*>(employees[doctorIndx]);
-	Surgeon* mySurgeon = new Surgeon(*doctor, hasSecurityClearance, numOfSuccesfulSurgeries, numOfSurgeries);
+	Surgeon* mySurgeon = new Surgeon(*doctor, hasSecurityClearance);
 
 	// update departments and visits about the change
 	for (int i = 0; i < currentNumOfEmployeeListeners; i++)

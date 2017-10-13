@@ -7,14 +7,12 @@ Researcher::Researcher(int id, const string& name, const string& dateOfBirth, eG
 	:Employee(id, name, dateOfBirth, gender, startWorkingDate, employeeRank, salary, areaOfTraining, seniorityYears)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
-	this->numOfPublications = 0;
 	this->areaOfResearch = areaOfResearch;
 }
 Researcher::Researcher(const Employee& employee, const string& areaOfResearch)
 	:Employee(employee)
 {
 	cout << "In Researcher::Researcher" << "---->" << this->name << endl;
-	this->numOfPublications = 0;
 	this->areaOfResearch = areaOfResearch;
 }
 Researcher::Researcher(const Researcher& other)
@@ -28,8 +26,7 @@ const Researcher& Researcher::operator=(const Researcher& other)
 	cout << "In Researcher::operator=()" << "---->" << this->name << endl;
 	if (this != &other)
 	{
-		this->numOfPublications = other.numOfPublications;
-		this->areaOfResearch = other.areaOfResearch;
+		this->areaOfResearch	= other.areaOfResearch;
 		this->publicationsNames = other.publicationsNames;
 	}
 	return *this;
@@ -37,12 +34,11 @@ const Researcher& Researcher::operator=(const Researcher& other)
 Researcher::~Researcher()
 {
 	cout << "In Researcher::~Researcher()" << "---->" << this->name << endl;
-
 }
 
 int Researcher::getNumOfPublications() const
 {
-	return numOfPublications;
+	return (int)publicationsNames.size();
 }
 const string& const Researcher::getAreaOfResearch() const
 {
@@ -52,22 +48,9 @@ const vector<string> Researcher::getPublicationsNames() const
 {
 	return publicationsNames;
 }
-void Researcher::printPublicationsNames() const
-{
-	cout << "================= " << name << " publication names =================" << endl;
-	if (numOfPublications == 0)
-		cout << "\t - Researcher has no publications yet." << endl;
-	else {
-		vector<string>::const_iterator itr = publicationsNames.begin();
-		vector<string>::const_iterator itrEnd = publicationsNames.end();
-		for (; itr != itrEnd; itr++)
-			cout << "\t - " << *(itr) << endl;
-	}
-}
 bool Researcher::addPublicationName(const string publicationName)
 {
 	this->publicationsNames.push_back(publicationName);
-	++numOfPublications;
 	return true;
 }
 void Researcher::operator+=(const string publication) 
@@ -83,4 +66,15 @@ void Researcher::toOs(ostream& os) const
 	Employee::toOs(os);
 	os << "-----------Researcher Details-----------" << endl;
 	os << "Area Of Research: " << this->getAreaOfResearch() << endl;
+	os << "Publications Names: ";
+	if (publicationsNames.size() == 0)
+		os << "No Publications Names" << endl;
+	else
+	{
+		os << endl;
+		for (vector<string>::const_iterator itr = publicationsNames.begin();
+			itr < publicationsNames.end(); itr++)
+			os << *itr << endl;
+	}
+		
 }

@@ -38,7 +38,7 @@ bool Surgeon::performSurgery(const Surgery* surgery)
 {
 	float surgeryChanges = getSurgeryChances(surgery);
 
-	srand(time(NULL));
+	srand((int)time(NULL));
 	double lifeIsHard = rand() % 100; // generate random number 0 - 99
 
 	++numOfSurgeries;

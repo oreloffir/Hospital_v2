@@ -4,8 +4,6 @@
 Patient::Patient(int id, const string& name, const string& dateOfBirth, eGender gender)
 	: Person(id, name, dateOfBirth, gender)
 {
-	numOfAllergies			= 0;
-	numOfVisits				= 0;
 	cout << "In Patient::Patient (name=" << this->name << ")" << endl;
 }
 
@@ -29,7 +27,6 @@ void Patient::addVisit(const Visit* visit)
 		return;
 	visits.push_back(visit);
 	setLastDateVisited(visit->getDate());
-	++numOfVisits;
 }
 void Patient::setLastDateVisited(const string& lastDateVisited)
 {
@@ -44,18 +41,16 @@ bool Patient::addAllergie(const string& nameOfAllergie)
 	if (nameOfAllergie.empty())
 		return false;
 	allergies.push_back(nameOfAllergie);
-	++numOfAllergies;
 	return true;
-
 }
 
 int Patient::getNumOfVisits() const
 {
-	return numOfVisits;
+	return (int)visits.size();
 }
 int Patient::getNumOfAllergies() const
 {
-	return numOfAllergies;
+	return (int)allergies.size();
 }
 const vector<const Visit*>  Patient::getVisits() const
 {
@@ -85,7 +80,7 @@ void Patient::toOs(ostream& os) const
 	}
 	os << "Patient Allergies: ";
 
-	if (numOfAllergies == 0)
+	if (allergies.size() == 0)
 		os << "\t" " No allergies." << endl;
 	else {
 		os << endl;

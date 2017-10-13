@@ -295,7 +295,6 @@ int HospitalController::researcherMenu() const
 {
 	cout << "Actions:" << endl;
 	cout << "\t" << RESEARCHER_PRINT_AREA_OF_RESEARCH << ". Get area of search." << endl;
-	cout << "\t" << RESEARCHER_GET_PUBLICATION_NAMES << ". Get publiction names." << endl;
 	cout << "\t" << RESEARCHER_ADD_PUBLICATION << ". Add publiction." << endl;
 	cout << HospitalController::PRESS_TO_GO_BACK << endl;
 	return getIntegerFromUser();
@@ -303,11 +302,8 @@ int HospitalController::researcherMenu() const
 int HospitalController::surgeonMenu() const
 {
 	cout << "Actions:" << endl;
-	cout << "\t" << SURGEON_CHECK_SECURITY_CLEARANCE << ". Check surgeon security clearance." << endl;
-	cout << "\t" << SURGEON_GET_NUM_OF_SUCCESFULL_SURGERIES << ". Get num of succesfull surgeries." << endl;
 	cout << "\t" << SURGEON_CHECK_SURGERY_CHANCE << ". Get surgery chances." << endl;
 	cout << "\t" << SURGEON_PERFORM_SURGERY << ". Perform surgery." << endl;
-	cout << "\t" << SURGEON_ADD_DIPLOMA << ". Add diploma." << endl;
 	cout << HospitalController::PRESS_TO_GO_BACK << endl;
 	return getIntegerFromUser();
 }
@@ -316,9 +312,7 @@ int HospitalController::researchingDoctorMenu() const
 	cout << "Actions:" << endl;
 	cout << "\t" << RESEARCHING_DOCTOR_ADD_SUBJECT << ". Add test subject." << endl;
 	cout << "\t" << RESEARCHING_DOCTOR_REMOVE_SUBJECT << ". Remove test subject." << endl;
-	cout << "\t" << RESEARCHING_DOCTOR_GET_CURRENT_NUM_OF_SUBJECTS << ". Get current num of test subjects." << endl;
-	cout << "\t" << RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS << ". Get all of test subjects." << endl;
-	cout << "\t" << RESEARCHING_DOCTOR_ADD_DIPLOMA << ". Add diploma." << endl;
+	cout << "\t" << RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS << ". print all of test subjects." << endl;
 	cout << HospitalController::PRESS_TO_GO_BACK << endl;
 	return getIntegerFromUser();
 }
@@ -685,10 +679,16 @@ void HospitalController::selectDoctor(int doctorId) const
 			HospitalManager::getInstance()->addDiplomaToDoctor(doctor->getEmployeeId());
 			break;
 		case DOCTOR_TO_SURGEON:
-			createSurgeon(doctor->getEmployeeId());
+			if (dynamic_cast<const Surgeon*>(doctor) != nullptr)
+				cout << "This doctor is already a " << typeid(Surgeon).name()+6 << endl;
+			else
+				createSurgeon(doctor->getEmployeeId());
 			return;
 		case DOCTOR_TO_RESEARCHING_DOCTOR:
-			createResearchingDoctor(doctor->getEmployeeId());
+			if (dynamic_cast<const ResearchingDoctor*>(doctor) != nullptr)
+				cout << "This doctor is already a " << typeid(ResearchingDoctor).name() + 6 << endl;
+			else
+				createResearchingDoctor(doctor->getEmployeeId());
 			return;
 		default:
 			return;
@@ -757,12 +757,6 @@ void HospitalController::selectResearcher(int researcherId) const
 			else
 				cout << "================= Invalid researcher id =================" << endl;
 			break;
-		case RESEARCHER_GET_PUBLICATION_NAMES:
-			if (researcher != nullptr)
-				researcher->printPublicationsNames();
-			else
-				cout << "================= Invalid researcher id =================" << endl;
-			break;
 		case RESEARCHER_ADD_PUBLICATION:
 			cout << "Please insert a publication name: ";
 			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), getStringFromUser());
@@ -792,16 +786,6 @@ void HospitalController::selectSurgeon(int surgeonId) const
 	{
 		switch (surgeonMenu())
 		{
-		case SURGEON_CHECK_SECURITY_CLEARANCE:
-			if (surgeon->hasSecurityClearance())
-				cout << "Surgeon has security clearance" << endl;
-			else
-				cout << "Surgeon does not have security clearance" << endl;
-			break;
-		case SURGEON_GET_NUM_OF_SUCCESFULL_SURGERIES:
-			cout << "Surgeon has " << (surgeon->getNumOfSuccesfullSurgeries()) << " succesfull sugeries" << endl;
-			break;
-		
 		case SURGEON_CHECK_SURGERY_CHANCE:
 			surgery = getSurgeryFromUser(0);
 			cout << "Surgeon has " << (surgeon->getSurgeryChances(surgery)) << "% to succses this sugery" << endl;
@@ -821,9 +805,6 @@ void HospitalController::selectSurgeon(int surgeonId) const
 						cout << "The surgery failed" << endl;
 				}
 			}
-			break;
-		case SURGEON_ADD_DIPLOMA:
-			HospitalManager::getInstance()->addDiplomaToDoctor(surgeon->getEmployeeId());
 			break;
 		default:
 			return;
@@ -866,29 +847,6 @@ void HospitalController::selectResearchingDoctor(int researchingDoctorId) const
 				cout << "================= Invalid researchingDoctor id =================" << endl;
 			break;
 		}
-			
-		case RESEARCHING_DOCTOR_GET_CURRENT_NUM_OF_SUBJECTS:
-		{
-			if (researchingDoctor != nullptr)
-			{
-				cout << "Researching Doctor has "<< researchingDoctor->getCurrentNumOfTestSubjects() <<" test subject" << endl;
-				break;
-			}
-			else
-				cout << "================= Invalid researchingDoctor id =================" << endl;
-			break;
-		}
-		case RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS:
-		{
-			if (researchingDoctor != nullptr)
-				researchingDoctor->printTestSubjects();
-			else
-				cout << "================= Invalid nurse id =================" << endl;
-			break;
-		}
-		case RESEARCHING_DOCTOR_ADD_DIPLOMA:
-			HospitalManager::getInstance()->addDiplomaToDoctor(researchingDoctor->getEmployeeId());
-			break;
 		default:
 			return;
 			break;
@@ -1092,7 +1050,12 @@ const Doctor* HospitalController::getDoctorFromUser(int doctorId) const
 		cout << "No Doctors found." << endl;
 		return nullptr;
 	}
-	const Employee* doctor = getEmployeeFromUser(doctorId, typeid(Doctor).name());
+	const Employee* doctor;
+	do
+	{
+		doctor = getEmployeeFromUser(doctorId, typeid(Doctor).name());
+	} while (doctor == nullptr || dynamic_cast<const Doctor*>(doctor) == nullptr);
+
 	if (doctor != nullptr)
 		return dynamic_cast<const Doctor*>(doctor);
 	return nullptr;
@@ -1104,8 +1067,14 @@ const Nurse* HospitalController::getNurseFromUser(int nurseId) const
 		cout << "No Nurses found." << endl;
 		return nullptr;
 	}
-	const Employee* nurse = getEmployeeFromUser(nurseId, typeid(Nurse).name());
-	if (nurse != nullptr)
+
+	const Employee* nurse;
+	do
+	{
+		nurse = getEmployeeFromUser(nurseId, typeid(Nurse).name());
+	} while (nurse == nullptr || dynamic_cast<const Nurse*>(nurse) == nullptr);
+	
+	if(nurse != nullptr)
 		return dynamic_cast<const Nurse*>(nurse);
 	return nullptr;
 }
@@ -1116,7 +1085,12 @@ const Researcher* HospitalController::getResearcherFromUser(int researcherId) co
 		cout << "No Researchers found." << endl;
 		return nullptr;
 	}
-	const Employee* researcher = getEmployeeFromUser(researcherId, typeid(Researcher).name());
+	const Employee* researcher;
+	do
+	{
+		researcher = getEmployeeFromUser(researcherId, typeid(Researcher).name());
+	} while (researcher == nullptr || dynamic_cast<const Researcher*>(researcher) == nullptr);
+
 	if (researcher != nullptr)
 		return dynamic_cast<const Researcher*>(researcher);
 	return nullptr;
@@ -1128,7 +1102,12 @@ const Surgeon* HospitalController::getSurgeonFromUser(int surgeonId) const
 		cout << "No Surgeons found." << endl;
 		return nullptr;
 	}
-	const Employee* surgeon = getEmployeeFromUser(surgeonId, typeid(Surgeon).name());
+	const Employee* surgeon;
+	do
+	{
+		surgeon = getEmployeeFromUser(surgeonId, typeid(Surgeon).name());
+	} while (surgeon == nullptr || dynamic_cast<const Surgeon*>(surgeon) == nullptr);
+
 	if (surgeon != nullptr)
 		return dynamic_cast<const Surgeon*>(surgeon);
 	return nullptr;
@@ -1140,7 +1119,12 @@ const ResearchingDoctor* HospitalController::getResearchingDoctorFromUser(int re
 		cout << "No ResearchingDoctors found." << endl;
 		return nullptr;
 	}
-	const Employee* researchingDoctor = getEmployeeFromUser(researchingDoctorId, typeid(ResearchingDoctor).name());
+	const Employee* researchingDoctor;
+	do
+	{
+		researchingDoctor = getEmployeeFromUser(researchingDoctorId, typeid(ResearchingDoctor).name());
+	} while (researchingDoctor == nullptr || dynamic_cast<const ResearchingDoctor*>(researchingDoctor) == nullptr);
+
 	if (researchingDoctor != nullptr)
 		return dynamic_cast<const ResearchingDoctor*>(researchingDoctor);
 	return nullptr;
@@ -1244,11 +1228,8 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 		inputEmployeeId = getIntegerFromUser(1);
 		if (inputEmployeeId == HELP)
 			printAllEmployees(employeeClass);
-		else {
+		else
 			employee = HospitalManager::getInstance()->getConstEmployeeById(inputEmployeeId);
-			if (employee!= nullptr && strcmp(typeid(*employee).name(), employeeClass) != 0)
-				employee = nullptr;
-		}
 			
 		if (employee == nullptr)
 		{
@@ -1259,11 +1240,8 @@ const Employee* HospitalController::getEmployeeFromUser(int employeeId, const ch
 			invalidEmployeeId = false;
 	}
 
-	if (employee == nullptr) {
+	if (employee == nullptr) 
 		employee = (Employee*)HospitalManager::getInstance()->getConstEmployeeById(employeeId);
-		if (strcmp(typeid(*employee).name(), employeeClass) != 0)
-			employee = nullptr;
-	}
 
 	return employee;
 }

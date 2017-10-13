@@ -38,11 +38,9 @@ public:
 
 protected:
     vector<const Visit*>	visits;
-	vector<string>			allergies; // TODO cant be const
+	vector<string>			allergies;
     string					lastDateVisited;
 	string					lastDateAnesthetized;
-	int						numOfAllergies;
-	int						numOfVisits;
 };
 
 #endif // PATIENT_H_INCLUDED

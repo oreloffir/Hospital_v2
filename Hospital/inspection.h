@@ -4,15 +4,12 @@
 
 class Doctor;
 
-
-
 class Inspection: public Visit
 {
 public:
 	static const string labResults[];
     enum eLabResult {POSITIVE, NEGETIVE};
     
-    //ctors
     Inspection(const Visit::VisitInfo visitInfo, const string& typeOfInspection);
 	Inspection(const Inspection& other) = delete;
     ~Inspection();

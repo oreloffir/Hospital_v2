@@ -30,7 +30,6 @@ public:
 
 protected:
 	int maxNumOfTestSubjects;
-	int currentNumOfTestSubjects;
 	vector<const Patient*> testSubjects;
 };
 

@@ -21,7 +21,6 @@ public:
 	int getNumOfPublications()					const;
 	const string& getAreaOfResearch()			const;
 	const vector<string> getPublicationsNames()	const;
-	void printPublicationsNames()				const;
 
 	bool addPublicationName(const string publicationName);
 	void operator+=(const string publication);
@@ -30,7 +29,6 @@ public:
 	virtual void toOs(ostream& os)	const override;
 
 protected:
-	int numOfPublications;
 	string areaOfResearch;
 	vector<string> publicationsNames;
 };
