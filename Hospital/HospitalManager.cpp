@@ -5,38 +5,24 @@ using namespace std;
 
 HospitalManager::HospitalManager()
 {
-	currectNumOfDepartments = 0;
-	currentNumOfPatients = 0;
-	currentNumOfVisits = 0;
 	currentNumOfSurgeries = 0;
-	currentNumOfEmployees = 0;
 	currentNumOfDoctors = 0;
 	currentNumOfNurses = 0;
 	currentNumOfResearchers = 0;
 	currentNumOfSurgeons = 0;
-	departments = new Department*[MAX_NUMBER_OF_DEPARTMENTS];
-	patients = new Patient*[MAX_NUMBER_OF_PATIENTS];
-	visits = new Visit*[MAX_NUMBER_OF_VISITS];
-	employees = new Employee*[MAX_NUMBER_OF_EMPLOYEES];
-	employeeListeners = new EmployeeListener*[MAX_NUMBER_OF_EMPLOYEE_LISTENERS];
 }
 HospitalManager::~HospitalManager()
 {
 	cout << "in HospitalManager::~HospitalManager()" << endl;
 	int i;
-	for (i = 0; i < currectNumOfDepartments; i++)
+	for (i = 0; i < departments.size(); i++)
 		delete departments[i];
-	for (i = 0; i < currentNumOfPatients; i++)
+	for (i = 0; i < patients.size(); i++)
 		delete patients[i];
-	for (i = 0; i < currentNumOfVisits; i++)
+	for (i = 0; i < visits.size(); i++)
 		delete visits[i];
-	for (i = 0; i < currentNumOfEmployees; i++)
+	for (i = 0; i < employees.size(); i++)
 		delete employees[i];
-
-	delete[] departments;
-	delete[] patients;
-	delete[] visits;
-	delete[] employeeListeners;
 }
 HospitalManager * HospitalManager::getInstance()
 {
@@ -48,56 +34,56 @@ HospitalManager * HospitalManager::getInstance()
 /* get entities - private functions*/
 Employee* HospitalManager::getEmployeeById(int employeeId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == employeeId)
 			return employees[i];
 	return nullptr;
 }
 Doctor* HospitalManager::getDoctorById(int doctorId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == doctorId)
 			return dynamic_cast<Doctor*>(employees[i]);
 	return nullptr;
 }
 Nurse* HospitalManager::getNurseById(int nurseId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == nurseId)
 			return dynamic_cast<Nurse*>(employees[i]);
 	return nullptr;
 }
 Researcher* HospitalManager::getResercherById(int resercherId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == resercherId)
 			return dynamic_cast<Researcher*>(employees[i]);
 	return nullptr;
 }
 ResearchingDoctor* HospitalManager::getResearchingDoctorById(int reserchingDoctorId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == reserchingDoctorId && strcmp(typeid(ResearchingDoctor).name(), typeid(*employees[i]).name()) == 0)
 			return dynamic_cast<ResearchingDoctor*>(employees[i]);
 	return nullptr;
 }
 Surgeon* HospitalManager::getSurgeonById(int surgeonId) const
 {
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == surgeonId && strcmp(typeid(Surgeon).name(), typeid(*employees[i]).name()) == 0)
 			return dynamic_cast<Surgeon*>(employees[i]);
 	return nullptr;
 }
 Department* HospitalManager::getDepartmentByName(const string& departmentName) const
 {
-	for (int i = 0; i < currectNumOfDepartments; i++)
+	for (int i = 0; i < departments.size(); i++)
 		if (departments[i]->getName().compare(departmentName) == 0)
 			return departments[i];
 	return nullptr;
 }
 Patient* HospitalManager::getPatientById(int patientId) const
 {
-	for (int i = 0; i < currentNumOfPatients; i++)
+	for (int i = 0; i < patients.size(); i++)
 		if (patients[i]->getId() == patientId)
 			return patients[i];
 	return nullptr;
@@ -106,26 +92,23 @@ Patient* HospitalManager::getPatientById(int patientId) const
 /*Department functions*/
 const Department& HospitalManager::createDepartment(const string& departmentName) throw(const char*)
 {
-	if (currectNumOfDepartments == MAX_NUMBER_OF_DEPARTMENTS)
-		throw ARRAY_MAX_SIZE;
-
 	Department* department = new Department(departmentName);
-	departments[currectNumOfDepartments] = department;
+	departments.push_back(department);
 	addEmployeeListener(department);
-	++currectNumOfDepartments;
-	return *departments[currectNumOfDepartments - 1];
+	return *department;
+
 }
 const Department* HospitalManager::getConstDepartmentByName(const string& departmentName) const
 {
 	return getDepartmentByName(departmentName);
 }
-const Department* const* HospitalManager::getAllDepartments() const
+const vector<const Department*> HospitalManager::getAllDepartments() const
 {
-	return departments;
+	return vector<const Department*>(departments.begin(), departments.end());
 }
 int HospitalManager::getCurrectNumOfDepartments() const
 {
-	return currectNumOfDepartments;
+	return departments.size();
 }
 void HospitalManager::addPatientToDepartment(const Patient* patient, const Department* department)
 {
@@ -155,11 +138,9 @@ void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, con
 /*Patient functions*/
 const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*)
 {
-	if (currentNumOfPatients == MAX_NUMBER_OF_PATIENTS)
-		throw ARRAY_MAX_SIZE;
-	patients[currentNumOfPatients] = new Patient(id, name, dateOfBirth, gender);
-	++currentNumOfPatients;
-	return *patients[currentNumOfPatients - 1];
+	Patient* patient = new Patient(id, name, dateOfBirth, gender);
+	patients.push_back(patient);
+	return *patient;
 }
 const Patient* HospitalManager::getConstPatientById(int patientId) const
 {
@@ -167,28 +148,27 @@ const Patient* HospitalManager::getConstPatientById(int patientId) const
 }
 bool HospitalManager::addAllergieToPatient(int patientId, const string& allergieName)
 {
-	for (int i = 0; i < currentNumOfPatients; i++)
-		if (patients[i]->getId() == patientId)
-			return patients[i]->addAllergie(allergieName);
+	return getPatientById(patientId)->addAllergie(allergieName);
+
 	return false;
 }
-const Patient* const* HospitalManager::getAllPatients() const
+const vector<const Patient*> HospitalManager::getAllPatients() const
 {
-	return patients;
+	return vector<const Patient*>(patients.begin(), patients.end());
 }
 int HospitalManager::getCurrectNumOfPatients() const
 {
-	return currentNumOfPatients;
+	return patients.size();
 }
 
 /*Employee functions*/
 int HospitalManager::getCurrectNumOfEmployees() const
 {
-	return currentNumOfEmployees;
+	return employees.size();
 }
-const Employee * const * HospitalManager::getAllEmployees() const
+const vector<const Employee*> HospitalManager::getAllEmployees() const
 {
-	return employees;
+	return vector<const Employee*>(employees.begin(), employees.end());
 }
 const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 {
@@ -197,9 +177,6 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 /*Doctor functions*/
 const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas) throw(const char*)
 {
-	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		throw ARRAY_MAX_SIZE;
-	
 	DoctorBuilder doctorBuilder;
 
 	doctorBuilder.setId(employeeInfo.id)
@@ -217,11 +194,10 @@ const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employe
 
 	Doctor* doctor = doctorBuilder.build();
 
-	employees[currentNumOfEmployees] = doctor;
-	++currentNumOfEmployees;
+	employees.push_back(doctor);
 	++currentNumOfDoctors;
 
-	return *dynamic_cast<Doctor*>(employees[currentNumOfEmployees - 1]);
+	return *doctor;
 }
 const Doctor* HospitalManager::getConstDoctorById(int id) const
 {
@@ -242,11 +218,8 @@ int HospitalManager::getCurrentNumOfDoctors() const
 
 const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo) throw(const char*)
 {
-	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		throw ARRAY_MAX_SIZE;
-  
 	NurseBuilder nurseBuilder;
-  
+
 	nurseBuilder.setId(employeeInfo.id)
 		.setName(employeeInfo.name)
 		.setDateOfBirth(employeeInfo.dateOfBirth)
@@ -259,11 +232,10 @@ const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeI
 
 	Nurse* nurse = nurseBuilder.build();
 
-	employees[currentNumOfEmployees] = nurse;
-	++currentNumOfEmployees;
+	employees.push_back(nurse);
 	++currentNumOfNurses;
 
-	return *dynamic_cast<Nurse*>(employees[currentNumOfEmployees - 1]);
+	return *nurse;
 }
 const Nurse* HospitalManager::getConstNurseById(int id) const
 {
@@ -290,9 +262,6 @@ int HospitalManager::getCurrentNumOfNurses() const
 /*Researcher functions*/
 const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*)
 {
-	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		throw ARRAY_MAX_SIZE;
-
 	ResearcherBuilder researcherBuilder;
 	researcherBuilder.setId(employeeInfo.id)
 		.setName(employeeInfo.name)
@@ -307,11 +276,10 @@ const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo
 
 	Researcher* researcher = researcherBuilder.build();
   
-	employees[currentNumOfEmployees] = researcher;
-	++currentNumOfEmployees;
+	employees.push_back(researcher);
 	++currentNumOfResearchers;
 
-	return *dynamic_cast<Researcher*>(employees[currentNumOfEmployees - 1]);
+	return *researcher;
 }
 const Researcher* HospitalManager::getConstResearcherById(int id) const
 {
@@ -332,7 +300,7 @@ int HospitalManager::getCurrentNumOfResearchers() const
 const Surgeon& HospitalManager::createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries, int numOfSurgeries)
 {
 	int doctorIndx = -1;
-	for (int i = 0; i < currentNumOfEmployees; i++)
+	for (int i = 0; i < employees.size(); i++)
 		if (employees[i]->getEmployeeId() == doctor->getEmployeeId() && strcmp(typeid(Doctor).name(), typeid(*employees[i]).name()) == 0)
 		{
 			doctorIndx = i;
@@ -343,10 +311,9 @@ const Surgeon& HospitalManager::createSurgeon(const Doctor* doctor, bool hasSecu
 	Surgeon* mySurgeon = new Surgeon(*doctor, hasSecurityClearance, numOfSuccesfulSurgeries, numOfSurgeries);
 
 	// update departments and visits about the change
-	for (int i = 0; i < currentNumOfEmployeeListeners; i++)
-	{
+	for (int i = 0; i < employeeListeners.size(); i++)
 		employeeListeners[i]->onEmployeeReplaced(mySurgeon);
-	}
+	
 	// update employees array
 	employees[doctorIndx] = mySurgeon;
 	delete removeDoctor;
@@ -375,14 +342,11 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 /*Researching Doctor functions*/
 const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects) throw(const char*)
 {
-	if (currentNumOfEmployees == MAX_NUMBER_OF_EMPLOYEES)
-		throw ARRAY_MAX_SIZE;
-
 	int doctorIndx;
 
 	Researcher* researcher = new Researcher(*doctor, areaOfResearch);
 
-	for (int j = 0; j < currentNumOfEmployees; j++)
+	for (int j = 0; j < employees.size(); j++)
 		if (employees[j]->getEmployeeId() == doctor->getEmployeeId())
 		{
 			doctorIndx = j;
@@ -426,7 +390,7 @@ const Visit* HospitalManager::getConstVisitById(int visitId) const
 }
 Visit* HospitalManager::getVisitById(int visitId) const
 {
-	for (int i = 0; i < currentNumOfVisits; i++)
+	for (int i = 0; i < visits.size(); i++)
 		if (visits[i]->getVisitId() == visitId)
 			return visits[i];
 	return nullptr;
@@ -457,74 +421,58 @@ int HospitalManager::getCurrentNumOfSurgeries() const
 {
 	return currentNumOfSurgeries;
 }
-const Visit* const* HospitalManager::getAllVisits() const
+const vector<const Visit*> HospitalManager::getAllVisits() const
 {
-	return visits;
+	return vector<const Visit*>(visits.begin(), visits.end());
 }
 int HospitalManager::getCurrectNumOfVisits() const
 {
-	return currentNumOfVisits;
+	return visits.size();
 }
 /*Surgery functions*/
 const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons) throw(const char*)
 {
-	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
-		throw ARRAY_MAX_SIZE;
 	Surgery* surgery = new Surgery(visitInfo, *type, numOfSurgeons);
-	visits[currentNumOfVisits] = surgery;
+	visits.push_back(surgery);
 	addEmployeeListener(surgery);
-	++currentNumOfVisits;
 
 	getPatientById(visitInfo.patient->getId())->addVisit(surgery);
 	getDepartmentByName(visitInfo.department->getName())->addVisit(surgery);
 	++currentNumOfSurgeries;
 
-	return *(Surgery*)visits[currentNumOfVisits - 1];
+	return *surgery;
 }
 /*Inspection functions*/
 const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*)
 {
-	if (currentNumOfVisits == MAX_NUMBER_OF_VISITS)
-		throw ARRAY_MAX_SIZE;
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
-	visits[currentNumOfVisits] = inspection;
-	addEmployeeListener(inspection);
-	++currentNumOfVisits;
+	visits.push_back(inspection);
 
 	getPatientById(visitInfo.patient->getId())->addVisit(inspection);
 	getDepartmentByName(visitInfo.department->getName())->addVisit(inspection);
 
-	return *(Inspection*)visits[currentNumOfVisits - 1];
+	return *inspection;
 }
 
 
 void HospitalManager::addEmployeeListener(EmployeeListener * employeeListener)
 {
-	if (currentNumOfEmployeeListeners == MAX_NUMBER_OF_EMPLOYEE_LISTENERS) return;
-	else {
-		employeeListeners[currentNumOfEmployeeListeners] = employeeListener;
-		++currentNumOfEmployeeListeners;
-	}
+	employeeListeners.push_back(employeeListener);
 }
 void HospitalManager::removeEmployeeListener(EmployeeListener * employeeListener)
 {
-	int pos = -1;
-	for (int i = 0; i < currentNumOfEmployeeListeners; i++)
-		if (employeeListeners[i] == employeeListener)
+	bool found = false;
+	vector<EmployeeListener*>::const_iterator itr = employeeListeners.begin();
+	vector<EmployeeListener*>::const_iterator itrEnd = employeeListeners.end();
+	for (itr; itr != itrEnd; itr++)
+		if ((*itr) == employeeListener)
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-	if (pos < 0) return;
-	if (pos == currentNumOfEmployeeListeners - 1)
-	{
-		employeeListeners[pos] = nullptr;
-		--currentNumOfEmployeeListeners;
-		return;
-	}
-	for (int i = pos; i < currentNumOfEmployeeListeners && i < MAX_NUMBER_OF_EMPLOYEE_LISTENERS - 1; i++)
-		employeeListeners[i] = employeeListeners[i + 1];
-	--currentNumOfEmployeeListeners;
+	if (!found) return;
+	employeeListeners.erase(itr);
+
 }
 
 const char* HospitalManager::ARRAY_MAX_SIZE = "Error: Maximum array size exceeded.";

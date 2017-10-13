@@ -966,20 +966,18 @@ void HospitalController::selectVisit(int visitId) const
 /* Print all */
 void HospitalController::printAllDepartments() const
 {
-	const Department* const* allDepartments = HospitalManager::getInstance()->getAllDepartments();
+	vector<const Department*> allDepartments = HospitalManager::getInstance()->getAllDepartments();
 	int numberOfDepartments = HospitalManager::getInstance()->getCurrectNumOfDepartments();
 
 	if (numberOfDepartments == 0)
 		cout << "No departments created yet." << endl;
 	else
 		for (int i = 0; i < numberOfDepartments; i++)
-		{
 			cout << *allDepartments[i] << endl;
-		}
 }
 void HospitalController::printAllPatients() const
 {
-	const Patient* const* allPatients = HospitalManager::getInstance()->getAllPatients();
+	const vector<const Patient*> allPatients = HospitalManager::getInstance()->getAllPatients();
 	int numberOfPatients = HospitalManager::getInstance()->getCurrectNumOfPatients();
 
 	if (numberOfPatients == 0)
@@ -992,7 +990,7 @@ void HospitalController::printAllPatients() const
 }
 void HospitalController::printAllEmployees(const string employeeClass) const
 {
-	const Employee* const* allEmployees = HospitalManager::getInstance()->getAllEmployees();
+	const vector<const Employee*> allEmployees = HospitalManager::getInstance()->getAllEmployees();
 	int numberOfEmployees = HospitalManager::getInstance()->getCurrectNumOfEmployees();
 
 	if (numberOfEmployees == 0)
@@ -1008,7 +1006,7 @@ void HospitalController::printAllEmployees(const string employeeClass) const
 }
 void HospitalController::printAllVisits() const
 {
-	const Visit* const* allVisits = HospitalManager::getInstance()->getAllVisits();
+	const vector<const Visit*> allVisits = HospitalManager::getInstance()->getAllVisits();
 	int numberOfVisits = HospitalManager::getInstance()->getCurrectNumOfVisits();
 
 	if (numberOfVisits == 0)
