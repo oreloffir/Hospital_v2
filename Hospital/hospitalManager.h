@@ -87,6 +87,7 @@ public:
 	const Nurse* getConstNurseById(int id) const;
 	void addDuty(int id, const string& duty);
 	void removeDuty(int id, const string& duty);
+	void setMaxNumOfDuties(int id, int max);
 	int getCurrentNumOfNurses() const;
 	/*Researcher*/
 	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*);
