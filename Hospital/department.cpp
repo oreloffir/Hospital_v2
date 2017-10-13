@@ -130,7 +130,7 @@ void Department::removeEmployeeById(int employeeId)
 	vector<const Employee*>::const_iterator itr = allEmployees.begin();
 	vector<const Employee*>::const_iterator itrEnd = allEmployees.end();
 	for (itr; itr != itrEnd; itr++)
-		if ((*itr)->getId() == employeeId)
+		if ((*itr)->getEmployeeId() == employeeId)
 		{
 			found = true;
 			break;

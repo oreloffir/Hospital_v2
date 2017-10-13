@@ -5,11 +5,13 @@ using namespace std;
 
 HospitalManager::HospitalManager()
 {
+	/*
 	currentNumOfSurgeries = 0;
 	currentNumOfDoctors = 0;
 	currentNumOfNurses = 0;
 	currentNumOfResearchers = 0;
 	currentNumOfSurgeons = 0;
+	*/
 }
 HospitalManager::~HospitalManager()
 {
@@ -108,7 +110,7 @@ const vector<const Department*> HospitalManager::getAllDepartments() const
 }
 int HospitalManager::getCurrectNumOfDepartments() const
 {
-	return departments.size();
+	return (int)departments.size();
 }
 void HospitalManager::addPatientToDepartment(const Patient* patient, const Department* department)
 {
@@ -158,13 +160,13 @@ const vector<const Patient*> HospitalManager::getAllPatients() const
 }
 int HospitalManager::getCurrectNumOfPatients() const
 {
-	return patients.size();
+	return (int)patients.size();
 }
 
 /*Employee functions*/
 int HospitalManager::getCurrectNumOfEmployees() const
 {
-	return employees.size();
+	return (int)employees.size();
 }
 const vector<const Employee*> HospitalManager::getAllEmployees() const
 {
@@ -427,7 +429,7 @@ const vector<const Visit*> HospitalManager::getAllVisits() const
 }
 int HospitalManager::getCurrectNumOfVisits() const
 {
-	return visits.size();
+	return (int)visits.size();
 }
 /*Surgery functions*/
 const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons) throw(const char*)
