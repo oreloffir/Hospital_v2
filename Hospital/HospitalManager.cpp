@@ -175,7 +175,7 @@ const Employee* HospitalManager::getConstEmployeeById(int employeeId) const
 	return getEmployeeById(employeeId);
 }
 /*Doctor functions*/
-const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas) throw(const char*)
+const Doctor& HospitalManager::createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas)
 {
 	DoctorBuilder doctorBuilder;
 
@@ -216,7 +216,7 @@ int HospitalManager::getCurrentNumOfDoctors() const
 }
 /*Nurse functions*/
 
-const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo) throw(const char*)
+const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties)
 {
 	NurseBuilder nurseBuilder;
 
@@ -229,6 +229,8 @@ const Nurse& HospitalManager::createNurse(const Employee::employeeInfo employeeI
 		.setSalary(employeeInfo.salary)
 		.setAreaOfTraining(employeeInfo.areaOfTraining)
 		.setSeniorityYears(employeeInfo.seniorityYears);
+	
+	nurseBuilder.setMaxNumOfDuties(maxNumOfDuties);
 
 	Nurse* nurse = nurseBuilder.build();
 

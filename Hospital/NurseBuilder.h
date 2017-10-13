@@ -7,6 +7,10 @@ class NurseBuilder : public IEmployeeBuilder
 {
 public:
 	virtual Nurse* build() override;
+	void setMaxNumOfDuties(int maxNumOfDuties);
+
+private:
+	int maxNumOfDuties;
 };
 
 #endif // !DOCTOR_BUILDER_H

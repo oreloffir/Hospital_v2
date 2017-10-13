@@ -295,7 +295,6 @@ int HospitalController::nurseMenu() const
 int HospitalController::researcherMenu() const
 {
 	cout << "Actions:" << endl;
-	cout << "\t" << RESEARCHER_PRINT_AREA_OF_RESEARCH << ". Get area of search." << endl;
 	cout << "\t" << RESEARCHER_ADD_PUBLICATION << ". Add publiction." << endl;
 	cout << HospitalController::PRESS_TO_GO_BACK << endl;
 	return getIntegerFromUser();
@@ -386,7 +385,10 @@ const Nurse* HospitalController::createNurse(bool showSelectMenu) const
 
 	Employee::employeeInfo employeeInfo = createEmployeeInfo();
 
-	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo);
+	cout << "Please enter nurse max num of duties: ";
+	int maxNumOfDuties = getIntegerFromUser(0);
+
+	const Nurse& nurse = HospitalManager::getInstance()->createNurse(employeeInfo, maxNumOfDuties);
 
 	cout << "New nurse was created" << endl;
 
@@ -732,7 +734,7 @@ void HospitalController::selectNurse(int nurseId) const
 			break;
 		case NURSE_SET_MAX_NUMBER_OF_DUTIES:
 			cout << "Enter max number of duties: ";
-			hospitalManager.setMaxNumOfDuties(nurse->getEmployeeId(), getIntegerFromUser());
+			HospitalManager::getInstance()->setMaxNumOfDuties(nurse->getEmployeeId(), getIntegerFromUser());
 			break;
 		default:
 			return;
@@ -753,15 +755,6 @@ void HospitalController::selectResearcher(int researcherId) const
 	{
 		switch (researcherMenu())
 		{
-		case RESEARCHER_PRINT_AREA_OF_RESEARCH:
-			if (researcher != nullptr)
-			{
-				cout << "================= " << researcher->getName() << " Researcher =================" << endl;
-				cout << "Area of reserach: " << researcher->getAreaOfResearch() << endl;
-			}
-			else
-				cout << "================= Invalid researcher id =================" << endl;
-			break;
 		case RESEARCHER_ADD_PUBLICATION:
 			cout << "Please insert a publication name: ";
 			HospitalManager::getInstance()->addPublicationToResearcher(researcher->getEmployeeId(), getStringFromUser());
@@ -1258,7 +1251,7 @@ string HospitalController::getStringFromUser() const
 	string buffer;
 	bool validString = true;
 
-	cin >> buffer;
+	getline(cin, buffer);
 		
 	return buffer;
 }
@@ -1268,7 +1261,7 @@ int HospitalController::getIntegerFromUser(int minVal, int maxVal) const
 	string input;
 	bool invalidInput = false;
 	do{
-		cin >> input;
+		getline(cin, input);
 		try
 		{
 			result = stoi(input);
@@ -1287,17 +1280,22 @@ double HospitalController::getDoubleFromUser(double minVal, double maxVal) const
 {
 	double result;
 	string input;
-	cin >> input;
-	result = stod(input);
-
-	while ((result < minVal || result > maxVal) && result != HELP)
-	{
-		cout << HospitalController::INVALID_INPUT << endl;
-		cin >> input;
-		result = stod(input);
-	}
+	bool invalidInput = false;
+	do {
+		getline(cin, input);
+		try
+		{
+			result = stod(input);
+			invalidInput = false;
+		}
+		catch (...)
+		{
+			cout << HospitalController::INVALID_INPUT << endl;
+			invalidInput = true;
+		}
+	} while (invalidInput || (result < minVal || result > maxVal) && result != HELP);
 
 	return result;
 }
-const string HospitalController::PRESS_TO_GO_BACK	= "Press any other number to go back to previous menu.";
+const string HospitalController::PRESS_TO_GO_BACK	= "Press any other key to go back to previous menu.";
 const string HospitalController::INVALID_INPUT		= "Invalid Input.";

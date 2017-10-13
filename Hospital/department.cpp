@@ -188,7 +188,7 @@ void Department::onEmployeeRemoved(int employeeId)
 }
 void Department::onEmployeeReplaced(const Employee* newPointer)
 {
-	if (newPointer != nullptr)
+	if (newPointer != nullptr && getEmployeeByEmployeeId(newPointer->getEmployeeId()) != nullptr)
 	{
 		*this -= *newPointer;
 		*this += *newPointer;

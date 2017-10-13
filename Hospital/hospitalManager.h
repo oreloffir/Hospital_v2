@@ -78,29 +78,29 @@ public:
 	int getCurrectNumOfEmployees() const;
 	const Employee* getConstEmployeeById(int employeeId) const;
 	/*Doctor*/
-	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas = 0) throw(const char*);
+	const Doctor& createDoctor(const Employee::employeeInfo employeeInfo, const string& fieldOfExpertise, int numOfDiplomas = 0);
 	const Doctor* getConstDoctorById(int id) const;
 	void addDiplomaToDoctor(int id);
 	int getCurrentNumOfDoctors() const;
 	/*Nurse*/
-	const Nurse& createNurse(const Employee::employeeInfo employeeInfo) throw(const char*);
+	const Nurse& createNurse(const Employee::employeeInfo employeeInfo, int maxNumOfDuties);
 	const Nurse* getConstNurseById(int id) const;
 	void addDuty(int id, const string& duty);
 	void removeDuty(int id, const string& duty);
 	void setMaxNumOfDuties(int id, int max);
 	int getCurrentNumOfNurses() const;
 	/*Researcher*/
-	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*);
+	const Researcher& createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch);
 	const Researcher* getConstResearcherById(int id) const;
 	bool addPublicationToResearcher(int researcherId, const string& publicationName);
 	int getCurrentNumOfResearchers() const;
 	/*Surgeon*/
-	const Surgeon& createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0) throw(const char*);
+	const Surgeon& createSurgeon(const Doctor* doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0);
 	const Surgeon* getConstSurgeonById(int id) const;
 	bool performSurgery(const Surgeon* surgeon, const Surgery* surgery) const;
 	int getCurrentNumOfSurgeons() const;
 	/*Researching doctor*/
-	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects = 0) throw(const char*);
+	const ResearchingDoctor& createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects = 0);
 	const ResearchingDoctor* getConstResearchingDoctorById(int id) const;
 	void addTestSubjectToRD(int researcherId, const Patient* testSubject) const;
 	void removeTestSubjectToRD(int researcherId, const Patient* testSubject) const;

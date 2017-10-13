@@ -153,7 +153,7 @@ void Visit::onEmployeeRemoved(int employeeId)
 void Visit::onEmployeeReplaced(const Employee* newPointer)
 {
 	const CareGivingEmployee* cge = dynamic_cast<const CareGivingEmployee*>(newPointer);
-	if (cge != nullptr)
+	if (cge != nullptr && getCareGivingEmployeeById(newPointer->getEmployeeId()) != nullptr)
 	{
 		*this -= *cge;
 		*this += *cge;

@@ -142,8 +142,7 @@ public:
 	static constexpr int NURSE_REMOVE_DUTY				= 3;
 	static constexpr int NURSE_SET_MAX_NUMBER_OF_DUTIES = 4;
 	
-	static constexpr int RESEARCHER_PRINT_AREA_OF_RESEARCH	= 1;
-	static constexpr int RESEARCHER_ADD_PUBLICATION			= 2;
+	static constexpr int RESEARCHER_ADD_PUBLICATION		= 1;
 
 	static constexpr int PRINT_DEPARTMENTS	= 1;
 	static constexpr int PRINT_PATIENTS		= 2;
