@@ -71,7 +71,7 @@ void Researcher::toOs(ostream& os) const
 		os << "No Publications Names" << endl;
 	else
 	{
-		os << endl;
+		cout << numOfPublications << endl;
 		for (vector<string>::const_iterator itr = publicationsNames.begin();
 			itr < publicationsNames.end(); itr++)
 			os << *itr << endl;
