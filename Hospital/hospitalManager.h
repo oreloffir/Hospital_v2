@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4290 )  
 #ifndef hospital_manager_h
 #define hospital_manager_h
 #include "DoctorBuilder.h"
