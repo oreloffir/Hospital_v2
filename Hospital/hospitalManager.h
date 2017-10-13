@@ -16,23 +16,17 @@ class HospitalManager
 {
 private:
 	static HospitalManager* instance;
-	Department** departments;
-	Patient** patients;
-	Visit** visits; // Surgery , Inspection
-	Employee** employees;  // Doctor, Nurse, Researcher, Surgeon, ResearchingDoctor
-	EmployeeListener** employeeListeners;
+	vector<Department*> departments;
+	vector<Patient*> patients;
+	vector<Visit*> visits; // Surgery , Inspection
+	vector<Employee*> employees;  // Doctor, Nurse, Researcher, Surgeon, ResearchingDoctor
+	vector<EmployeeListener*> employeeListeners;
 
-	int currectNumOfDepartments;
-	int currentNumOfPatients;
-	int currentNumOfVisits;
 	int currentNumOfSurgeries;		// Validation usage
-	int currentNumOfEmployees;
 	int currentNumOfDoctors;		// Validation usage
 	int currentNumOfNurses;			// Validation usage
 	int currentNumOfResearchers;	// Validation usage
 	int currentNumOfSurgeons;		// Validation usage
-
-	int currentNumOfEmployeeListeners;
 
 	HospitalManager();
 
@@ -55,7 +49,7 @@ public:
 	/* Department managment */
 	const Department& createDepartment(const string& departmentName) throw(const char*);
 	const Department* getConstDepartmentByName(const string& departmentName) const;
-	const Department* const* getAllDepartments() const;
+	const vector<const Department*> getAllDepartments() const;
 	int getCurrectNumOfDepartments() const;
 	void addPatientToDepartment(const Patient* patient, const Department* department);
 	void removePatientFromDepartment(const Patient* patient, const Department* department);
@@ -65,7 +59,7 @@ public:
 	/* Patient Managment */
 	const Patient& createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*);
 	const Patient* getConstPatientById(int patientId) const;
-	const Patient* const* getAllPatients() const;
+	const vector<const Patient*> getAllPatients() const;
 	int getCurrectNumOfPatients() const;
 	bool addAllergieToPatient(int patientId, const string& allergieName);
 
@@ -73,14 +67,14 @@ public:
 	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*);
 	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1) throw(const char*);
 	const Visit* getConstVisitById(int id) const;
-	const Visit* const* getAllVisits() const;
+	const vector<const Visit*> getAllVisits() const;
 	int getCurrectNumOfVisits() const;
 	void addCareGivingEmployeeToVisit(const CareGivingEmployee* cge, int visitId);
 	void removeCareGivingEmployeeToVisit(const CareGivingEmployee* cge, int visitId);
 	int getCurrentNumOfSurgeries() const;
 
 	/*Employee Managment*/
-	const Employee* const* getAllEmployees() const;
+	const vector<const Employee*> getAllEmployees() const;
 	int getCurrectNumOfEmployees() const;
 	const Employee* getConstEmployeeById(int employeeId) const;
 	/*Doctor*/
