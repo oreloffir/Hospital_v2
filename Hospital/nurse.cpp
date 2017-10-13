@@ -1,11 +1,12 @@
 #include "nurse.h"
 #include <iostream>
 
-Nurse::Nurse(CareGivingEmployee& CGEmployee)
+Nurse::Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties)
 	: Employee(CGEmployee),
 	CareGivingEmployee(CGEmployee)
 {
 	std::cout << "In Nurse::Nurse()" << "---->" << this->name << std::endl;
+	this->maxNumOfDuties = maxNumOfDuties;
 }
 Nurse::~Nurse()
 {
@@ -28,9 +29,15 @@ void Nurse::removeDuty(const string& duty)
 {
 	dutiesList.remove(duty);
 }
+void Nurse::setMaxNumOfDuties(int maxNumOfDuties)
+{
+	this->maxNumOfDuties = maxNumOfDuties;
+}
 
 void Nurse::operator+=(const string& duty)
 {
+	if(dutiesList.getSize() == maxNumOfDuties) 
+		return;
 	this->addDuty(duty);
 }
 void Nurse::operator-=(const string& duty)
