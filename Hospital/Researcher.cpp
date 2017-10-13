@@ -67,11 +67,11 @@ void Researcher::toOs(ostream& os) const
 	os << "-----------Researcher Details-----------" << endl;
 	os << "Area Of Research: " << this->getAreaOfResearch() << endl;
 	os << "Publications Names: ";
-	if (publicationsNames.size() == 0)
+	if (getNumOfPublications() == 0)
 		os << "No Publications Names" << endl;
 	else
 	{
-		cout << numOfPublications << endl;
+		cout << getNumOfPublications() << endl;
 		for (vector<string>::const_iterator itr = publicationsNames.begin();
 			itr < publicationsNames.end(); itr++)
 			os << *itr << endl;
