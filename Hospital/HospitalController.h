@@ -71,17 +71,17 @@ public:
 	void printAllVisits()											const;
 
 	/* Get Object by user id*/
-	const Employee* getEmployeeFromUser(int employeeId, const char* employeeClass)									const;
-	const Visit* getVisitFromUser(int visitId = 0)																	const;
-	const Patient* getPatientFromUser(int patientId = 0)															const;
-	const Doctor* getDoctorFromUser(int doctorId = 0)																const;
-	const Nurse* getNurseFromUser(int nurseId = 0)																	const;
-	const Researcher* getResearcherFromUser(int researcherId = 0)													const;
-	const Surgeon* getSurgeonFromUser(int surgeonId = 0)															const;
-	const ResearchingDoctor* getResearchingDoctorFromUser(int researchingDoctorId = 0)								const;
-	const CareGivingEmployee* getCareGivingEmployeeFromUser(int careGivingEmployeeId = 0)							const;
-	const Department* getDepartmentFromUser(const string departmentName = string())									const;
-	const Surgery* getSurgeryFromUser(int surgeryId = 0)															const;
+	const Employee* getEmployeeFromUser(int employeeId, const char* employeeClass)			const;
+	const Visit* getVisitFromUser(int visitId = 0)											const;
+	const Patient* getPatientFromUser(int patientId = 0)									const;
+	const Doctor* getDoctorFromUser(int doctorId = 0)										const;
+	const Nurse* getNurseFromUser(int nurseId = 0)											const;
+	const Researcher* getResearcherFromUser(int researcherId = 0)							const;
+	const Surgeon* getSurgeonFromUser(int surgeonId = 0)									const;
+	const ResearchingDoctor* getResearchingDoctorFromUser(int researchingDoctorId = 0)		const;
+	const CareGivingEmployee* getCareGivingEmployeeFromUser(int careGivingEmployeeId = 0)	const;
+	const Department* getDepartmentFromUser(const string departmentName = string())			const;
+	const Surgery* getSurgeryFromUser(int surgeryId = 0)									const;
 
 	/* general functions */
 	string getStringFromUser() const;
@@ -133,9 +133,9 @@ public:
 	static constexpr int EMPLOYEE_TYPE_REASERCHING_DOCTOR	= 4;
 	static constexpr int EMPLOYEE_TYPE_REASERCHER			= 5;
 
-	static constexpr int DOCTOR_ADD_DIPLOMA					= 1;
-	static constexpr int DOCTOR_TO_SURGEON					= 2;
-	static constexpr int DOCTOR_TO_RESEARCHING_DOCTOR		= 3;
+	static constexpr int DOCTOR_ADD_DIPLOMA				= 1;
+	static constexpr int DOCTOR_TO_SURGEON				= 2;
+	static constexpr int DOCTOR_TO_RESEARCHING_DOCTOR	= 3;
 
 	static constexpr int NURSE_GET_DUTIES				= 1;
 	static constexpr int NURSE_ADD_DUTY					= 2;
@@ -150,16 +150,16 @@ public:
 	static constexpr int PRINT_EMPLOYEES	= 3;
 	static constexpr int PRINT_VISITS		= 4;
 
-	static constexpr int SURGEON_CHECK_SURGERY_CHANCE				= 1;
-	static constexpr int SURGEON_PERFORM_SURGERY					= 2;
+	static constexpr int SURGEON_CHECK_SURGERY_CHANCE	= 1;
+	static constexpr int SURGEON_PERFORM_SURGERY		= 2;
 
-	static constexpr int RESEARCHING_DOCTOR_ADD_SUBJECT					= 1;
-	static constexpr int RESEARCHING_DOCTOR_REMOVE_SUBJECT				= 2;
-	static constexpr int RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS			= 3;
+	static constexpr int RESEARCHING_DOCTOR_ADD_SUBJECT			= 1;
+	static constexpr int RESEARCHING_DOCTOR_REMOVE_SUBJECT		= 2;
+	static constexpr int RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS	= 3;
 
-	static constexpr int HELP				= -999;
+	static constexpr int HELP = -999;
 
-	static constexpr int MAX_STRING_SIZE	= 30;
+	static constexpr int MAX_STRING_SIZE = 30;
 
 	static const string PRESS_TO_GO_BACK;
 	static const string INVALID_INPUT;

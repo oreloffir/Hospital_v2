@@ -42,5 +42,4 @@ protected:
     string					lastDateVisited;
 	string					lastDateAnesthetized;
 };
-
 #endif // PATIENT_H_INCLUDED

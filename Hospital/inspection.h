@@ -29,5 +29,4 @@ protected:
     string typeOfInspection;
     eLabResult labResult;
 };
-
 #endif /* inspection_h */

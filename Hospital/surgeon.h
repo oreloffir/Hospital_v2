@@ -9,7 +9,6 @@ class Surgeon : public Doctor
 {
 public:
 	Surgeon(const Doctor& doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0);
-
 	Surgeon(const Surgeon& other) = delete;
 
 	virtual ~Surgeon();
@@ -17,6 +16,7 @@ public:
 	bool hasSecurityClearance()						const;
 	int getNumOfSuccesfullSurgeries()				const;
 	float getSurgeryChances(const Surgery* surgery)	const;
+
 	bool performSurgery(const Surgery* surgery);
 
 	virtual void toOs(std::ostream& os) const override;
@@ -26,5 +26,4 @@ protected:
 	int numOfSuccesfullSurgeries;
 	int numOfSurgeries;
 };
-
 #endif // SURGEON_H_INCLUDED

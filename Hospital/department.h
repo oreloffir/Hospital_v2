@@ -3,8 +3,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-using namespace std;
 #include "EmployeeListener.h"
+using namespace std;
 
 class Patient;
 class Employee;
@@ -14,13 +14,10 @@ class Department : public EmployeeListener
 {
 private:
     string name;
-    vector<Patient const*> allPatients;
-	vector<Employee const*> allEmployees;
-	vector<Visit const*> allVisits;
+    vector<const Patient*> allPatients;
+	vector<const Employee*> allEmployees;
+	vector<const Visit*> allVisits;
 public:
-	static constexpr int MAX_NUMBER_OF_PATIENTS		= 200;
-	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
-	static constexpr int MAX_NUMBER_OF_VISITS		= 500;
     Department(const string& name);
 	Department(const Department& other) = delete;
     ~Department();
@@ -34,8 +31,7 @@ public:
 	void operator-=(const Patient& existingPatient);
 	void operator-=(const Visit& existingVisit);
 
-
-    const string& getName()									const;
+	const string& getName()									const;
     int getCurrentNumOfPatients()							const;
     int getCurrentNumOfEmployees()							const;
 	int getCurrentNumOfVisits()								const;
@@ -62,6 +58,9 @@ public:
 	bool operator==(const Department& other);
 
 	friend std::ostream& operator<<(std::ostream& os, const Department& department);
-};
 
+	static constexpr int MAX_NUMBER_OF_PATIENTS		= 200;
+	static constexpr int MAX_NUMBER_OF_EMPLOYEES	= 20;
+	static constexpr int MAX_NUMBER_OF_VISITS		= 500;
+};
 #endif /* _DEPARTMENT_H */

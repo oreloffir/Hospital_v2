@@ -28,5 +28,4 @@ protected:
 	int numOfDiplomas;
 	string fieldOfExpertise;
 };
-
 #endif // DOCTOR_H_INCLUDED
