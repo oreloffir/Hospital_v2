@@ -40,6 +40,4 @@ private:
 	bool isDone;
 	bool succsesfullSurgery;
 };
-
-
 #endif /* _SURGERY_H */

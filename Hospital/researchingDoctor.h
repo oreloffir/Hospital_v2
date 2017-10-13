@@ -1,7 +1,6 @@
 #ifndef RESEARCHING_DOCTOR_H_INCLUDED
 #define RESEARCHING_DOCTOR_H_INCLUDED
 
-
 #include "doctor.h"
 #include "patient.h"
 #include "researcher.h"
@@ -22,15 +21,14 @@ public:
 	void addTestSubject(const Patient& testSubject);
 	void removeTestSubject(const Patient& testSubject);
 
-	void work() const override;
-	virtual void toOs(std::ostream& os) const override;
-
 	void operator+=(const Patient& testSubject);
 	void operator-=(const Patient& testSubject);
+
+	void work() const override;
+	virtual void toOs(std::ostream& os) const override;
 
 protected:
 	int maxNumOfTestSubjects;
 	vector<const Patient*> testSubjects;
 };
-
 #endif // RESEARCHING_DOCTOR_H_INCLUDED

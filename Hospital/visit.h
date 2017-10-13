@@ -1,6 +1,5 @@
 #ifndef _VISIT_H
 #define _VISIT_H
-
 #include "department.h"
 #include "patient.h"
 #include "careGivingEmployee.h"
@@ -8,7 +7,6 @@
 #include <string>
 #include <iostream>
 using namespace std;
-
 
 class Department;
 
@@ -21,9 +19,6 @@ public:
 	static const string cares[];
 
     virtual ~Visit();
-
-    void operator+=(const CareGivingEmployee& cgEmployee);
-    void operator-=(const CareGivingEmployee& cgEmployee);
 
     //getters
     const string& getDate()									const;
@@ -42,12 +37,13 @@ public:
     //setters
     void setCause(const string& cause);
     void setTypeOfCare(eCare typeOfCare);
-    
-    //methods
     void addSeeingStaff(const CareGivingEmployee& employee);
     void removeSeeingStaff(int employeeId);
     void rescheduleVisit(const string& newDate);
     void changeDepartment(const Department &other);
+
+	void operator+=(const CareGivingEmployee& cgEmployee);
+	void operator-=(const CareGivingEmployee& cgEmployee);
 
 	virtual void toOs(std::ostream& os) const = 0;
 
@@ -78,6 +74,4 @@ protected:
 	Visit(const Visit& other);
 	const Visit& operator=(const Visit& other);
 };
-
-
 #endif /* _VISIT_H */

@@ -21,5 +21,4 @@ public:
 	virtual void work() const override;
 	void toOs(ostream& os) const override;
 };
-
 #endif // CAREGIVINGEMPLOYEE_H_INCLUDED

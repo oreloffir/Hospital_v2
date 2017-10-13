@@ -32,5 +32,4 @@ protected:
 	string areaOfResearch;
 	vector<string> publicationsNames;
 };
-
 #endif // RESEARCHER_H_INCLUDED

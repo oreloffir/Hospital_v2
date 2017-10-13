@@ -13,7 +13,6 @@ protected:
 public:
 	SurgeryType(const string& name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons);
 	SurgeryType(const SurgeryType& surgeryType);
-
 	~SurgeryType();
 
     const string& getName()			const;

@@ -5,13 +5,11 @@ using namespace std;
 
 HospitalManager::HospitalManager()
 {
-	/*
-	currentNumOfSurgeries = 0;
-	currentNumOfDoctors = 0;
-	currentNumOfNurses = 0;
+	currentNumOfSurgeries	= 0;
+	currentNumOfDoctors		= 0;
+	currentNumOfNurses		= 0;
 	currentNumOfResearchers = 0;
-	currentNumOfSurgeons = 0;
-	*/
+	currentNumOfSurgeons	= 0;
 }
 HospitalManager::~HospitalManager()
 {
