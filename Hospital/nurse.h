@@ -10,7 +10,7 @@ class Nurse : public CareGivingEmployee
 {
 
 public:
-	Nurse(CareGivingEmployee& CGEmployee);
+	Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties);
 	Nurse(const Nurse& other) = delete;
 	Nurse& operator=(const Nurse& other) = delete;
 
@@ -21,6 +21,7 @@ public:
 
 	void addDuty(const string& duty);
 	void removeDuty(const string& duty);
+	void setMaxNumOfDuties(int maxNumOfDuties);
 
 	void work() const override;
 	virtual void toOs(std::ostream& os) const override;
@@ -29,6 +30,7 @@ public:
 	void operator-=(const string& duty);
 
 private:
+	int maxNumOfDuties;
 	LinkedList<string> dutiesList;
 };
 
