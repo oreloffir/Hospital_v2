@@ -37,6 +37,7 @@ public:
 
 	int getEmployeeId()									const;
 	const vector<const Department*> getDepartments()	const;
+	int getCurrentNumOfDepartments()					const;
 	const string& getStartWorkingDate()					const;
 	eRank getEmployeeRank()								const;
 	float getSeniorityYears()							const;
@@ -55,7 +56,6 @@ public:
 protected:
 	int employeeId;
 	vector<const Department*> departments;
-	int numberOfDepatments;
 	string startWorkingDate;
 	eRank employeeRank;
 	float seniorityYears;

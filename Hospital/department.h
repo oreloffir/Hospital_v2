@@ -14,9 +14,6 @@ class Department : public EmployeeListener
 {
 private:
     string name;
-    int currentNumOfPatients;
-    int currentNumOfEmployees;
-	int currentNumOfVisits;
     vector<Patient const*> allPatients;
 	vector<Employee const*> allEmployees;
 	vector<Visit const*> allVisits;
@@ -62,6 +59,8 @@ public:
 	virtual void onEmployeeRemoved(int employeeId) override;
 	virtual void onEmployeeReplaced(const Employee* newPointer) override;
 	
+	bool operator==(const Department& other);
+
 	friend std::ostream& operator<<(std::ostream& os, const Department& department);
 };
 

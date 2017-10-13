@@ -65,12 +65,11 @@ public:
 	};
 
 protected:
+	int visitId;
     string date;
     string cause;
     const Department* department;
     const Patient* patient;
-	int visitId;
-    int currentNumOfSeeingStaff;
 	vector<const CareGivingEmployee*> seeingStaff;
     eCare typeOfCare;
 

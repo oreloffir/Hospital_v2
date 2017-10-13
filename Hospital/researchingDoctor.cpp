@@ -6,7 +6,6 @@ ResearchingDoctor::ResearchingDoctor(const Researcher& researcher, const Doctor&
 {
 	std::cout << "In ResearchingDoctor::ResearchingDoctor()" << "---->" << this->name << std::endl;
 	this->maxNumOfTestSubjects = maxNumOfTestSubjects;
-	this->currentNumOfTestSubjects = 0;
 }
 
 ResearchingDoctor::~ResearchingDoctor()
@@ -20,7 +19,7 @@ int ResearchingDoctor::getMaxNumOfTestSubjects() const
 }
 int ResearchingDoctor::getCurrentNumOfTestSubjects() const
 {
-	return this->currentNumOfTestSubjects;
+	return (int)testSubjects.size();
 }
 const vector<const Patient*> ResearchingDoctor::getTestSubjects() const
 {
@@ -29,7 +28,7 @@ const vector<const Patient*> ResearchingDoctor::getTestSubjects() const
 void ResearchingDoctor::printTestSubjects() const
 {
 	cout << "================= " << name << " test subjects =================" << endl;
-	if (currentNumOfTestSubjects == 0)
+	if (testSubjects.size() == 0)
 		cout << "\t - Researcher doctor has no test subjects yet." << endl;
 	else {
 		vector<const Patient*>::const_iterator itr = testSubjects.begin();
@@ -42,34 +41,20 @@ void ResearchingDoctor::printTestSubjects() const
 void ResearchingDoctor::addTestSubject(const Patient& testSubject)
 {
 	testSubjects.push_back(&testSubject);
-	++currentNumOfTestSubjects;
 }
 void ResearchingDoctor::removeTestSubject(const Patient& testSubject)
 {
-
-	int pos = -1;
-	vector<const Patient*>::const_iterator itr = testSubjects.begin();
-	vector<const Patient*>::const_iterator itrEnd = testSubjects.end();
-	for (int i = 0; itr != itrEnd; itr++, i++)
-		if (*(itr) == &testSubject)
+	bool found = false;
+	vector<const Patient*>::const_iterator itr		= testSubjects.begin();
+	vector<const Patient*>::const_iterator itrEnd	= testSubjects.end();
+	for (itr; itr != itrEnd; itr++)
+		if ((*itr)->getId() == testSubject.getId())
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-
-	if (pos < 0) return;
-	if (pos == maxNumOfTestSubjects - 1)
-	{
-		testSubjects.erase(testSubjects.begin() + pos);
-		--currentNumOfTestSubjects;
-		return;
-	}
-
-	if (testSubjects.capacity() <= currentNumOfTestSubjects)
-		testSubjects.resize(currentNumOfTestSubjects * 2);
-	for (int i = pos; i < this->currentNumOfTestSubjects; i++)
-		testSubjects[i] = testSubjects[i + 1];
-	--currentNumOfTestSubjects;
+	if (!found) return;
+	testSubjects.erase(itr);
 }
 
 void ResearchingDoctor::operator+=(const Patient& testSubject)
@@ -94,11 +79,11 @@ void ResearchingDoctor::toOs(ostream& os) const
 	os << "-----------ResearchingDoctor Details-----------" << endl;
 	os << "Num Of Test Subjects: ";
 
-	if (currentNumOfTestSubjects == 0)
+	if (testSubjects.size() == 0)
 		os << " No Subjects." << endl;
 	else {
-		os << currentNumOfTestSubjects << endl;
-		for (int i = 0; i < currentNumOfTestSubjects; i++)
+		os << testSubjects.size() << endl;
+		for (int i = 0; i < testSubjects.size(); i++)
 			os << "\t name: " << testSubjects[i]->getName() <<" id: " << testSubjects[i]->getId() << endl;
 	}
 }

@@ -55,14 +55,14 @@ public:
 
 	/* Selectors */
 	void selectDepartment(const string departmentName = string())	const;
-	void selectPatient(int patientId = 0)						const;
-	void selectEmployee(int employeeId = 0)						const;
-	void selectDoctor(int doctorId = 0)							const;
-	void selectNurse(int nurseId = 0)							const;
-	void selectResearcher(int researcherId = 0)					const;
-	void selectSurgeon(int surgeonId = 0)						const;
-	void selectResearchingDoctor(int reasearchingDoctorId = 0)	const;
-	void selectVisit(int visitId = 0)							const;
+	void selectPatient(int patientId = 0)							const;
+	void selectEmployee(int employeeId = 0)							const;
+	void selectDoctor(int doctorId = 0)								const;
+	void selectNurse(int nurseId = 0)								const;
+	void selectResearcher(int researcherId = 0)						const;
+	void selectSurgeon(int surgeonId = 0)							const;
+	void selectResearchingDoctor(int reasearchingDoctorId = 0)		const;
+	void selectVisit(int visitId = 0)								const;
 
 	/* Print all */
 	void printAllDepartments()										const;
@@ -133,34 +133,28 @@ public:
 	static constexpr int EMPLOYEE_TYPE_REASERCHING_DOCTOR	= 4;
 	static constexpr int EMPLOYEE_TYPE_REASERCHER			= 5;
 
-	static constexpr int DOCTOR_ADD_DIPLOMA				= 1;
-	static constexpr int DOCTOR_TO_SURGEON				= 2;
-	static constexpr int DOCTOR_TO_RESEARCHING_DOCTOR	= 3;
+	static constexpr int DOCTOR_ADD_DIPLOMA					= 1;
+	static constexpr int DOCTOR_TO_SURGEON					= 2;
+	static constexpr int DOCTOR_TO_RESEARCHING_DOCTOR		= 3;
 
 	static constexpr int NURSE_GET_DUTIES	= 1;
 	static constexpr int NURSE_ADD_DUTY		= 2;
 	static constexpr int NURSE_REMOVE_DUTY	= 3;
 	
 	static constexpr int RESEARCHER_PRINT_AREA_OF_RESEARCH	= 1;
-	static constexpr int RESEARCHER_GET_PUBLICATION_NAMES	= 2;
-	static constexpr int RESEARCHER_ADD_PUBLICATION			= 3;
+	static constexpr int RESEARCHER_ADD_PUBLICATION			= 2;
 
 	static constexpr int PRINT_DEPARTMENTS	= 1;
 	static constexpr int PRINT_PATIENTS		= 2;
 	static constexpr int PRINT_EMPLOYEES	= 3;
 	static constexpr int PRINT_VISITS		= 4;
 
-	static constexpr int SURGEON_CHECK_SECURITY_CLEARANCE			= 1;
-	static constexpr int SURGEON_GET_NUM_OF_SUCCESFULL_SURGERIES	= 2;
-	static constexpr int SURGEON_CHECK_SURGERY_CHANCE				= 3;
-	static constexpr int SURGEON_PERFORM_SURGERY					= 4;
-	static constexpr int SURGEON_ADD_DIPLOMA						= 5;
+	static constexpr int SURGEON_CHECK_SURGERY_CHANCE				= 1;
+	static constexpr int SURGEON_PERFORM_SURGERY					= 2;
 
 	static constexpr int RESEARCHING_DOCTOR_ADD_SUBJECT					= 1;
 	static constexpr int RESEARCHING_DOCTOR_REMOVE_SUBJECT				= 2;
-	static constexpr int RESEARCHING_DOCTOR_GET_CURRENT_NUM_OF_SUBJECTS = 3;
-	static constexpr int RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS			= 4;
-	static constexpr int RESEARCHING_DOCTOR_ADD_DIPLOMA					= 5;
+	static constexpr int RESEARCHING_DOCTOR_GET_ALL_OF_SUBJECTS			= 3;
 
 	static constexpr int HELP				= -999;
 

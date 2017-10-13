@@ -32,7 +32,6 @@ const Visit& Visit::operator=(const Visit& other)
 		this->cause = other.cause;
 		this->department = other.department;
 		this->patient = other.patient;
-		this->currentNumOfSeeingStaff = other.currentNumOfSeeingStaff;
 		this->typeOfCare = other.typeOfCare;
 	}
 	return *this;
@@ -60,7 +59,7 @@ const vector<const CareGivingEmployee*> Visit::getSeeingStaff() const
 }
 void Visit::printSeeingStaff() const
 {
-	if (currentNumOfSeeingStaff == 0)
+	if (seeingStaff.size() == 0)
 		cout << "No care giving employees set yet." << endl;
 	else {
 		vector<const CareGivingEmployee*>::const_iterator itr = seeingStaff.begin();
@@ -79,7 +78,7 @@ int Visit::getMaxNumOfSeeingStaff() const
 }
 int Visit::getCurrentNumOfSeeingStaff() const
 {
-	return currentNumOfSeeingStaff;
+	return (int)seeingStaff.size();
 }
 int Visit::getVisitId() const
 {
@@ -101,8 +100,7 @@ const CareGivingEmployee* Visit::getCareGivingEmployeeById(int careGivingEmploye
 
 void Visit::setCause(const string& cause)
 {
-
-	this->cause = cause;
+		this->cause = cause;
 }
 void Visit::setTypeOfCare(eCare typeOfCare)
 {
@@ -114,34 +112,20 @@ void Visit::addSeeingStaff(const CareGivingEmployee& employee)
 	if (getCareGivingEmployeeById(employee.getEmployeeId()) != nullptr)
 		return;
 	seeingStaff.push_back(&employee);
-	++currentNumOfSeeingStaff;
 }
 void Visit::removeSeeingStaff(int employeeId)
 {
-	int pos = -1;
+	bool found = false;
 	vector<const CareGivingEmployee*>::const_iterator itr = seeingStaff.begin();
 	vector<const CareGivingEmployee*>::const_iterator itrEnd = seeingStaff.end();
-	for (int i = 0; itr != itrEnd; itr++, i++)
-		if ((*itr)->getId() == employeeId)
+	for (itr; itr != itrEnd; itr++)
+		if ((*itr)->getEmployeeId() == employeeId)
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-
-	if (pos < 0) return;
-	if (pos == currentNumOfSeeingStaff - 1)
-	{
-		seeingStaff.erase(seeingStaff.begin() + pos);
-		--currentNumOfSeeingStaff;
-		return;
-	}
-
-	if (seeingStaff.capacity() <= currentNumOfSeeingStaff)
-		seeingStaff.resize(currentNumOfSeeingStaff * 2);
-	for (int i = pos; i < currentNumOfSeeingStaff; i++)
-		seeingStaff[i] = seeingStaff[i + 1];
-
-	--currentNumOfSeeingStaff;
+	if (!found) return;
+	seeingStaff.erase(itr);
 }
 
 void Visit::operator+=(const CareGivingEmployee& cgEmployee)

@@ -10,9 +10,6 @@ Department::Department(const string& name)
 	:name(name)
 {
 	cout << "In Department::Department (name=" << name << ")" << endl;
-	currentNumOfPatients	= 0;
-	currentNumOfEmployees	= 0;
-	currentNumOfVisits		= 0;
 }
 
 Department::~Department()
@@ -26,15 +23,15 @@ const string& Department::getName() const
 }
 int Department::getCurrentNumOfPatients() const
 {
-	return currentNumOfPatients;
+	return (int)allPatients.size();
 }
 int Department::getCurrentNumOfEmployees() const
 {
-	return currentNumOfEmployees;
+	return (int)allEmployees.size();
 }
 int Department::getCurrentNumOfVisits() const
 {
-	return currentNumOfVisits;
+	return (int)allVisits.size();
 }
 const vector<const Patient*> Department::getAllPatients() const
 {
@@ -97,7 +94,6 @@ void Department::addPatient(const Patient* newPatient)
 		return;
 
 	allPatients.push_back(newPatient);
-	++currentNumOfPatients;	
 }
 void Department::addEmployee(const Employee* newEmployee)
 {
@@ -105,7 +101,6 @@ void Department::addEmployee(const Employee* newEmployee)
 	if (getEmployeeById(newEmployee->getId()) != nullptr)
 		return;
 	allEmployees.push_back(newEmployee);
-	++currentNumOfEmployees;
 }
 void Department::addVisit(const Visit* visit)
 {
@@ -113,85 +108,49 @@ void Department::addVisit(const Visit* visit)
 	if (getVisitById(visit->getVisitId()) != nullptr)
 		return;
 	allVisits.push_back(visit);
-	++currentNumOfVisits;
 }
 
 void Department::removePatientById(int id)
 {
-	int pos = -1;
+	bool found = false;
 	vector<const Patient*>::const_iterator itr = allPatients.begin();
 	vector<const Patient*>::const_iterator itrEnd = allPatients.end();
-	for (int i=0 ; itr != itrEnd ; itr++, i++)
+	for (itr ; itr != itrEnd ; itr++)
 		if ((*itr)->getId() == id)
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-	
-	if (pos < 0) return;
-	if (pos == currentNumOfPatients - 1)
-	{
-		allPatients.erase(allPatients.begin() + pos);
-		--currentNumOfPatients;
-		return;
-	}
-	if (allPatients.capacity() <= currentNumOfPatients)
-		allPatients.resize(currentNumOfPatients * 2);
-	for (int i = pos; i < currentNumOfPatients ; i++)
-		allPatients[i] = allPatients[i + 1];
-	--currentNumOfPatients;
+	if (!found) return;
+	allPatients.erase(itr);
 }
 void Department::removeEmployeeById(int employeeId)
 {
-	int pos = -1;
+	bool found = false;
 	vector<const Employee*>::const_iterator itr = allEmployees.begin();
 	vector<const Employee*>::const_iterator itrEnd = allEmployees.end();
-	for (int i = 0; itr != itrEnd; itr++, i++)
-		if ((*itr)->getEmployeeId() == employeeId)
+	for (itr; itr != itrEnd; itr++)
+		if ((*itr)->getId() == employeeId)
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-		
-	if (pos < 0) return;
-	if (pos == currentNumOfEmployees - 1)
-	{
-		allEmployees.erase(allEmployees.begin() + pos);
-		--currentNumOfEmployees;
-		return;
-	}
-	if (allEmployees.capacity() <= currentNumOfEmployees)
-		allEmployees.resize(currentNumOfEmployees * 2);
-	for (int i = pos; i < currentNumOfEmployees ; i++) 
-		allEmployees[i] = allEmployees[i + 1];
-	--currentNumOfEmployees;
+	if (!found) return;
+	allEmployees.erase(itr);
 }
 void Department::removeVisitById(int visitId)
 {
-	int pos = -1;
+	bool found = false;
 	vector<const Visit*>::const_iterator itr = allVisits.begin();
 	vector<const Visit*>::const_iterator itrEnd = allVisits.end();
-	for (int i = 0; itr != itrEnd; itr++, i++)
+	for (itr; itr != itrEnd; itr++)
 		if ((*itr)->getVisitId() == visitId)
 		{
-			pos = i;
+			found = true;
 			break;
 		}
-
-	
-	if (pos < 0) return;
-	if (pos == currentNumOfVisits - 1)
-	{
-		allVisits.erase(allVisits.begin() + pos);
-		--currentNumOfVisits;
-		return;
-	}
-	if (allVisits.capacity() <= currentNumOfVisits)
-		allVisits.resize(currentNumOfVisits * 2);
-	for (int i = pos; i < this->currentNumOfVisits ; i++)
-		allVisits[i] = allVisits[i + 1];
-
-	--currentNumOfVisits;
+	if (!found) return;
+	allVisits.erase(itr);
 }
 
 void Department::operator+=(const Employee& newEmployee)
@@ -217,6 +176,10 @@ void Department::operator-=(const Patient& existingPatient)
 void Department::operator-=(const Visit& existingVisit)
 {
 	this->removeVisitById(existingVisit.getVisitId());
+}
+bool Department::operator==(const Department& other)
+{
+	return (this->name == other.getName()) ? true : false;
 }
 
 void Department::onEmployeeRemoved(int employeeId)

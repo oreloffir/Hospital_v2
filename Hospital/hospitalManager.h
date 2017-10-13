@@ -46,14 +46,6 @@ public:
 
 	static HospitalManager* getInstance();
 
-	static constexpr int MAX_NUMBER_OF_DEPARTMENTS = 50;
-	static constexpr int MAX_NUMBER_OF_PATIENTS = 1000;
-	static constexpr int MAX_NUMBER_OF_VISITS = 4000;
-	static constexpr int MAX_NUMBER_OF_EMPLOYEES = 500;
-	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS = 1000;
-
-	static const char* ARRAY_MAX_SIZE;
-
 	/* Department managment */
 	const Department& createDepartment(const string& departmentName) throw(const char*);
 	const Department* getConstDepartmentByName(const string& departmentName) const;
@@ -114,5 +106,13 @@ public:
 
 	void addEmployeeListener(EmployeeListener* employeeListener);
 	void removeEmployeeListener(EmployeeListener* employeeListener);
+
+	static constexpr int MAX_NUMBER_OF_DEPARTMENTS			= 50;
+	static constexpr int MAX_NUMBER_OF_PATIENTS				= 1000;
+	static constexpr int MAX_NUMBER_OF_VISITS				= 4000;
+	static constexpr int MAX_NUMBER_OF_EMPLOYEES			= 500;
+	static constexpr int MAX_NUMBER_OF_EMPLOYEE_LISTENERS	= 1000;
+	static const char* ARRAY_MAX_SIZE;
+
 };
 #endif
