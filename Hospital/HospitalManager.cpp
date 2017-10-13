@@ -255,6 +255,13 @@ void HospitalManager::removeDuty(int id, const string& duty)
 		return;
 	nurse->removeDuty(duty);
 }
+void HospitalManager::setMaxNumOfDuties(int id, int max)
+{
+	Nurse* nurse = getNurseById(id);
+	if (nurse == nullptr)
+		return;
+	nurse->setMaxNumOfDuties(max);
+}
 int HospitalManager::getCurrentNumOfNurses() const
 {
 	return currentNumOfNurses;
