@@ -13,10 +13,11 @@ public:
 	static constexpr int NUMBER_OF_TYPES = 4;
     enum eSurgeryKind {EASY, NORMAL, HARD, LIFE_SAVING};
     
-    //ctors
-    Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int numOfSurgeons = 1);
-	~Surgery();
-    //getters
+    Surgery(const Visit::VisitInfo& visitInfo, const SurgeryType& type, int numOfSurgeons = 1);
+
+	Surgery(const Surgery& other)					= delete;
+	const Surgery& operator=(const Surgery& other)	= delete;
+    
     const SurgeryType* getSurgeryType() const;
 	const string& getSurgeryKindName()	const;
 	eSurgeryKind getSurgeryKind()		const;
@@ -25,7 +26,6 @@ public:
 	bool getIsDone()					const;
 	bool getSuccsesfullSurgery()		const;
     
-    //setters
     void setNumOfSurgeons(int numOfSurgeons);
     void setDurationMin(int duration);
 	void surgeryDone(bool result);

@@ -1,23 +1,12 @@
 #include "person.h"
 
-Person::Person(int id, const string& name, const string& dateOfBirth, eGender gender)
-	: id(id), gender(gender), name(name), dateOfBirth(dateOfBirth)
-{
-	cout << "In Person::Person (name=" << name << ")" << endl;
-}
-Person::~Person()
-{
-	cout << "In Person::~Person (name=" << name << ")" << endl;
-}
 Person::Person(const Person& other)
 {
-	cout << "In Person::Person(copy) (name=" << other.name << ")" << endl;
 	*this = other;
 }
 
 const Person& Person::operator=(const Person& other)
 {
-	cout << "In Person::operator= (name=" << other.name << ")" << endl;
 	if (this != &other)
 	{
 		id			= other.id;

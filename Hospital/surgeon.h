@@ -8,10 +8,14 @@
 class Surgeon : public Doctor
 {
 public:
-	Surgeon(const Doctor& doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0);
-	Surgeon(const Surgeon& other) = delete;
+	Surgeon(const Doctor& doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries = 0, int numOfSurgeries = 0)
+	: Employee(doctor), Doctor(doctor),
+		securityClearance(hasSecurityClearance),
+		numOfSuccesfullSurgeries(numOfSuccesfulSurgeries),
+		numOfSurgeries(numOfSurgeries) {};
 
-	virtual ~Surgeon();
+	Surgeon(const Surgeon& other)				= delete;
+	Surgeon& operator=(const Surgeon& other)	= delete;
 
 	bool hasSecurityClearance()						const;
 	int getNumOfSuccesfullSurgeries()				const;

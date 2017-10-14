@@ -10,10 +10,13 @@ class Nurse : public CareGivingEmployee
 {
 
 public:
-	Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties);
-	Nurse(const Nurse& other) = delete;
-	Nurse& operator=(const Nurse& other) = delete;
-	virtual ~Nurse();
+	Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties)
+		: Employee(CGEmployee),
+		CareGivingEmployee(CGEmployee),
+		maxNumOfDuties(maxNumOfDuties) {};
+	
+	Nurse(const Nurse& other)				= delete;
+	Nurse& operator=(const Nurse& other)	= delete;
 
 	const LinkedList<string>& getDuties()	const;
 	int getCurrentNumOfDuties()				const;

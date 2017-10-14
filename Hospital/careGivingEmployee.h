@@ -12,11 +12,13 @@ class CareGivingEmployee : virtual public Employee
 public:
 	CareGivingEmployee(int id, const string& name, const string& dateOfBirth, eGender gender,
 		const string& startWorkingDate, eRank employeeRank, double salary,
-		const string& areaOfTraining, float seniorityYears);
-	CareGivingEmployee(const CareGivingEmployee& other) : Employee(other) {
-		std::cout << "In CareGivingEmployee::CareGivingEmployee(copy)" << "---->" << this->name << std::endl;
-	};
-	virtual ~CareGivingEmployee();
+		const string& areaOfTraining, float seniorityYears)
+		:Employee(id, name, dateOfBirth, gender, startWorkingDate, employeeRank, salary, areaOfTraining, seniorityYears) {};
+	
+	CareGivingEmployee(const CareGivingEmployee& other) 
+		: Employee(other) {};
+	
+	virtual ~CareGivingEmployee() {};
 
 	virtual void work() const override;
 	void toOs(ostream& os) const override;

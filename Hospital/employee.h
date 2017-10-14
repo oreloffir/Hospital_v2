@@ -11,7 +11,6 @@ using namespace std;
 class Employee : public Person
 {
 public:
-	static constexpr int MAX_NUMBER_OF_DEPATRMENTS = 20;
 	static int employeeIdGenerator; // starting from 0
 	enum eRank { JUNIOR, SENIOR };
 	struct employeeInfo
@@ -32,7 +31,7 @@ public:
 		const string& areaOfTraining, float seniorityYears);
 	Employee(const Employee& other);
 	const Employee& operator=(const Employee& other);
-	virtual ~Employee();
+	virtual ~Employee() {};
 
 	int getEmployeeId()									const;
 	const vector<const Department*> getDepartments()	const;

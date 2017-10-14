@@ -11,9 +11,17 @@ protected:
     float precentageOfSuccess;
     int maxNumOfSurgeons;
 public:
-	SurgeryType(const string& name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons);
-	SurgeryType(const SurgeryType& surgeryType);
-	~SurgeryType();
+	SurgeryType(const string& name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons)
+		:durationMin(durationMin), 
+		precentageOfSuccess(precentageOfSuccess), 
+		maxNumOfSurgeons(maxNumOfSurgeons),
+		name(name) {};
+	
+	SurgeryType(const SurgeryType& surgeryType)
+		: name(surgeryType.name),
+		durationMin(surgeryType.durationMin),
+		precentageOfSuccess(surgeryType.precentageOfSuccess),
+		maxNumOfSurgeons(surgeryType.maxNumOfSurgeons) {};
 
     const string& getName()			const;
 	int getDurationMin()			const;

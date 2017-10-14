@@ -1,18 +1,5 @@
 #include "researchingDoctor.h"
 
-ResearchingDoctor::ResearchingDoctor(const Researcher& researcher, const Doctor& doctor,
-	int maxNumOfTestSubjects)
-	:Employee(researcher), Researcher(researcher), Doctor(doctor)
-{
-	std::cout << "In ResearchingDoctor::ResearchingDoctor()" << "---->" << this->name << std::endl;
-	this->maxNumOfTestSubjects = maxNumOfTestSubjects;
-}
-
-ResearchingDoctor::~ResearchingDoctor()
-{
-	std::cout << "In ResearchingDoctor::~ResearchingDoctor()" << "---->" << this->name << std::endl;
-}
-
 int ResearchingDoctor::getMaxNumOfTestSubjects() const
 {
 	return this->maxNumOfTestSubjects;

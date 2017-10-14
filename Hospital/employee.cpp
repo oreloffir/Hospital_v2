@@ -13,23 +13,21 @@ Employee::Employee(int id, const string& name, const string& dateOfBirth, eGende
 	employeeRank(employeeRank),
 	seniorityYears(seniorityYears)
 {
-	std::cout << "In Employee::Employee" << "---->" << this->name << std::endl;
 	this->employeeId = Employee::employeeIdGenerator;
 	++Employee::employeeIdGenerator;
 }
 
 Employee::Employee(const Employee& other)
-	:Person(other) {
-	std::cout << "In Employee::Employee(copy)" << "---->" << this->name << std::endl;
+	:Person(other) 
+{
 	*this = other;
 }
 const Employee& Employee::operator=(const Employee& other)
 {
-	std::cout << "In Employee::operator=" << std::endl;
 	if (this != &other)
 	{
 		employeeId = other.employeeId;
-		departments = other.departments; // TODO
+		departments = other.departments;
 		for (int i = 0; i < other.getCurrentNumOfDepartments(); i++)
 			departments[i] = other.departments[i];
 		startWorkingDate = other.startWorkingDate;
@@ -39,10 +37,6 @@ const Employee& Employee::operator=(const Employee& other)
 		seniorityYears = other.seniorityYears;
 	}
 	return *this;
-}
-Employee::~Employee()
-{
-	std::cout << "In Employee::~Employee" << "---->" << this->name << std::endl;
 }
 
 int Employee::getEmployeeId() const

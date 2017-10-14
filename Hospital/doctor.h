@@ -10,10 +10,16 @@ using namespace std;
 class Doctor : public CareGivingEmployee
 {
 public:
-	Doctor(CareGivingEmployee& CGEmployee, const string& fieldOfExpertise, int numOfDiplomas = 0);
+	Doctor(CareGivingEmployee& CGEmployee, const string& fieldOfExpertise, int numOfDiplomas = 0)
+		: Employee(CGEmployee),
+		CareGivingEmployee(CGEmployee),
+		fieldOfExpertise(fieldOfExpertise),
+		numOfDiplomas(numOfDiplomas) {};
+
 	Doctor(const Doctor& other);
 	const Doctor& operator=(const Doctor& other);
-	virtual ~Doctor();
+	
+	virtual ~Doctor() {};
 
 	int getNumOfDiplomas()					const;
 	const string& getFieldOfExpertise()		const;

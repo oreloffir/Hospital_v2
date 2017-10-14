@@ -5,15 +5,6 @@
 
 using namespace std;
 
-Surgeon::Surgeon(const Doctor& doctor, bool hasSecurityClearance, int numOfSuccesfulSurgeries, int numOfSurgeries)
-	: Employee(doctor), Doctor(doctor), securityClearance(hasSecurityClearance), numOfSuccesfullSurgeries(numOfSuccesfulSurgeries), numOfSurgeries(numOfSurgeries)
-{}
-
-Surgeon::~Surgeon()
-{
-	cout << "In Surgeon::~Surgeon (name=" << name << ")" << endl;
-}
-
 bool Surgeon::hasSecurityClearance() const
 {
 	return securityClearance;
