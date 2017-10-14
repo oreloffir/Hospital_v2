@@ -6,21 +6,29 @@ void HospitalController::run() const
 	int selectedOption;
 
 	while (true) {
-		selectedOption = mainMenu();
-		switch (selectedOption)
-		{
-		case CREATE_OPTION:
-			createEntities();
-			break;
-		case SELECT_OPTION:
-			selectEntities();
-			break;
-		case PRINT_OPTION:
-			printEntities();
-			break;
-		default:
-			return;
-			break;
+		try {
+			selectedOption = mainMenu();
+			switch (selectedOption)
+			{
+			case CREATE_OPTION:
+				createEntities();
+				break;
+			case SELECT_OPTION:
+				selectEntities();
+				break;
+			case PRINT_OPTION:
+				printEntities();
+				break;
+			default:
+				return;
+				break;
+			}
+		}
+		catch (const char* e) {
+			cout << e << endl;
+		}
+		catch (...) {
+			cout << "ERROR" << endl;
 		}
 	}
 }
