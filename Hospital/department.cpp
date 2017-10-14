@@ -6,17 +6,6 @@
 #include <iostream>
 using namespace std;
 
-Department::Department(const string& name)
-	:name(name)
-{
-	cout << "In Department::Department (name=" << name << ")" << endl;
-}
-
-Department::~Department()
-{
-	cout << "In Department::~Department (name=" << name << ")" << endl;
-}
-
 const string& Department::getName() const
 {
 	return name;

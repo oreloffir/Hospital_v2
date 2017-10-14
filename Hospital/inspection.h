@@ -10,11 +10,12 @@ public:
 	static const string labResults[];
     enum eLabResult {POSITIVE, NEGETIVE};
     
-    Inspection(const Visit::VisitInfo visitInfo, const string& typeOfInspection);
-	Inspection(const Inspection& other) = delete;
-    ~Inspection();
-
-    const Inspection& operator=(const Inspection& other) = delete;
+	Inspection(const Visit::VisitInfo visitInfo, const string& typeOfInspection)
+		:Visit(visitInfo.date, visitInfo.cause, visitInfo.department, visitInfo.patient, visitInfo.typeOfCare),
+		typeOfInspection(typeOfInspection) {};
+	
+	Inspection(const Inspection& other)						= delete;
+    const Inspection& operator=(const Inspection& other)	= delete;
 
     const string getTypeOfInspection()	const;
     eLabResult getLabResult()			const;

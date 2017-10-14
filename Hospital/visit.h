@@ -15,10 +15,14 @@ class Visit : public EmployeeListener
 public:
 	static int visitIdGenerator; // starting from 1
     enum eCare {FIRST_AID, TESTS, SURGERY_PREP, SURGERY};
-	static constexpr int MAX_NUM_OF_SEEING_STAFF = 20;
 	static const string cares[];
 
-    virtual ~Visit();
+	Visit(const string& date, const string& cause, const Department* department, const Patient* patient, eCare typeOfCare);
+	
+	Visit(const Visit& other);
+	const Visit& operator=(const Visit& other);
+	
+	virtual ~Visit() {};
 
     //getters
     const string& getDate()									const;
@@ -29,7 +33,6 @@ public:
 	void printSeeingStaff()									const;
 	eCare getTypeOfCare()									const;
 	const string& getTypeOfCareName()						const;
-    int getMaxNumOfSeeingStaff()							const;
     int getCurrentNumOfSeeingStaff()						const;
 	int getVisitId()										const;
 	const CareGivingEmployee* getCareGivingEmployeeById(int careGivingEmployeeId) const;
@@ -68,10 +71,5 @@ protected:
     const Patient* patient;
 	vector<const CareGivingEmployee*> seeingStaff;
     eCare typeOfCare;
-
-    //ctors
-    Visit(const string& date, const string& cause, const Department* department, const Patient* patient, eCare typeOfCare);
-	Visit(const Visit& other);
-	const Visit& operator=(const Visit& other);
 };
 #endif /* _VISIT_H */

@@ -8,10 +8,12 @@
 class ResearchingDoctor : public Researcher, public Doctor
 {
 public:
-	ResearchingDoctor(const Researcher& researcher, const Doctor& doctor, int maxNumOfTestSubjects);
+	ResearchingDoctor(const Researcher& researcher, const Doctor& doctor, int maxNumOfTestSubjects)
+		:Employee(researcher), Researcher(researcher), Doctor(doctor),
+		maxNumOfTestSubjects(maxNumOfTestSubjects) {};
+	
 	ResearchingDoctor(const ResearchingDoctor& other) = delete;
 	ResearchingDoctor& operator=(const ResearchingDoctor& other) = delete;
-	virtual ~ResearchingDoctor();
 
 	int getMaxNumOfTestSubjects()					const;
 	int getCurrentNumOfTestSubjects()				const;

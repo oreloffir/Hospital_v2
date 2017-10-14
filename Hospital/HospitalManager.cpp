@@ -13,7 +13,6 @@ HospitalManager::HospitalManager()
 }
 HospitalManager::~HospitalManager()
 {
-	cout << "in HospitalManager::~HospitalManager()" << endl;
 	int i;
 	for (i = 0; i < departments.size(); i++)
 		delete departments[i];

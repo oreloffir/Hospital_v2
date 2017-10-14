@@ -1,17 +1,5 @@
 #include "patient.h"
 
-
-Patient::Patient(int id, const string& name, const string& dateOfBirth, eGender gender)
-	: Person(id, name, dateOfBirth, gender)
-{
-	cout << "In Patient::Patient (name=" << this->name << ")" << endl;
-}
-
-Patient::~Patient()
-{
-	cout << "In Patient::~Patient (name=" << name << ")" << endl;
-}
-
 void Patient::visitHospital(const string& date)
 {
 	lastDateVisited = date;

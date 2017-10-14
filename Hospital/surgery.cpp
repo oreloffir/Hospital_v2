@@ -2,12 +2,11 @@
 #include <iostream>
 using namespace std;
 
-Surgery::Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int numOfSurgeons)
+Surgery::Surgery(const Visit::VisitInfo& visitInfo, const SurgeryType& type, int numOfSurgeons)
 : Visit(visitInfo.date, visitInfo.cause, visitInfo.department, visitInfo.patient, visitInfo.typeOfCare),
 	type(type),
 	actualNumOfSurgeons(numOfSurgeons)
 {
-	cout << "In Surgery::Surgery (type=" << type.getName() << ")" << endl;
 	isDone = false;
 	double precentageOfSuccess = type.getPrecentageOfSuccess();
 	if (precentageOfSuccess < 25.0)
@@ -19,10 +18,7 @@ Surgery::Surgery(const Visit::VisitInfo visitInfo, const SurgeryType& type, int 
 	else if (precentageOfSuccess < 100.0)
 		kind = EASY;
 }
-Surgery::~Surgery()
-{
-	cout << "In Surgery::~Surgery (type=" << type.getName() << ")" << endl;
-}
+
 
 const SurgeryType* Surgery::getSurgeryType() const
 {
@@ -87,4 +83,4 @@ void Surgery::toOs(std::ostream& os) const
 	os << endl;
 }
 
-const string Surgery::surgeryKind[] = {"EASY", "NORMAL", "HARD", "LIFE_SAVING" };
+const string Surgery::surgeryKind[] = {"EASY", "NORMAL", "HARD", "LIFE SAVING" };

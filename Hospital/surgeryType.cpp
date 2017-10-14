@@ -3,25 +3,6 @@
 #include <iostream>
 using namespace std;
 
-SurgeryType::SurgeryType(const string& name, int durationMin, float precentageOfSuccess, int maxNumOfSurgeons = 1)
-	: durationMin(durationMin), precentageOfSuccess(precentageOfSuccess), maxNumOfSurgeons(maxNumOfSurgeons)
-{
-	this->name = name;
-	cout << "In SurgeryType::SurgeryType (name=" << this->name << ")" << endl;
-}
-SurgeryType::SurgeryType(const SurgeryType& surgeryType)
-{
-	name = surgeryType.name;
-	durationMin = surgeryType.durationMin;
-	precentageOfSuccess = surgeryType.precentageOfSuccess;
-	maxNumOfSurgeons = surgeryType.maxNumOfSurgeons;
-	cout << "In SurgeryType::SurgeryType(copy) (name=" << name << ")" << endl;
-}
-SurgeryType::~SurgeryType()
-{
-	cout << "In SurgeryType::~SurgeryType (name=" << name << ")" << endl;
-}
-
 const string& SurgeryType::getName() const
 {
 	return name;

@@ -9,13 +9,19 @@ class Researcher : virtual public Employee
 {
 public:
 	static int constexpr MAX_NUMBER_OF_PUBLICATIONS = 20;
+	
 	Researcher(int id, const string& name, const string& dateOfBirth, eGender gender,
 		const string& startWorkingDate, eRank employeeRank, double salary,
-		const string& areaOfTraining, float seniorityYears, const string& areaOfResearch);
-	Researcher(const Employee& employee, const string& areaOfResearch);
-	Researcher(const Researcher& other);
-	virtual ~Researcher();
+		const string& areaOfTraining, float seniorityYears, const string& areaOfResearch)
+		:Employee(id, name, dateOfBirth, gender, startWorkingDate, employeeRank, salary, areaOfTraining, seniorityYears),
+		areaOfResearch(areaOfResearch) {};
+	Researcher(const Employee& employee, const string& areaOfResearch)
+		:Employee(employee),
+		areaOfResearch(areaOfResearch) {};
+	
+	virtual ~Researcher() {};
 
+	Researcher(const Researcher& other);
 	const Researcher& operator=(const Researcher& other);
 
 	int getNumOfPublications()					const;

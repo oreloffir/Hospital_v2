@@ -10,11 +10,14 @@ public:
 	enum eGender { MALE, FEMALE };
 	static const string genders[];
 
-	Person(int id, const string& name, const string& dateOfBirth, eGender gender);
+	Person(int id, const string& name, const string& dateOfBirth, eGender gender)
+		: id(id), gender(gender), name(name), dateOfBirth(dateOfBirth) {};
+	virtual ~Person() {};
+
 	Person(const Person& person);
 	const Person& operator=(const Person& other);
 
-	virtual ~Person();
+	
 
 	int getId()						const;
 	const string& getName()			const;

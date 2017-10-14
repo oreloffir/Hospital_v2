@@ -9,20 +9,14 @@ Visit::Visit(const string& date, const string& cause, const Department* departme
 		date(date),
 		cause(cause)
 {
-	cout << "In Visit::Visit (cause=" << cause << ")" << endl;
 	visitId = visitIdGenerator;
 	++visitIdGenerator;
 }
+
 Visit::Visit(const Visit& other)
 {
 	*this = other;
-	cout << "In Visit::Visit(copy) (cause=" << cause << ")" << endl;
 }
-Visit::~Visit()
-{
-	cout << "In Visit::~Visit (cause=" << cause << ")" << endl;
-}
-
 const Visit& Visit::operator=(const Visit& other)
 {
 	if (this != &other)
@@ -72,10 +66,7 @@ Visit::eCare Visit::getTypeOfCare() const
 {
 	return typeOfCare;
 }
-int Visit::getMaxNumOfSeeingStaff() const
-{
-	return MAX_NUM_OF_SEEING_STAFF;
-}
+
 int Visit::getCurrentNumOfSeeingStaff() const
 {
 	return (int)seeingStaff.size();

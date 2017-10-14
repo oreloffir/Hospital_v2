@@ -10,14 +10,12 @@ using namespace std;
 class Patient : public Person
 {
 public:
-	static constexpr int MAX_NUMBER_OF_ALLERGIES	= 20;
-	static constexpr int MAX_NUMBER_OF_VISITS		= 30;
 
-    Patient(int id, const string& name, const string& dateOfBirth, eGender gender);
+	Patient(int id, const string& name, const string& dateOfBirth, eGender gender)
+		: Person(id, name, dateOfBirth, gender) {};
+
     Patient(const Patient& other)			 = delete;
     Patient& operator=(const Patient& other) = delete;
-
-    virtual ~Patient();
 
     void visitHospital(const string& date);
     bool anesthetize(const string& date);

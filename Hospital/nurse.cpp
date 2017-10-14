@@ -1,17 +1,6 @@
 #include "nurse.h"
 #include <iostream>
 
-Nurse::Nurse(CareGivingEmployee& CGEmployee, int maxNumOfDuties)
-	: Employee(CGEmployee),
-	CareGivingEmployee(CGEmployee)
-{
-	std::cout << "In Nurse::Nurse()" << "---->" << this->name << std::endl;
-	this->maxNumOfDuties = maxNumOfDuties;
-}
-Nurse::~Nurse()
-{
-	std::cout << "In Nurse::~Nurse()" << "---->" << this->name << std::endl;
-}
 const LinkedList<string>& Nurse::getDuties() const
 {
 	return dutiesList;

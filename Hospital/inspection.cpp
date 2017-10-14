@@ -1,18 +1,6 @@
 #include "inspection.h"
 #include <iostream>
 
-Inspection::Inspection(const Visit::VisitInfo visitInfo, const string& typeOfInspection)
-:	Visit(visitInfo.date, visitInfo.cause, visitInfo.department, visitInfo.patient, visitInfo.typeOfCare),
-	typeOfInspection(typeOfInspection)
-{
-	std::cout << "In Inspection::Inspection" << "---->" << this->typeOfInspection << std::endl;
-}
-
-Inspection::~Inspection()
-{
-	std::cout << "In Inspection::~Inspection" << "---->" << this->typeOfInspection << std::endl;
-}
-
 const string Inspection::getTypeOfInspection() const
 {
 	return this->typeOfInspection;
