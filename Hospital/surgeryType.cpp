@@ -26,7 +26,6 @@ void SurgeryType::setDurationMin(int durationMin)
 }
 void SurgeryType::setName(const string& name)
 {
-	//delete[] name;
 	this->name = name;
 }
 void SurgeryType::setPrecentageOfSuccess(float precentageOfSuccess)

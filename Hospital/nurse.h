@@ -21,7 +21,7 @@ public:
 	const LinkedList<string>& getDuties()	const;
 	int getCurrentNumOfDuties()				const;
 
-	void addDuty(const string& duty);
+	void addDuty(const string& duty) throw (char*);
 	void removeDuty(const string& duty);
 	void setMaxNumOfDuties(int maxNumOfDuties);
 

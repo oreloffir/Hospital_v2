@@ -8,8 +8,6 @@ using namespace std;
 class Researcher : virtual public Employee
 {
 public:
-	static int constexpr MAX_NUMBER_OF_PUBLICATIONS = 20;
-	
 	Researcher(int id, const string& name, const string& dateOfBirth, eGender gender,
 		const string& startWorkingDate, eRank employeeRank, double salary,
 		const string& areaOfTraining, float seniorityYears, const string& areaOfResearch)

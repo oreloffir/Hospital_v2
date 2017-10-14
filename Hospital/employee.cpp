@@ -28,8 +28,6 @@ const Employee& Employee::operator=(const Employee& other)
 	{
 		employeeId = other.employeeId;
 		departments = other.departments;
-		for (int i = 0; i < other.getCurrentNumOfDepartments(); i++)
-			departments[i] = other.departments[i];
 		startWorkingDate = other.startWorkingDate;
 		employeeRank = other.employeeRank;
 		salary = other.salary;

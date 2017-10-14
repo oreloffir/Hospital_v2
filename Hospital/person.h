@@ -16,9 +16,7 @@ public:
 
 	Person(const Person& person);
 	const Person& operator=(const Person& other);
-
 	
-
 	int getId()						const;
 	const string& getName()			const;
 	const string& getDateOfBirth()	const;
