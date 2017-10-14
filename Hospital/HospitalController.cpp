@@ -25,10 +25,10 @@ void HospitalController::run() const
 			}
 		}
 		catch (const char* e) {
-			cout << e << endl;
+			cout << "Error!: " << e << endl;
 		}
 		catch (...) {
-			cout << "ERROR" << endl;
+			cout << "Error!" << endl;
 		}
 	}
 }
