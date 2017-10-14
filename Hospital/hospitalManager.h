@@ -47,7 +47,7 @@ public:
 	static HospitalManager* getInstance();
 
 	/* Department managment */
-	const Department& createDepartment(const string& departmentName) throw(const char*);
+	const Department& createDepartment(const string& departmentName);
 	const Department* getConstDepartmentByName(const string& departmentName) const;
 	const vector<const Department*> getAllDepartments() const;
 	int getCurrectNumOfDepartments() const;
@@ -57,15 +57,15 @@ public:
 	void removeEmployeeFromDepartment(const Employee* employee, const Department* department);
 
 	/* Patient Managment */
-	const Patient& createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*);
+	const Patient& createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender);
 	const Patient* getConstPatientById(int patientId) const;
 	const vector<const Patient*> getAllPatients() const;
 	int getCurrectNumOfPatients() const;
 	bool addAllergieToPatient(int patientId, const string& allergieName);
 
 	/* Visit Managment */
-	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*);
-	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1) throw(const char*);
+	const Inspection& createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection);
+	const Surgery& createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons = 1);
 	const Visit* getConstVisitById(int id) const;
 	const vector<const Visit*> getAllVisits() const;
 	int getCurrectNumOfVisits() const;

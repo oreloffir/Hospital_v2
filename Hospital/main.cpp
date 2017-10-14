@@ -7,5 +7,4 @@ int main()
 {
 	HospitalController hospitalController;
 	hospitalController.run();
-	system("pause");
 }

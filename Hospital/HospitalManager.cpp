@@ -89,13 +89,12 @@ Patient* HospitalManager::getPatientById(int patientId) const
 }
 
 /*Department functions*/
-const Department& HospitalManager::createDepartment(const string& departmentName) throw(const char*)
+const Department& HospitalManager::createDepartment(const string& departmentName)
 {
 	Department* department = new Department(departmentName);
 	departments.push_back(department);
 	addEmployeeListener(department);
 	return *department;
-
 }
 const Department* HospitalManager::getConstDepartmentByName(const string& departmentName) const
 {
@@ -135,7 +134,7 @@ void HospitalManager::removeEmployeeFromDepartment(const Employee* employee, con
 }
 
 /*Patient functions*/
-const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender) throw(const char*)
+const Patient& HospitalManager::createPatient(int id, const string& name, const string& dateOfBirth, Person::eGender gender)
 {
 	Patient* patient = new Patient(id, name, dateOfBirth, gender);
 	patients.push_back(patient);
@@ -268,7 +267,7 @@ int HospitalManager::getCurrentNumOfNurses() const
 	return currentNumOfNurses;
 }
 /*Researcher functions*/
-const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch) throw(const char*)
+const Researcher& HospitalManager::createResearcher(const Employee::employeeInfo employeeInfo, const string& areaOfResearch)
 {
 	ResearcherBuilder researcherBuilder;
 	researcherBuilder.setId(employeeInfo.id)
@@ -348,7 +347,7 @@ int HospitalManager::getCurrentNumOfSurgeons() const
 	return currentNumOfSurgeons;
 }
 /*Researching Doctor functions*/
-const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects) throw(const char*)
+const ResearchingDoctor& HospitalManager::createResearchingDoctor(const Doctor* doctor, const string& areaOfResearch, int maxNumOfTestSubjects)
 {
 	int doctorIndx;
 
@@ -438,7 +437,7 @@ int HospitalManager::getCurrectNumOfVisits() const
 	return (int)visits.size();
 }
 /*Surgery functions*/
-const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons) throw(const char*)
+const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo, SurgeryType* type, int numOfSurgeons)
 {
 	Surgery* surgery = new Surgery(visitInfo, *type, numOfSurgeons);
 	visits.push_back(surgery);
@@ -451,7 +450,7 @@ const Surgery& HospitalManager::createSurgery(const Visit::VisitInfo& visitInfo,
 	return *surgery;
 }
 /*Inspection functions*/
-const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection) throw(const char*)
+const Inspection& HospitalManager::createInspection(const Visit::VisitInfo& visitInfo, string& typeOfInspection)
 {
 	Inspection* inspection = new Inspection(visitInfo, typeOfInspection);
 	visits.push_back(inspection);
