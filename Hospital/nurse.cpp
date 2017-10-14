@@ -12,6 +12,8 @@ int Nurse::getCurrentNumOfDuties() const
 
 void Nurse::addDuty(const string& duty)
 {
+	if (dutiesList.getSize() == maxNumOfDuties)
+		throw "Max number of duties reached";
 	dutiesList.insertToTail(duty);
 }
 void Nurse::removeDuty(const string& duty)
@@ -25,8 +27,6 @@ void Nurse::setMaxNumOfDuties(int maxNumOfDuties)
 
 void Nurse::operator+=(const string& duty)
 {
-	if(dutiesList.getSize() == maxNumOfDuties) 
-		return;
 	this->addDuty(duty);
 }
 void Nurse::operator-=(const string& duty)

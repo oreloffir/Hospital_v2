@@ -12,18 +12,6 @@ const vector<const Patient*> ResearchingDoctor::getTestSubjects() const
 {
 	return this->testSubjects;
 }
-void ResearchingDoctor::printTestSubjects() const
-{
-	cout << "================= " << name << " test subjects =================" << endl;
-	if (testSubjects.size() == 0)
-		cout << "\t - Researcher doctor has no test subjects yet." << endl;
-	else {
-		vector<const Patient*>::const_iterator itr = testSubjects.begin();
-		vector<const Patient*>::const_iterator itrEnd = testSubjects.end();
-		for (; itr != itrEnd; itr++)
-			cout << *(*itr) << endl;
-	}
-}
 
 void ResearchingDoctor::addTestSubject(const Patient& testSubject)
 {
